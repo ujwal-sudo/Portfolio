@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lore.txt — classified</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080810;
+  --bg2: #0d0d1a;
+  --surface: #13131f;
+  --surface2: #1a1a2e;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8e8f0;
+  --text2: #8888a8;
+  --text3: #4a4a6a;
+  --accent: #4f8ef7;
+  --green: #3ecf8e;
+  --amber: #f5a623;
+  --red: #f75f5f;
+  --mono: 'Space Mono', monospace;
+  --display: 'Syne', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  min-height: 100vh;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+.cursor {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(79,142,247,0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.08s ease;
+}
+
+canvas {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* GATE SCREEN */
+#gate {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+.gate-lines {
+  width: min(560px, 90vw);
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1;
+}
+.gate-line {
+  padding: 3px 0;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.gate-line.show { opacity: 1; transform: none; }
+.g { color: var(--green); }
+.a { color: var(--accent); }
+.w { color: var(--amber); }
+.r { color: var(--red); }
+.d { color: var(--text3); }
+
+/* MAIN */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 100px 48px 160px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+main.show { opacity: 1; }
+
+/* FILE HEADER */
+.file-header {
+  margin-bottom: 60px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 32px;
+}
+.file-path {
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 16px;
+  letter-spacing: 0.06em;
+}
+.file-path span { color: var(--accent); }
+.file-title {
+  font-family: var(--display);
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.file-title span { color: var(--accent); }
+.file-meta {
+  font-size: 11px;
+  color: var(--text3);
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.file-meta .val { color: var(--text2); }
+
+/* SECTIONS */
+.lore-section {
+  margin-bottom: 64px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.lore-section.visible { opacity: 1; transform: none; }
+
+.sec-label {
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.lore-text {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.9;
+}
+.lore-text p { margin-bottom: 20px; }
+.lore-text p:last-child { margin-bottom: 0; }
+.lore-text em { color: var(--text); font-style: normal; }
+.lore-text strong { color: var(--accent); font-weight: 400; }
+
+/* LOG BLOCK */
+.log-block {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+.log-line {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text2);
+}
+.log-line .ts { color: var(--text3); }
+.log-line .ok { color: var(--green); }
+.log-line .warn { color: var(--amber); }
+.log-line .key { color: var(--accent); }
+
+/* QUOTE BLOCK */
+.quote-block {
+  border-left: 2px solid var(--accent);
+  padding: 4px 0 4px 20px;
+  margin: 24px 0;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.7;
+  font-style: italic;
+}
+.quote-source {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 8px;
+  font-style: normal;
+}
+
+/* ODA SECTION */
+.oda-block {
+  border: 1px solid rgba(245,166,35,0.2);
+  border-radius: 8px;
+  background: rgba(245,166,35,0.04);
+  padding: 28px;
+  margin-top: 20px;
+}
+.oda-title {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--amber);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.oda-text {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.oda-text em { color: var(--text); font-style: normal; }
+.oda-salute {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--amber);
+  margin-top: 16px;
+  letter-spacing: -0.01em;
+}
+
+/* STAT ROW */
+.stat-row {
+  display: flex;
+  gap: 0;
+  margin: 20px 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.stat-item {
+  flex: 1;
+  padding: 16px 20px;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-num span { color: var(--accent); }
+.stat-label {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* BACK LINK */
+.back-link {
+  position: fixed;
+  top: 28px; left: 48px;
+  z-index: 200;
+  font-size: 12px;
+  color: var(--text3);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+  opacity: 0;
+  transition: opacity 0.4s ease, color 0.2s;
+}
+.back-link.show { opacity: 1; }
+.back-link:hover { color: var(--text); }
+
+/* CLASSIFIED STAMP */
+.stamp {
+  display: inline-block;
+  border: 2px solid var(--red);
+  color: var(--red);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  padding: 4px 10px;
+  border-radius: 3px;
+  opacity: 0.6;
+  transform: rotate(-2deg);
+  margin-bottom: 12px;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+
+@media (max-width: 600px) {
+  main { padding: 80px 24px 120px; }
+  .back-link { left: 24px; }
+  .stat-row { flex-direction: column; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat-item:last-child { border-bottom: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<!-- GATE SEQUENCE -->
+<div id="gate">
+  <div class="gate-lines" id="gate-lines"></div>
+</div>
+
+<a href="/" class="back-link" id="back-link">← ujwal.dev</a>
+
+<main id="main">
+
+  <div class="file-header">
+    <div class="file-path">ujwal@portfolio:~/ <span>lore.txt</span></div>
+    <div class="stamp">CLASSIFIED</div>
+    <div class="file-title">The stuff<br>that doesn't<br><span>fit a resume.</span></div>
+    <div class="file-meta">
+      <span>author: <span class="val">ujwal mahajan</span></span>
+      <span>access: <span class="val">you found it</span></span>
+      <span>classification: <span class="val">operational</span></span>
+    </div>
+  </div>
+
+  <!-- SECTION 1: HOW I ACTUALLY WORK -->
+  <div class="lore-section">
+    <div class="sec-label">operating conditions</div>
+    <div class="lore-text">
+      <p>My best work happens in two conditions: <em>midnight, when everything goes quiet</em> — or <em>48 hours before a deadline, when I have no choice</em>. Pressure and silence do the same thing to me. They make the noise stop.</p>
+      <p>I don't think this is a flex. It's just an observation about how I'm wired. The hours between 11pm and 3am have produced more working systems than any 9-to-5 ever has.</p>
+    </div>
+    <div class="log-block">
+      <div class="log-line"><span class="ts">[23:47]</span> <span class="key">session.start</span> — focus acquired</div>
+      <div class="log-line"><span class="ts">[00:12]</span> <span class="ok">[FLOW]</span> synthesizer conflict resolved after 3 attempts</div>
+      <div class="log-line"><span class="ts">[01:38]</span> <span class="ok">[FLOW]</span> race condition isolated — parallel agent execution fixed</div>
+      <div class="log-line"><span class="ts">[02:55]</span> <span class="warn">[WARN]</span> sleep recommended. ignored.</div>
+      <div class="log-line"><span class="ts">[03:41]</span> <span class="ok">[OK]</span> pipeline running. 5 agents. 90s. ship it.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: WHAT I ACTUALLY BELIEVE -->
+  <div class="lore-section">
+    <div class="sec-label">what I actually believe</div>
+    <div class="lore-text">
+      <p>Most AI products being built right now are <em>ChatGPT wrappers with a coat of paint</em>. A text box, a system prompt, a branded loading spinner. That's not AI engineering. That's prompt formatting.</p>
+      <p>Real AI engineering means thinking about <em>orchestration</em> — how multiple models or agents collaborate, pass context, resolve disagreements. It means thinking about <strong>failure modes</strong>: what happens when the model is confidently wrong, when agents contradict each other, when memory retrieval returns something stale.</p>
+      <p>That's the part most people skip. I don't skip it. Skipping it means I'd be shipping something I don't understand, and I can't do that.</p>
+    </div>
+    <div class="quote-block">
+      The 'why' is what I'm actually building toward. The output can be perfect and it still feels unfinished if I don't know why it worked.
+      <div class="quote-source">— something I've said too many times at 2am</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: THE WAVE -->
+  <div class="lore-section">
+    <div class="sec-label">on the AI wave</div>
+    <div class="lore-text">
+      <p>People don't realize how big this is. There has never been a technological advancement that moves at this pace — where you wake up every day and something significant has shifted. Anthropic ships something. Meta releases a model. A paper drops that makes last month's SOTA look outdated.</p>
+      <p>This has never happened before. Not like this.</p>
+      <p>And the people who will survive it — not just survive, but <em>move with it</em> — are the ones who understand what's actually happening inside these systems. Not as a user. Not as someone who prompts well. As someone who knows <em>why attention works</em>, why transformers scale, what's actually happening in the forward pass.</p>
+      <p>That's why I'm building an LLM from scratch. Not to reinvent anything. Just so I can never be surprised by it.</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="stat-num"><span>∞</span></div>
+        <div class="stat-label">epochs remaining</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">0</div>
+        <div class="stat-label">shortcuts taken</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num"><span>1</span></div>
+        <div class="stat-label">wave. understand it or get swept.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: WHAT I WON'T BUILD -->
+  <div class="lore-section">
+    <div class="sec-label">what I won't build</div>
+    <div class="lore-text">
+      <p>A technically impressive system that nobody needs is just an expensive experiment. If I can't picture the person who's going to use it — <em>specifically, not abstractly</em> — I lose motivation fast.</p>
+      <p>I'm not interested in demo culture. A system that works in a 3-minute screen recording and breaks in production is not a system. It's a video.</p>
+      <p>The things that keep me going are the problems that don't have clean solutions. The ones where the engineering challenge and the user problem are the same problem.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 5: ODA -->
+  <div class="lore-section">
+    <div class="sec-label">the greatest architect I know</div>
+    <div class="lore-text">
+      <p>I build multi-agent systems and think I'm doing something complex.</p>
+      <p>Then I remember that one human has been constructing <em>One Piece</em> for 27 years — a single narrative with thousands of characters, hundreds of storylines, foreshadowing planted decades in advance, payoffs that readers didn't even know were setups. An architecture so dense and coherent that no AI has come close to replicating it. Not because the words are hard. Because the <em>structure</em> is incomprehensible.</p>
+    </div>
+    <div class="oda-block">
+      <div class="oda-title">Eiichiro Oda</div>
+      <div class="oda-text">
+        27 years. 1000+ chapters. One continuous narrative thread with no major continuity errors.
+        Introduced a character in chapter 1 whose significance wasn't revealed until chapter 1000+.
+        Manages ~100 active characters across ~15 simultaneous storylines at any given arc.
+        <br><br>
+        <em>I've read the Attention paper. I've built a synthesizer that resolves agent conflicts.
+        I understand distributed systems.</em>
+        <br><br>
+        Oda is operating on a different level entirely.
+        No model I've trained on, no architecture I've studied, explains it.
+      </div>
+      <div class="oda-salute">All hail Oda Sensei. 🫡</div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: THE HARDEST THING -->
+  <div class="lore-section">
+    <div class="sec-label">the hardest thing I've solved</div>
+    <div class="lore-text">
+      <p>The challenge in CodeSensei wasn't building 5 agents. Any engineer can spin up 5 LLM calls. The hard part was making them produce <em>one coherent, non-contradictory output</em> when they share zero state and know nothing about each other.</p>
+      <p>Early versions had the risk agent flagging files the structure agent had already dismissed as irrelevant. The impact agent contradicted the execution agent's dependency map. The synthesizer would merge these and produce analysis that was internally inconsistent — worse than a single agent would have done alone.</p>
+      <p>The fix was treating <em>conflict as a first-class concept</em>. Not merging outputs. Not averaging them. Building a synthesizer that detects disagreements, classifies them by type, and resolves them with a weighted priority system based on agent role and evidence confidence.</p>
+      <p>5,000 to 10,000 lines. Under 90 seconds. Sub-10-second query responses. That number took weeks to get to.</p>
+    </div>
+    <div class="log-block">
+      <div class="log-line"><span class="ts">[agent:risk]</span> <span class="warn">[CONFLICT]</span> flagging auth.py — contradicts structure agent ruling</div>
+      <div class="log-line"><span class="ts">[synthesizer]</span> <span class="key">[RESOLVE]</span> conflict type: scope_mismatch — applying priority weight</div>
+      <div class="log-line"><span class="ts">[synthesizer]</span> <span class="ok">[OK]</span> resolved — risk agent deferred, structure ruling preserved</div>
+      <div class="log-line"><span class="ts">[pipeline]</span> <span class="ok">[OK]</span> 5 agents merged → 1 coherent analysis · 87s · 0 contradictions</div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: CLOSING -->
+  <div class="lore-section">
+    <div class="sec-label">why this page exists</div>
+    <div class="lore-text">
+      <p>Resumes are filters. They're good at communicating <em>what</em> but bad at communicating <em>who</em>. This page is for the people who went looking. Who typed a URL that wasn't linked anywhere obvious. Who wanted to know if there was more.</p>
+      <p>There is. This is some of it.</p>
+      <p>If something here resonated — the 2am logs, the wave theory, the Oda tangent — then you probably already know whether we should talk.</p>
+    </div>
+    <div style="margin-top: 40px; font-size: 13px; color: var(--text3);">
+      <span style="color: var(--accent);">→</span> 2023bec049@sggs.ac.in<br>
+      <span style="color: var(--text3); font-size: 11px; margin-top: 8px; display: block;">// or go back and open the terminal. type 'sudo hire-ujwal'.</span>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.transform = `translate(${mx-4}px,${my-4}px)`;
+});
+(function animRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.transform = `translate(${rx-16}px,${ry-16}px)`;
+  requestAnimationFrame(animRing);
+})();
+
+// NODE GRAPH
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let nodes = [], W, H;
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+function initNodes() {
+  nodes = [];
+  const count = Math.min(30, Math.floor(W * H / 32000));
+  for (let i = 0; i < count; i++) nodes.push({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-.5)*.15, vy: (Math.random()-.5)*.15, r: Math.random()*1.2+0.6 });
+}
+initNodes();
+(function draw() {
+  ctx.clearRect(0,0,W,H);
+  nodes.forEach(n => { n.x+=n.vx; n.y+=n.vy; if(n.x<0||n.x>W)n.vx*=-1; if(n.y<0||n.y>H)n.vy*=-1; });
+  for (let i=0;i<nodes.length;i++) for (let j=i+1;j<nodes.length;j++) {
+    const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy);
+    if(d<140){ ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.strokeStyle=`rgba(79,142,247,${(1-d/140)*0.06})`; ctx.lineWidth=0.6; ctx.stroke(); }
+  }
+  nodes.forEach(n => { ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fillStyle='rgba(79,142,247,0.25)'; ctx.fill(); });
+  requestAnimationFrame(draw);
+})();
+
+// GATE SEQUENCE
+const gateLines = [
+  { html: '<span class="d">// accessing restricted file...</span>', delay: 0 },
+  { html: '<span class="a">▸</span> verifying clearance level <span class="w">[ CHECKING ]</span>', delay: 320 },
+  { html: '<span class="a">▸</span> terminal history scan <span class="g">[ FOUND ]</span>', delay: 640 },
+  { html: '<span class="d">// visitor navigated here manually. curiosity confirmed.</span>', delay: 960 },
+  { html: '<span class="a">▸</span> access granted <span class="g">[ OK ]</span>', delay: 1280 },
+  { html: '<span class="d">// loading lore.txt...</span>', delay: 1560 },
+];
+
+const gateContainer = document.getElementById('gate-lines');
+gateLines.forEach(({html, delay}) => {
+  const line = document.createElement('div');
+  line.className = 'gate-line';
+  line.innerHTML = html;
+  gateContainer.appendChild(line);
+  setTimeout(() => line.classList.add('show'), delay + 200);
+});
+
+setTimeout(() => {
+  const gate = document.getElementById('gate');
+  gate.style.opacity = '0';
+  gate.style.transition = 'opacity 0.6s ease';
+  setTimeout(() => {
+    gate.style.display = 'none';
+    document.getElementById('main').classList.add('show');
+    document.getElementById('back-link').classList.add('show');
+    // scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.lore-section').forEach(s => obs.observe(s));
+  }, 600);
+}, 3200);
+</script>
+</body>
+</html>

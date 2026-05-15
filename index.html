@@ -1520,23 +1520,14 @@ const termCommands = {
   },
   'cat lore.txt': () => {
     appendTerm('');
-    appendTerm('<span class="w">// lore.txt — classified operational data</span>');
-    appendTerm('');
-    appendTerm('best work happens: midnight or 48hrs before deadline.');
-    appendTerm('pressure and silence do the same thing — make the noise stop.');
-    appendTerm('');
-    appendTerm('can\'t ship what i don\'t understand. even if the output is perfect.');
-    appendTerm('the \'why\' is the actual deliverable.');
-    appendTerm('');
-    appendTerm('most AI products being built right now: ChatGPT wrappers.');
-    appendTerm('real engineering: orchestration, failure modes, agent memory.');
-    appendTerm('that\'s the part most people skip.');
-    appendTerm('');
-    appendTerm('<span class="d">greatest architect known to this engineer:</span>');
-    appendTerm('<span class="g">Eiichiro Oda.</span> 27 years. One Piece. Narrative architecture');
-    appendTerm('no AI has come close to replicating.');
-    appendTerm('all hail Oda Sensei. 🫡');
-    appendTerm('');
+    appendTerm('<span class="w">// accessing restricted file: lore.txt</span>');
+    appendTerm('<span class="d">verifying clearance...</span>');
+    setTimeout(() => {
+      appendTerm('<span class="g">access granted. redirecting to secure layer...</span>');
+      setTimeout(() => {
+        window.location.href = '/lore';
+      }, 1000);
+    }, 800);
   },
   'sudo hire-ujwal': () => {
     appendTerm('');
