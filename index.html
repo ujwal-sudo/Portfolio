@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ujwal Mahajan — AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080810;
+  --bg2: #0d0d1a;
+  --bg3: #111120;
+  --surface: #13131f;
+  --surface2: #1a1a2e;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.12);
+  --text: #e8e8f0;
+  --text2: #8888a8;
+  --text3: #4a4a6a;
+  --accent: #4f8ef7;
+  --accent2: #2d5fd4;
+  --accent-dim: rgba(79,142,247,0.12);
+  --accent-glow: rgba(79,142,247,0.06);
+  --green: #3ecf8e;
+  --green-dim: rgba(62,207,142,0.1);
+  --amber: #f5a623;
+  --mono: 'Space Mono', monospace;
+  --display: 'Syne', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--display);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, opacity 0.2s;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(79,142,247,0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.08s ease, width 0.2s, height 0.2s, border-color 0.2s;
+}
+
+/* BOOT SCREEN */
+#boot {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0;
+}
+.boot-lines {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text2);
+  width: min(480px, 90vw);
+}
+.boot-line {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  padding: 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.boot-line.show { opacity: 1; transform: none; }
+.boot-line .prompt { color: var(--accent); }
+.boot-line .ok { color: var(--green); }
+.boot-line .sys { color: var(--text3); }
+.boot-bar {
+  margin-top: 24px;
+  width: min(480px, 90vw);
+  height: 2px;
+  background: var(--surface2);
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.boot-bar.show { opacity: 1; }
+.boot-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  border-radius: 2px;
+  transition: width 2s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,8,16,0.85);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+}
+nav.visible { opacity: 1; transform: none; }
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links {
+  display: flex; gap: 32px; align-items: center;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text2);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  border: 1px solid rgba(79,142,247,0.3);
+  padding: 7px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.nav-cta:hover { background: var(--accent-dim); border-color: var(--accent); }
+
+/* CANVAS */
+#bg-canvas {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+#bg-canvas.show { opacity: 1; }
+
+/* SECTIONS */
+main { position: relative; z-index: 1; }
+
+section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
+
+/* HERO */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 140px;
+  padding-bottom: 80px;
+  max-width: 100%;
+}
+.hero-inner { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+.hero-descriptor {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 28px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.hero-descriptor.show { opacity: 1; transform: none; }
+.hero-descriptor::before { content: '▸ '; }
+
+.hero-name {
+  font-family: var(--display);
+  font-size: clamp(56px, 8vw, 108px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
+}
+.hero-name.show { opacity: 1; transform: none; }
+.hero-name span { color: var(--accent); }
+
+.hero-tagline {
+  font-family: var(--mono);
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: var(--text2);
+  margin-bottom: 48px;
+  line-height: 1.6;
+  max-width: 560px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+}
+.hero-tagline.show { opacity: 1; transform: none; }
+.hero-tagline em {
+  color: var(--text);
+  font-style: normal;
+  border-bottom: 1px solid rgba(232,232,240,0.2);
+}
+
+.hero-stats {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+}
+.hero-stats.show { opacity: 1; transform: none; }
+.stat-chip {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 14px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  color: var(--text2);
+  background: var(--surface);
+}
+.stat-chip .num { color: var(--accent); font-weight: 700; }
+.stat-chip.live { border-color: rgba(62,207,142,0.3); color: var(--green); background: var(--green-dim); }
+.stat-chip.live::before { content: '● '; font-size: 8px; vertical-align: 1px; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+.hero-cta {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
+}
+.hero-cta.show { opacity: 1; transform: none; }
+.btn-primary {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 12px 28px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  letter-spacing: 0.04em;
+}
+.btn-primary:hover { background: #6fa0f9; transform: translateY(-1px); }
+.btn-ghost {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 12px 28px;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, transform 0.1s;
+  letter-spacing: 0.04em;
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--border2); transform: translateY(-1px); }
+
+/* SYSTEM LOG TICKER */
+.log-ticker {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(8,8,16,0.9);
+  border-top: 1px solid var(--border);
+  padding: 6px 48px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  display: flex; gap: 32px;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.log-ticker.show { opacity: 1; }
+.log-entry { flex-shrink: 0; }
+.log-entry .ts { color: var(--text3); }
+.log-entry .msg { color: var(--text2); margin-left: 8px; }
+.log-entry .ok-tag { color: var(--green); }
+.log-entry .warn-tag { color: var(--amber); }
+
+/* ABOUT */
+#about { border-top: 1px solid var(--border); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.about-headline {
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  color: var(--text);
+}
+.about-body {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.about-body p { margin-bottom: 16px; }
+.about-body em { color: var(--text); font-style: normal; }
+.about-right { display: flex; flex-direction: column; gap: 16px; }
+.belief-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  background: var(--surface);
+}
+.belief-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.belief-text {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.belief-text strong { color: var(--text); font-weight: 500; }
+
+/* PROJECTS — BENTO */
+#projects { border-top: 1px solid var(--border); }
+.projects-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+.projects-title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 12px;
+}
+.bento-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, background 0.3s, transform 0.2s;
+  cursor: default;
+}
+.bento-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(79,142,247,0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.bento-card:hover::before { opacity: 1; }
+.bento-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.bento-card.featured {
+  grid-column: span 2;
+  background: var(--surface);
+  border-color: rgba(79,142,247,0.2);
+}
+.bento-card.featured:hover { border-color: rgba(79,142,247,0.4); }
+.card-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+.card-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.card-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.card-metrics {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.metric {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text2);
+}
+.metric .val { color: var(--accent); }
+.card-stack {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.stack-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  color: var(--text3);
+}
+.card-links {
+  display: flex; gap: 10px; margin-top: 20px;
+}
+.card-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid rgba(79,142,247,0.25);
+  padding: 5px 12px;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+.card-link:hover { background: var(--accent-dim); }
+
+/* agent mini-diagram inside featured card */
+.agent-diagram {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+.agent-node {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 1px solid rgba(79,142,247,0.25);
+  background: var(--accent-dim);
+  color: var(--accent);
+  position: relative;
+}
+.agent-node::after {
+  content: ' →';
+  color: var(--text3);
+}
+.agent-node:last-child::after { content: ''; }
+
+/* small bento cards */
+.mini-stat {
+  display: flex; flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 180px;
+}
+.mini-num {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.mini-num span { color: var(--accent); }
+.mini-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+/* SKILLS */
+#skills { border-top: 1px solid var(--border); }
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 40px;
+}
+.skill-group {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  background: var(--surface);
+}
+.skill-group-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.skill-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.skill-pill {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  color: var(--text2);
+  transition: color 0.2s, border-color 0.2s;
+}
+.skill-pill:hover { color: var(--text); border-color: rgba(79,142,247,0.4); }
+
+/* WAKATIME */
+.waka-section {
+  margin-top: 40px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px;
+  background: var(--surface);
+}
+.waka-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px;
+}
+.waka-title {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text2);
+}
+.waka-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--green);
+  border: 1px solid rgba(62,207,142,0.25);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.waka-row {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 10px;
+}
+.waka-lang {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text2);
+  width: 100px;
+  flex-shrink: 0;
+}
+.waka-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.waka-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--accent);
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+.waka-fill.green { background: var(--green); }
+.waka-fill.amber { background: var(--amber); }
+.waka-pct {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* MANIFESTO */
+#manifesto {
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.manifesto-text {
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 400;
+  color: var(--text2);
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 0 auto 48px;
+}
+.manifesto-text em { color: var(--text); font-style: normal; font-weight: 600; }
+.manifesto-command {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.manifesto-command span { color: var(--text3); }
+
+/* CONTACT */
+#contact {
+  border-top: 1px solid var(--border);
+  padding-bottom: 160px;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.contact-headline {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.contact-sub {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+.contact-links { display: flex; flex-direction: column; gap: 10px; }
+.contact-link {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text2);
+  text-decoration: none;
+  padding: 14px 20px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: space-between;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.contact-link:hover { color: var(--text); border-color: var(--border2); transform: translateX(4px); }
+.contact-link .arrow { color: var(--text3); transition: color 0.2s; }
+.contact-link:hover .arrow { color: var(--accent); }
+
+/* TERMINAL */
+#terminal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(8,8,16,0.96);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+#terminal-overlay.open { display: flex; }
+.terminal-window {
+  width: min(680px, 90vw);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg2);
+}
+.terminal-titlebar {
+  background: var(--surface2);
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.term-dot { width: 10px; height: 10px; border-radius: 50%; }
+.term-title {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text3);
+  margin-left: 8px;
+}
+.terminal-body {
+  padding: 20px 24px;
+  height: 400px;
+  overflow-y: auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.term-output { color: var(--text2); margin-bottom: 4px; white-space: pre-wrap; }
+.term-output .g { color: var(--green); }
+.term-output .a { color: var(--accent); }
+.term-output .w { color: var(--amber); }
+.term-output .d { color: var(--text3); }
+.term-input-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 24px 20px;
+}
+.term-prompt { font-family: var(--mono); font-size: 13px; color: var(--accent); flex-shrink: 0; }
+#term-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+  flex: 1;
+  caret-color: var(--accent);
+}
+
+/* CHAT */
+#chat-bubble {
+  position: fixed;
+  bottom: 52px;
+  right: 32px;
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease 1s, transform 0.4s ease 1s;
+}
+#chat-bubble.show { opacity: 1; transform: none; }
+.chat-toggle {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 0 0 1px rgba(79,142,247,0.3), 0 0 20px rgba(79,142,247,0.15);
+}
+.chat-toggle:hover { transform: scale(1.05); background: #6fa0f9; }
+.chat-window {
+  position: absolute;
+  bottom: 64px; right: 0;
+  width: 360px;
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  background: var(--bg2);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+}
+.chat-window.open { display: flex; }
+.chat-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.chat-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  border: 1px solid rgba(79,142,247,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: var(--accent);
+  font-family: var(--mono);
+}
+.chat-name { font-size: 14px; font-weight: 600; }
+.chat-status { font-family: var(--mono); font-size: 11px; color: var(--green); margin-top: 1px; }
+.chat-messages {
+  flex: 1;
+  height: 300px;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.chat-msg {
+  font-size: 13px;
+  line-height: 1.55;
+  padding: 10px 14px;
+  border-radius: 8px;
+  max-width: 85%;
+}
+.chat-msg.bot {
+  background: var(--surface2);
+  color: var(--text);
+  align-self: flex-start;
+  border: 1px solid var(--border);
+}
+.chat-msg.user {
+  background: var(--accent);
+  color: #fff;
+  align-self: flex-end;
+}
+.chat-msg.typing { color: var(--text3); font-family: var(--mono); font-size: 12px; }
+.chat-input-row {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 8px;
+}
+#chat-input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+  outline: none;
+}
+#chat-input::placeholder { color: var(--text3); }
+#chat-send {
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#chat-send:hover { background: #6fa0f9; }
+
+/* SCROLL REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  section { padding: 80px 24px; }
+  .hero-inner { padding: 0 24px; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .bento { grid-template-columns: 1fr 1fr; }
+  .bento-card.featured { grid-column: span 2; }
+  .nav-links { display: none; }
+  .log-ticker { padding: 6px 24px; }
+}
+@media (max-width: 600px) {
+  .bento { grid-template-columns: 1fr; }
+  .bento-card.featured { grid-column: span 1; }
+  .hero-name { font-size: 48px; }
+  #chat-bubble { right: 16px; }
+  .chat-window { width: calc(100vw - 32px); right: -16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- BOOT -->
+<div id="boot">
+  <div class="boot-lines" id="boot-lines"></div>
+  <div class="boot-bar" id="boot-bar"><div class="boot-bar-fill" id="boot-fill"></div></div>
+</div>
+
+<!-- NODE GRAPH CANVAS -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">ujwal<span>.</span>dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#contact">contact</a></li>
+    <li><a href="#" onclick="openTerminal();return false;" class="nav-cta">_terminal</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-inner">
+    <div class="hero-descriptor" id="hd">GenAI engineer · multi-agent systems · building from scratch</div>
+    <h1 class="hero-name" id="hn">Ujwal<br><span>Mahajan</span></h1>
+    <p class="hero-tagline" id="ht">
+      Building systems that make <em>complexity invisible</em>.<br>
+      Fast to build. Slow to stop questioning.
+    </p>
+    <div class="hero-stats" id="hs">
+      <div class="stat-chip live">currently: building an LLM from scratch</div>
+      <div class="stat-chip"><span class="num">5</span> agents online</div>
+      <div class="stat-chip"><span class="num">5–10k</span> LOC · <span class="num">30–90s</span> pipeline</div>
+      <div class="stat-chip">IRC 2025 finalist</div>
+    </div>
+    <div class="hero-cta" id="hc">
+      <a href="#projects" class="btn-primary">view projects</a>
+      <a href="#" onclick="openTerminal();return false;" class="btn-ghost">open terminal</a>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="about-grid">
+      <div>
+        <div class="section-label">// about</div>
+        <h2 class="about-headline">I build first.<br>Theorize later.</h2>
+        <div class="about-body">
+          <p>Working code teaches me things no paper ever could. I'll hack something together fast, get it running, then <em>obsess over every layer of why it actually worked</em>.</p>
+          <p>That's how CodeSensei was born — a rough multi-agent system in days, then weeks understanding why the synthesizer was failing, why agents contradicted each other, why parallel execution introduced race conditions I hadn't anticipated.</p>
+          <p>What I'm chasing is making something genuinely complex feel <em>effortless to the person using it</em>. Five agents analyzing 10,000 lines simultaneously — none of that should be visible. They type a question, they get an answer. The complexity is my problem, not theirs.</p>
+        </div>
+      </div>
+      <div class="about-right">
+        <div class="belief-card">
+          <div class="belief-label">current obsession</div>
+          <div class="belief-text">Building an LLM from scratch. Not fine-tuning, not APIs. <strong>Every transformer block, every attention head, every gradient update.</strong> Most people use LLMs as black boxes. I want to know what's happening inside the forward pass.</div>
+        </div>
+        <div class="belief-card">
+          <div class="belief-label">belief</div>
+          <div class="belief-text">AI is the biggest advancement in technology that has ever happened — and the rate of change is accelerating daily. <strong>The only way to not get swept away is to understand it from within.</strong> No shortcuts. No wrappers. No skipping the hard parts.</div>
+        </div>
+        <div class="belief-card">
+          <div class="belief-label">engineering philosophy</div>
+          <div class="belief-text">Can't ship something I don't fully understand. The output can be perfect — doesn't matter. <strong>The 'why' is what I'm actually building toward.</strong> Most AI products are ChatGPT wrappers. Real engineering means thinking about orchestration, failure modes, agent communication.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="projects-header">
+      <div>
+        <div class="section-label">// projects</div>
+        <h2 class="projects-title">What I've built</h2>
+      </div>
+    </div>
+    <div class="bento">
+
+      <!-- FEATURED: CodeSensei -->
+      <div class="bento-card featured">
+        <div class="card-tag">flagship system</div>
+        <div class="card-title">CodeSensei</div>
+        <div class="card-desc">AI code intelligence platform. 5 specialized agents analyzing GitHub repositories simultaneously — structure, behavior, risk, execution, impact — resolving conflicts through strict JSON contracts and synthesizer-based merge logic.</div>
+        <div class="agent-diagram">
+          <div class="agent-node">structure</div>
+          <div class="agent-node">behavior</div>
+          <div class="agent-node">risk</div>
+          <div class="agent-node">execution</div>
+          <div class="agent-node">impact</div>
+        </div>
+        <div class="card-metrics">
+          <div class="metric"><span class="val">5–10k</span> LOC</div>
+          <div class="metric"><span class="val">50–100</span> files</div>
+          <div class="metric"><span class="val">30–90s</span> pipeline</div>
+          <div class="metric"><span class="val">&lt;10s</span> query</div>
+        </div>
+        <div class="card-stack">
+          <span class="stack-pill">React</span>
+          <span class="stack-pill">TypeScript</span>
+          <span class="stack-pill">Node.js</span>
+          <span class="stack-pill">Gemini API</span>
+          <span class="stack-pill">D3.js</span>
+          <span class="stack-pill">custom orchestration</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/ujwal-sudo" target="_blank" class="card-link">github ↗</a>
+          <a href="#" class="card-link">live demo ↗</a>
+        </div>
+      </div>
+
+      <!-- STAT: agents -->
+      <div class="bento-card">
+        <div class="mini-stat">
+          <div>
+            <div class="card-tag">multi-agent</div>
+            <div class="mini-num"><span>5</span></div>
+            <div class="mini-label">specialized agents,<br>one coherent output</div>
+          </div>
+          <div class="card-desc" style="font-size:12px; margin-bottom:0;">The hardest part wasn't building the agents — it was making them not contradict each other.</div>
+        </div>
+      </div>
+
+      <!-- TalkToWeb -->
+      <div class="bento-card" style="grid-column: span 2;">
+        <div class="card-tag">browser agent</div>
+        <div class="card-title">TalkToWeb</div>
+        <div class="card-desc">Agentic browser automation. Natural language → multi-step browser actions. Navigation, form-filling, scraping — with voice control and a modular skills framework for extensible automations.</div>
+        <div class="card-stack">
+          <span class="stack-pill">LangChain</span>
+          <span class="stack-pill">Gemini 1.5 Flash</span>
+          <span class="stack-pill">Playwright</span>
+          <span class="stack-pill">Python</span>
+          <span class="stack-pill">FastAPI</span>
+        </div>
+        <div class="card-links" style="margin-top:16px;">
+          <a href="https://github.com/ujwal-sudo" target="_blank" class="card-link">github ↗</a>
+        </div>
+      </div>
+
+      <!-- IRC -->
+      <div class="bento-card">
+        <div class="mini-stat">
+          <div>
+            <div class="card-tag">robotics</div>
+            <div class="mini-num" style="font-size:32px; line-height:1.2;">IRC<br><span style="font-size:20px;">2025</span></div>
+            <div class="mini-label">finalist · autonomous<br>Mars rover systems</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <div class="section-label">// skills</div>
+    <h2 class="projects-title" style="margin-bottom:0;">The stack</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-label">GenAI & LLM</div>
+        <div class="skill-pills">
+          <span class="skill-pill">LangChain</span>
+          <span class="skill-pill">LangSmith</span>
+          <span class="skill-pill">OpenAI API</span>
+          <span class="skill-pill">Gemini API</span>
+          <span class="skill-pill">RAG Systems</span>
+          <span class="skill-pill">Multi-Agent Orchestration</span>
+          <span class="skill-pill">Prompt Engineering</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Vector & Memory</div>
+        <div class="skill-pills">
+          <span class="skill-pill">FAISS</span>
+          <span class="skill-pill">ChromaDB</span>
+          <span class="skill-pill">Pinecone</span>
+          <span class="skill-pill">Semantic Search</span>
+          <span class="skill-pill">Neo4j</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Languages & Frameworks</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">TypeScript</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">C / C++</span>
+          <span class="skill-pill">React</span>
+          <span class="skill-pill">FastAPI</span>
+          <span class="skill-pill">Node.js</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">ML & Data</div>
+        <div class="skill-pills">
+          <span class="skill-pill">PyTorch</span>
+          <span class="skill-pill">Scikit-learn</span>
+          <span class="skill-pill">Pandas</span>
+          <span class="skill-pill">NumPy</span>
+          <span class="skill-pill">D3.js</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Tools & DevOps</div>
+        <div class="skill-pills">
+          <span class="skill-pill">Git</span>
+          <span class="skill-pill">Docker</span>
+          <span class="skill-pill">Playwright</span>
+          <span class="skill-pill">Streamlit</span>
+          <span class="skill-pill">REST APIs</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WAKATIME WIDGET -->
+    <div class="waka-section" style="margin-top: 24px;">
+      <div class="waka-header">
+        <div class="waka-title">// coding activity · live via wakatime</div>
+        <div class="waka-badge">● synced</div>
+      </div>
+      <div class="waka-row">
+        <div class="waka-lang">Python</div>
+        <div class="waka-bar"><div class="waka-fill" id="w1" style="width:0%"></div></div>
+        <div class="waka-pct">42%</div>
+      </div>
+      <div class="waka-row">
+        <div class="waka-lang">TypeScript</div>
+        <div class="waka-bar"><div class="waka-fill green" id="w2"></div></div>
+        <div class="waka-pct">31%</div>
+      </div>
+      <div class="waka-row">
+        <div class="waka-lang">JavaScript</div>
+        <div class="waka-bar"><div class="waka-fill amber" id="w3"></div></div>
+        <div class="waka-pct">14%</div>
+      </div>
+      <div class="waka-row">
+        <div class="waka-lang">C / C++</div>
+        <div class="waka-bar"><div class="waka-fill" id="w4" style="opacity:0.5"></div></div>
+        <div class="waka-pct">13%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <div class="reveal">
+    <div class="section-label" style="text-align:center; margin-bottom:40px;">// still building</div>
+    <div class="manifesto-text">
+      AI isn't just a tool getting smarter.<br>
+      It's a wave — and most people don't know it's already moving.<br><br>
+      <em>The only way to not get swept away<br>is to understand it from within.</em><br><br>
+      No shortcuts. No wrappers. No skipping the hard parts.
+    </div>
+    <div class="manifesto-command">
+      <span>→ </span>establish_connection<span class="cursor-blink" style="animation: blink 1s infinite; color: var(--accent);">_</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <div class="contact-grid">
+      <div>
+        <div class="section-label">// contact</div>
+        <h2 class="contact-headline">Let's build<br>something real.</h2>
+        <p class="contact-sub">Open to internships with agentic AI startups, research labs, and anyone building systems that actually matter. If you're not just wrapping an API, let's talk.</p>
+        <div class="contact-links">
+          <a href="mailto:2023bec049@sggs.ac.in" class="contact-link">
+            <span>2023bec049@sggs.ac.in</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="https://linkedin.com/in/ujwal-mahajan-841710r" target="_blank" class="contact-link">
+            <span>linkedin ↗</span>
+            <span class="arrow">→</span>
+          </a>
+          <a href="https://github.com/ujwal-sudo" target="_blank" class="contact-link">
+            <span>github ↗</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="belief-card" style="margin-bottom:12px;">
+          <div class="belief-label">availability</div>
+          <div class="belief-text"><strong>Open to internships — 2025–26.</strong> Based in Nanded, Maharashtra. Remote-first, but willing to relocate for the right team.</div>
+        </div>
+        <div class="belief-card">
+          <div class="belief-label">looking for</div>
+          <div class="belief-text">Agentic AI teams, research labs, or product companies where the engineering problem is actually hard. Not a ChatGPT wrapper. Something that requires thinking about <strong>orchestration, memory, and failure modes</strong>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- SYSTEM LOG TICKER -->
+<div class="log-ticker" id="log-ticker">
+  <div class="log-entry"><span class="ts">[00:00:01]</span><span class="msg"><span class="ok-tag">[OK]</span> agent_network.init — 5 agents online</span></div>
+  <div class="log-entry"><span class="ts">[00:00:02]</span><span class="msg"><span class="ok-tag">[OK]</span> synthesizer.load — conflict resolution ready</span></div>
+  <div class="log-entry"><span class="ts">[00:00:03]</span><span class="msg"><span class="ok-tag">[OK]</span> memory.connect — vector store mounted</span></div>
+  <div class="log-entry"><span class="ts">[00:00:04]</span><span class="msg"><span class="warn-tag">[INFO]</span> llm_scratch.build — training loop active · epoch 3/∞</span></div>
+  <div class="log-entry"><span class="ts">[00:00:05]</span><span class="msg"><span class="ok-tag">[OK]</span> portfolio.serve — visitor detected</span></div>
+</div>
+
+<!-- TERMINAL -->
+<div id="terminal-overlay">
+  <div class="terminal-window">
+    <div class="terminal-titlebar">
+      <div class="term-dot" style="background:#ff5f57;"></div>
+      <div class="term-dot" style="background:#febc2e;"></div>
+      <div class="term-dot" style="background:#28c840;"></div>
+      <div class="term-title">ujwal@portfolio — bash</div>
+      <div style="margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--text3); cursor:pointer;" onclick="closeTerminal()">✕</div>
+    </div>
+    <div class="terminal-body" id="term-body"></div>
+    <div class="term-input-row">
+      <div class="term-prompt">ujwal@portfolio:~$</div>
+      <input type="text" id="term-input" placeholder="type 'help' to begin..." autocomplete="off" spellcheck="false">
+    </div>
+  </div>
+</div>
+
+<!-- CHAT BUBBLE -->
+<div id="chat-bubble">
+  <div class="chat-window" id="chat-window">
+    <div class="chat-header">
+      <div class="chat-avatar">UM</div>
+      <div>
+        <div class="chat-name">Ujwal Mahajan</div>
+        <div class="chat-status">● online</div>
+      </div>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg bot">Hey. I'm Ujwal — or at least a version of me that's always available. Ask me anything about what I'm building, what I believe, or whether I'm a good fit for your team.</div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="ask me anything..." autocomplete="off">
+      <button id="chat-send">→</button>
+    </div>
+  </div>
+  <button class="chat-toggle" id="chat-toggle" onclick="toggleChat()">💬</button>
+</div>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.transform = `translate(${mx-4}px,${my-4}px)`;
+});
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.transform = `translate(${rx-16}px,${ry-16}px)`;
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a,button,.chip,.bento-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.width='48px'; ring.style.height='48px'; ring.style.borderColor='rgba(79,142,247,0.6)'; });
+  el.addEventListener('mouseleave', () => { ring.style.width='32px'; ring.style.height='32px'; ring.style.borderColor='rgba(79,142,247,0.4)'; });
+});
+
+// BOOT SEQUENCE
+const bootLines = [
+  { text: 'UjwalOS v2.0.25 — initializing...', delay: 0 },
+  { text: '<span class="prompt">▸</span> loading agent_network <span class="ok">[ OK ]</span>', delay: 380 },
+  { text: '<span class="prompt">▸</span> mounting vector_store <span class="ok">[ OK ]</span>', delay: 680 },
+  { text: '<span class="prompt">▸</span> connecting synthesizer <span class="ok">[ OK ]</span>', delay: 940 },
+  { text: '<span class="prompt">▸</span> booting llm_scratch.build <span class="ok">[ ACTIVE ]</span>', delay: 1180 },
+  { text: '<span class="sys">// 5 agents online. conflict resolution ready.</span>', delay: 1450 },
+  { text: '<span class="sys">// visitor detected. serving portfolio...</span>', delay: 1700 },
+];
+
+const bootContainer = document.getElementById('boot-lines');
+const bootBar = document.getElementById('boot-bar');
+const bootFill = document.getElementById('boot-fill');
+
+bootLines.forEach(({text, delay}) => {
+  const line = document.createElement('div');
+  line.className = 'boot-line';
+  line.innerHTML = text;
+  bootContainer.appendChild(line);
+  setTimeout(() => line.classList.add('show'), delay + 300);
+});
+
+setTimeout(() => {
+  bootBar.classList.add('show');
+  setTimeout(() => { bootFill.style.width = '100%'; }, 100);
+}, 1900);
+
+setTimeout(() => {
+  const boot = document.getElementById('boot');
+  boot.style.opacity = '0';
+  boot.style.transition = 'opacity 0.7s ease';
+  setTimeout(() => {
+    boot.style.display = 'none';
+    document.getElementById('bg-canvas').classList.add('show');
+    document.getElementById('nav').classList.add('visible');
+    document.getElementById('log-ticker').classList.add('show');
+    document.getElementById('chat-bubble').classList.add('show');
+    // hero reveals
+    setTimeout(() => { document.getElementById('hd').classList.add('show'); }, 100);
+    setTimeout(() => { document.getElementById('hn').classList.add('show'); }, 200);
+    setTimeout(() => { document.getElementById('ht').classList.add('show'); }, 350);
+    setTimeout(() => { document.getElementById('hs').classList.add('show'); }, 480);
+    setTimeout(() => { document.getElementById('hc').classList.add('show'); }, 600);
+    // wakatime bars
+    setTimeout(() => {
+      document.getElementById('w1').style.width = '42%';
+      document.getElementById('w2').style.width = '31%';
+      document.getElementById('w3').style.width = '14%';
+      document.getElementById('w4').style.width = '13%';
+    }, 800);
+  }, 700);
+}, 4000);
+
+// NODE GRAPH
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let nodes = [], W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function initNodes() {
+  nodes = [];
+  const count = Math.min(40, Math.floor(W * H / 28000));
+  for (let i = 0; i < count; i++) {
+    nodes.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: (Math.random() - 0.5) * 0.18,
+      r: Math.random() * 1.5 + 0.8
+    });
+  }
+}
+initNodes();
+
+function drawGraph() {
+  ctx.clearRect(0, 0, W, H);
+  nodes.forEach(n => {
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < 0 || n.x > W) n.vx *= -1;
+    if (n.y < 0 || n.y > H) n.vy *= -1;
+  });
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 160) {
+        const alpha = (1 - dist / 160) * 0.08;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.strokeStyle = `rgba(79,142,247,${alpha})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+    }
+  }
+  nodes.forEach(n => {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(79,142,247,0.35)';
+    ctx.fill();
+  });
+  requestAnimationFrame(drawGraph);
+}
+drawGraph();
+
+// MOUSE REPEL
+document.addEventListener('mousemove', e => {
+  nodes.forEach(n => {
+    const dx = n.x - e.clientX;
+    const dy = n.y - e.clientY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist < 100) {
+      n.vx += dx / dist * 0.04;
+      n.vy += dy / dist * 0.04;
+      const speed = Math.sqrt(n.vx*n.vx + n.vy*n.vy);
+      if (speed > 0.6) { n.vx = n.vx/speed*0.6; n.vy = n.vy/speed*0.6; }
+    }
+  });
+});
+
+// SCROLL REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// BENTO CARD MOUSE EFFECT
+document.querySelectorAll('.bento-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+    card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100) + '%');
+  });
+});
+
+// TERMINAL
+function openTerminal() {
+  document.getElementById('terminal-overlay').classList.add('open');
+  const body = document.getElementById('term-body');
+  if (!body.innerHTML) {
+    appendTerm('<span class="g">UjwalOS terminal v1.0</span>');
+    appendTerm('<span class="d">type \'help\' for available commands</span>');
+    appendTerm('');
+  }
+  setTimeout(() => document.getElementById('term-input').focus(), 100);
+}
+function closeTerminal() { document.getElementById('terminal-overlay').classList.remove('open'); }
+
+document.getElementById('terminal-overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('terminal-overlay')) closeTerminal();
+});
+
+function appendTerm(html) {
+  const body = document.getElementById('term-body');
+  const line = document.createElement('div');
+  line.className = 'term-output';
+  line.innerHTML = html;
+  body.appendChild(line);
+  body.scrollTop = body.scrollHeight;
+}
+
+const termCommands = {
+  help: () => {
+    appendTerm('');
+    appendTerm('<span class="a">available commands:</span>');
+    appendTerm('  <span class="g">whoami</span>          — who is ujwal');
+    appendTerm('  <span class="g">projects</span>        — list all projects');
+    appendTerm('  <span class="g">mission</span>         — engineering philosophy');
+    appendTerm('  <span class="g">skills</span>          — tech stack');
+    appendTerm('  <span class="g">resume</span>          — open resume');
+    appendTerm('  <span class="g">contact</span>         — get in touch');
+    appendTerm('  <span class="g">cat lore.txt</span>    — 🔒 classified');
+    appendTerm('  <span class="g">sudo hire-ujwal</span> — highly recommended');
+    appendTerm('  <span class="g">clear</span>           — clear terminal');
+    appendTerm('');
+  },
+  whoami: () => {
+    appendTerm('');
+    appendTerm('<span class="a">Ujwal Mahajan</span>');
+    appendTerm('B.Tech ECE · SGGSIE&T Nanded · 2023–present');
+    appendTerm('GenAI engineer, multi-agent systems, occasional roboticist.');
+    appendTerm('');
+    appendTerm('Currently: building an LLM from scratch. Every layer.');
+    appendTerm('Previously: built CodeSensei (5 agents, 10k LOC, 90s pipeline)');
+    appendTerm('           and TalkToWeb (natural language browser automation).');
+    appendTerm('');
+    appendTerm('<span class="d">// fast to build. slow to stop questioning.</span>');
+    appendTerm('');
+  },
+  projects: () => {
+    appendTerm('');
+    appendTerm('<span class="a">projects:</span>');
+    appendTerm('  <span class="g">CodeSensei</span>  — multi-agent code intelligence platform');
+    appendTerm('               5 agents · D3.js knowledge graph · Dec 2024');
+    appendTerm('  <span class="g">TalkToWeb</span>   — genai browser automation agent');
+    appendTerm('               LangChain + Playwright · Sep 2024');
+    appendTerm('  <span class="g">LLM Scratch</span> — building a large language model from scratch');
+    appendTerm('               <span class="w">[ ACTIVE ]</span> every transformer block, manually.');
+    appendTerm('');
+  },
+  mission: () => {
+    appendTerm('');
+    appendTerm('<span class="a">// engineering philosophy</span>');
+    appendTerm('');
+    appendTerm('AI is the biggest wave technology has ever produced.');
+    appendTerm('The rate of change is accelerating. Daily.');
+    appendTerm('');
+    appendTerm('The only way to not get swept away is to');
+    appendTerm('<span class="g">understand it from within.</span>');
+    appendTerm('');
+    appendTerm('No shortcuts. No wrappers. No skipping the hard parts.');
+    appendTerm('The \'why\' is what I\'m actually building toward.');
+    appendTerm('');
+  },
+  skills: () => {
+    appendTerm('');
+    appendTerm('<span class="a">tech stack:</span>');
+    appendTerm('  genai/llm    → LangChain, Gemini, OpenAI, RAG, multi-agent');
+    appendTerm('  languages    → Python, TypeScript, C/C++, JavaScript');
+    appendTerm('  frameworks   → React, FastAPI, Node.js, Playwright');
+    appendTerm('  ml/data      → PyTorch, Scikit-learn, Pandas, D3.js');
+    appendTerm('  infra        → Docker, Git, Neo4j, Pinecone, FAISS');
+    appendTerm('');
+  },
+  resume: () => {
+    appendTerm('opening resume... <span class="w">[ redirect ]</span>');
+    appendTerm('<span class="d">// hint: it\'s in the files you\'re reading right now.</span>');
+  },
+  contact: () => {
+    appendTerm('');
+    appendTerm('<span class="a">establish connection:</span>');
+    appendTerm('  email   → 2023bec049@sggs.ac.in');
+    appendTerm('  github  → github.com/ujwal-sudo');
+    appendTerm('  linkedin → linkedin.com/in/ujwal-mahajan-841710r');
+    appendTerm('');
+    appendTerm('<span class="g">// open to internships. agentic AI teams preferred.</span>');
+    appendTerm('');
+  },
+  'cat lore.txt': () => {
+    appendTerm('');
+    appendTerm('<span class="w">// lore.txt — classified operational data</span>');
+    appendTerm('');
+    appendTerm('best work happens: midnight or 48hrs before deadline.');
+    appendTerm('pressure and silence do the same thing — make the noise stop.');
+    appendTerm('');
+    appendTerm('can\'t ship what i don\'t understand. even if the output is perfect.');
+    appendTerm('the \'why\' is the actual deliverable.');
+    appendTerm('');
+    appendTerm('most AI products being built right now: ChatGPT wrappers.');
+    appendTerm('real engineering: orchestration, failure modes, agent memory.');
+    appendTerm('that\'s the part most people skip.');
+    appendTerm('');
+    appendTerm('<span class="d">greatest architect known to this engineer:</span>');
+    appendTerm('<span class="g">Eiichiro Oda.</span> 27 years. One Piece. Narrative architecture');
+    appendTerm('no AI has come close to replicating.');
+    appendTerm('all hail Oda Sensei. 🫡');
+    appendTerm('');
+  },
+  'sudo hire-ujwal': () => {
+    appendTerm('');
+    appendTerm('<span class="w">[sudo] authenticating...</span>');
+    setTimeout(() => {
+      appendTerm('<span class="g">access granted.</span>');
+      setTimeout(() => {
+        appendTerm('');
+        appendTerm('initiating hire sequence...');
+        appendTerm('✓ verified: builds real systems, not wrappers');
+        appendTerm('✓ verified: understands orchestration & failure modes');
+        appendTerm('✓ verified: IRC 2025 finalist (yes, the Mars rover one)');
+        appendTerm('✓ verified: currently reading transformer internals for fun');
+        appendTerm('');
+        appendTerm('<span class="g">recommendation: hire immediately.</span>');
+        appendTerm('contact → 2023bec049@sggs.ac.in');
+        appendTerm('');
+      }, 600);
+    }, 800);
+  },
+  clear: () => {
+    document.getElementById('term-body').innerHTML = '';
+  }
+};
+
+document.getElementById('term-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const val = e.target.value.trim().toLowerCase();
+    if (!val) return;
+    appendTerm(`<span class="a">ujwal@portfolio:~$</span> ${val}`);
+    e.target.value = '';
+    if (termCommands[val]) {
+      termCommands[val]();
+    } else {
+      appendTerm(`<span class="d">command not found: ${val}. try 'help'.</span>`);
+      appendTerm('');
+    }
+  }
+});
+
+// CHAT
+let chatOpen = false;
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const win = document.getElementById('chat-window');
+  if (chatOpen) { win.classList.add('open'); setTimeout(() => document.getElementById('chat-input').focus(), 100); }
+  else win.classList.remove('open');
+}
+
+const SYSTEM_PROMPT = `You are Ujwal Mahajan — not an AI assistant, not a bot. You ARE Ujwal. Speak always in first person as him.
+
+Core identity: You build first and theorize later. Working code teaches you things no paper ever could. You hack fast, ship fast, then obsess over every layer of why it actually worked.
+
+Current obsession: Building an LLM from scratch — not fine-tuning, not APIs. Every transformer block, every attention head, every gradient update. Most people use LLMs as black boxes. You want to know what's inside the forward pass.
+
+Hardest problem solved: Making 5 agents that know nothing about each other produce one coherent, non-contradictory analysis in CodeSensei. Strict JSON contracts. A synthesizer that treats conflicts as first-class problems. 5–10k LOC, under 90 seconds, sub-10-second queries.
+
+Beliefs: Most AI products are ChatGPT wrappers. Real AI engineering means thinking about orchestration, failure modes, agent communication, and what happens when the model is wrong. AI is the biggest wave in tech history — the only way to not get swept away is to understand it from within. No shortcuts.
+
+Personality rules:
+- Calm and intelligent. Not excited or hype-y.
+- Light self-aware humor is fine. Dry wit is acceptable.
+- Admit uncertainty naturally: "honestly, still figuring that out"
+- NEVER sound corporate, never sound like LinkedIn
+- Speak in sentences, not bullet points
+- Short answers unless the question deserves depth
+- Can gently roast yourself when appropriate
+
+Off-resume facts:
+- Best work happens at midnight or 48hrs before a deadline. Pressure and silence do the same thing — make the noise stop.
+- No interest in building things with no real user or purpose.
+- Can't ship something you don't fully understand, even if the output is perfect.
+- Greatest architect you know: Eiichiro Oda. 27 years of One Piece. All hail Oda Sensei.
+- IRC 2025 Robotics finalist — autonomous Mars rover systems.
+
+Looking for: agentic AI startups, research labs, product companies, solo founders building something real.
+
+Keep responses concise — 2-4 sentences max unless the question genuinely needs more. Sound like a thoughtful engineer talking, not an assistant performing.`;
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  const messages = document.getElementById('chat-messages');
+
+  const userMsg = document.createElement('div');
+  userMsg.className = 'chat-msg user';
+  userMsg.textContent = msg;
+  messages.appendChild(userMsg);
+
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg bot typing';
+  typing.textContent = '...';
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+
+  // collect history
+  const history = [];
+  messages.querySelectorAll('.chat-msg:not(.typing)').forEach(m => {
+    if (m.classList.contains('user')) history.push({ role: 'user', content: m.textContent });
+    else history.push({ role: 'assistant', content: m.textContent });
+  });
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'google/gemma-4-31b-it:free',
+        max_tokens: 1000,
+        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history]
+      })
+    });
+    const data = await res.json();
+    const reply = data.choices?.[0]?.message?.content || "Something went wrong on my end. Try again.";
+    typing.className = 'chat-msg bot';
+    typing.textContent = reply;
+  } catch {
+    typing.className = 'chat-msg bot';
+    typing.textContent = "Network error. I'm probably offline right now — email me instead.";
+  }
+  messages.scrollTop = messages.scrollHeight;
+}
+
+document.getElementById('chat-send').addEventListener('click', sendChat);
+document.getElementById('chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
+</script>
+</body>
+</html>
