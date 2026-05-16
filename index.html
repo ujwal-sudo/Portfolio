@@ -411,6 +411,9 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   border-color: rgba(79,142,247,0.2);
 }
 .bento-card.featured:hover { border-color: rgba(79,142,247,0.4); }
+.bento-card.wide {
+  grid-column: span 2;
+}
 .card-tag {
   font-family: var(--mono);
   font-size: 10px;
@@ -865,6 +868,65 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
 
+/* HAMBURGER MENU */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 110;
+  background: none;
+  border: none;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* MOBILE MENU OVERLAY */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(8,8,16,0.97);
+  backdrop-filter: blur(16px);
+  z-index: 105;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.mobile-menu.open {
+  display: flex;
+  opacity: 1;
+}
+.mobile-menu a {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--text2);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+.mobile-menu a:hover { color: var(--text); background: var(--surface2); }
+.mobile-menu .nav-cta {
+  color: var(--accent);
+  border: 1px solid rgba(79,142,247,0.3);
+  margin-top: 8px;
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   nav { padding: 16px 24px; }
@@ -872,16 +934,103 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   .hero-inner { padding: 0 24px; }
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
   .bento { grid-template-columns: 1fr 1fr; }
-  .bento-card.featured { grid-column: span 2; }
+  .bento-card.featured, .bento-card.wide { grid-column: span 2; }
   .nav-links { display: none; }
+  .hamburger { display: flex; }
   .log-ticker { padding: 6px 24px; }
 }
+
 @media (max-width: 600px) {
-  .bento { grid-template-columns: 1fr; }
-  .bento-card.featured { grid-column: span 1; }
-  .hero-name { font-size: 48px; }
-  #chat-bubble { right: 16px; }
+  /* Global */
+  section { padding: 60px 16px; }
+  .hero-inner { padding: 0 16px; }
+  nav { padding: 14px 16px; }
+
+  /* Hero */
+  .hero-name { font-size: 42px; }
+  .hero-descriptor { font-size: 11px; margin-bottom: 20px; }
+  .hero-tagline { font-size: 13px; margin-bottom: 32px; }
+  .hero-stats { gap: 8px; margin-bottom: 32px; }
+  .stat-chip { font-size: 10px; padding: 5px 10px; }
+  .hero-cta { gap: 10px; }
+  .btn-primary, .btn-ghost { font-size: 11px; padding: 10px 20px; }
+
+  /* Projects Bento - Single Column */
+  .bento { grid-template-columns: 1fr; gap: 10px; }
+  .bento-card.featured, .bento-card.wide { grid-column: span 1; }
+  .bento-card { padding: 20px; border-radius: 8px; }
+  .projects-title { font-size: 28px; }
+  .projects-header { margin-bottom: 24px; }
+  .card-tag { font-size: 9px; margin-bottom: 10px; }
+  .card-title { font-size: 18px; margin-bottom: 8px; }
+  .card-desc { font-size: 13px; line-height: 1.55; margin-bottom: 14px; }
+  .card-metrics { gap: 6px; margin-bottom: 14px; }
+  .metric { font-size: 10px; padding: 3px 8px; }
+  .card-stack { gap: 5px; }
+  .stack-pill { font-size: 9px; padding: 3px 7px; }
+  .card-links { gap: 8px; margin-top: 14px; }
+  .card-link { font-size: 10px; padding: 5px 10px; }
+
+  /* Agent diagram */
+  .agent-diagram { gap: 5px; margin: 12px 0; }
+  .agent-node { font-size: 9px; padding: 4px 8px; }
+
+  /* Mini stat cards */
+  .mini-stat { min-height: 140px; }
+  .mini-num { font-size: 36px; }
+  .mini-label { font-size: 10px; }
+
+  /* About */
+  .about-headline { font-size: 26px; margin-bottom: 18px; }
+  .about-body { font-size: 14px; }
+  .belief-card { padding: 16px 18px; }
+  .belief-label { font-size: 9px; }
+  .belief-text { font-size: 13px; }
+
+  /* Skills */
+  .skills-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 24px; }
+  .skill-group { padding: 18px; }
+  .skill-group-label { font-size: 9px; margin-bottom: 10px; }
+  .skill-pill { font-size: 10px; padding: 3px 8px; }
+
+  /* WakaTime */
+  .waka-section { padding: 20px; margin-top: 24px; }
+  .waka-lang { width: 72px; font-size: 10px; }
+  .waka-pct { font-size: 10px; width: 32px; }
+
+  /* Contact */
+  .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+  .contact-headline { font-size: 28px; }
+  .contact-sub { font-size: 14px; margin-bottom: 24px; }
+  .contact-link { font-size: 12px; padding: 12px 16px; }
+
+  /* Manifesto */
+  .manifesto-text { font-size: 16px; margin-bottom: 32px; }
+  .manifesto-command { font-size: 14px; }
+
+  /* Chat */
+  #chat-bubble { right: 16px; bottom: 44px; }
+  .chat-toggle { width: 46px; height: 46px; font-size: 18px; }
   .chat-window { width: calc(100vw - 32px); right: -16px; }
+  .chat-messages { height: 260px; }
+  .chat-msg { font-size: 12px; }
+
+  /* Log ticker */
+  .log-ticker { padding: 5px 16px; font-size: 10px; gap: 20px; }
+
+  /* Section labels */
+  .section-label { font-size: 10px; margin-bottom: 14px; }
+}
+
+@media (max-width: 380px) {
+  .hero-name { font-size: 36px; }
+  .bento-card { padding: 16px; }
+  .card-title { font-size: 16px; }
+  .card-desc { font-size: 12px; }
+  .mini-num { font-size: 30px; }
+  .projects-title { font-size: 24px; }
+  section { padding: 48px 14px; }
+  nav { padding: 12px 14px; }
 }
 </style>
 </head>
@@ -909,7 +1058,19 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
     <li><a href="#contact">contact</a></li>
     <li><a href="#" onclick="openTerminal();return false;" class="nav-cta">_terminal</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" onclick="closeMobileMenu()">about</a>
+  <a href="#projects" onclick="closeMobileMenu()">projects</a>
+  <a href="#skills" onclick="closeMobileMenu()">skills</a>
+  <a href="#contact" onclick="closeMobileMenu()">contact</a>
+  <a href="#" onclick="openTerminal();closeMobileMenu();return false;" class="nav-cta">_terminal</a>
+</div>
 
 <!-- MAIN -->
 <main>
@@ -1023,7 +1184,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
       </div>
 
       <!-- TalkToWeb -->
-      <div class="bento-card" style="grid-column: span 2;">
+      <div class="bento-card wide">
         <div class="card-tag">browser agent</div>
         <div class="card-title">TalkToWeb</div>
         <div class="card-desc">Agentic browser automation. Natural language → multi-step browser actions. Navigation, form-filling, scraping — with voice control and a modular skills framework for extensible automations.</div>
@@ -1414,6 +1575,27 @@ document.querySelectorAll('.bento-card').forEach(card => {
     card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100) + '%');
   });
 });
+
+// MOBILE MENU
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+function closeMobileMenu() {
+  hamburger.classList.remove('active');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Disable custom cursor on touch devices
+if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+  document.body.style.cursor = 'auto';
+  document.getElementById('cursor').style.display = 'none';
+  document.getElementById('cursor-ring').style.display = 'none';
+}
 
 // TERMINAL
 function openTerminal() {
