@@ -625,6 +625,64 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   flex-shrink: 0;
 }
 
+/* LEADERSHIP */
+#leadership { border-top: 1px solid var(--border); }
+.leadership-headline {
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+.leadership-sub {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+.leadership-metrics {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+.leadership-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+.leadership-grid .bento-card .card-tag { margin-bottom: 10px; }
+.leadership-grid .card-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.leadership-grid .card-body {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.leadership-quote {
+  border-left: 2px solid var(--accent);
+  padding-left: 20px;
+}
+.leadership-quote-text {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.leadership-quote-attr {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+}
+
 /* MANIFESTO */
 #manifesto {
   border-top: 1px solid var(--border);
@@ -935,6 +993,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
   .bento { grid-template-columns: 1fr 1fr; }
   .bento-card.featured, .bento-card.wide { grid-column: span 2; }
+  .leadership-grid { grid-template-columns: 1fr 1fr; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .log-ticker { padding: 6px 24px; }
@@ -992,6 +1051,18 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   .skill-group { padding: 18px; }
   .skill-group-label { font-size: 9px; margin-bottom: 10px; }
   .skill-pill { font-size: 10px; padding: 3px 8px; }
+
+  /* Leadership */
+  .leadership-grid { grid-template-columns: 1fr; gap: 10px; }
+  .leadership-headline { font-size: 26px; }
+  .leadership-sub { font-size: 13px; margin-bottom: 28px; }
+  .leadership-metrics { gap: 8px; margin-bottom: 32px; }
+  .leadership-metrics .stat-chip { font-size: 10px; padding: 5px 10px; }
+  .leadership-grid .bento-card { padding: 20px; border-radius: 8px; }
+  .leadership-grid .card-title { font-size: 16px; }
+  .leadership-grid .card-body { font-size: 11px; }
+  .leadership-quote-text { font-size: 15px; }
+  .leadership-quote-attr { font-size: 10px; }
 
   /* WakaTime */
   .waka-section { padding: 20px; margin-top: 24px; }
@@ -1303,6 +1374,52 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
         <div class="waka-bar"><div class="waka-fill" id="w4" style="opacity:0.5"></div></div>
         <div class="waka-pct">13%</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section id="leadership">
+  <div class="reveal">
+    <div class="section-label">// leadership</div>
+    <div class="leadership-headline">When the margin for error is zero.</div>
+    <div class="leadership-sub">
+      Led Marathwada's first Robowars event — a 3-day national competition at SGGSIE&T Nanded — against three competing events on the same dates, and a 48-hour crisis that nearly collapsed everything.
+    </div>
+
+    <div class="leadership-metrics">
+      <div class="stat-chip"><span class="num">300+</span> teams · 50+ colleges</div>
+      <div class="stat-chip"><span class="num">2,000+</span> total footfall</div>
+      <div class="stat-chip"><span class="num">₹2L</span> prize pool · 100% sponsored</div>
+      <div class="stat-chip"><span class="num">60</span> student volunteers</div>
+    </div>
+
+    <div class="leadership-grid">
+      <div class="bento-card">
+        <div class="card-tag">crisis management</div>
+        <div class="card-title">The 48-hour crisis</div>
+        <div class="card-body">Our accommodation partner withdrew the night before 200+ outstation teams arrived. No backup plan. We surveyed campus, found two unused halls, negotiated bulk mattress rentals across 5 vendors, and had beds ready with 12 hours to spare. Teams never knew.</div>
+      </div>
+      <div class="bento-card">
+        <div class="card-tag">execution</div>
+        <div class="card-title">Zero budget. 300 teams.</div>
+        <div class="card-body">Three competing events offered larger prize pools. We repositioned as Marathwada's most accessible robotics platform — ran workshops in 10+ schools, reached 1000+ students, converted first-timers into participants. ₹2L raised entirely through sponsorships. Zero institutional money.</div>
+      </div>
+      <div class="bento-card">
+        <div class="card-tag">integrity</div>
+        <div class="card-title">The hard call</div>
+        <div class="card-body">When a team violated timings after repeated warnings, I disqualified them in front of 2,000+ spectators. Unpopular. Necessary. The rest of the event ran on schedule. Credibility over convenience — every time.</div>
+      </div>
+      <div class="bento-card">
+        <div class="card-tag">impact</div>
+        <div class="card-title">First Robowars in Marathwada</div>
+        <div class="card-body">Teams that previously traveled only to Pune and Mumbai now saw Nanded as a competitive destination. SGGSIE&T went on India's robotics map. 95%+ positive reviews. Multiple teams registered for 2027 before leaving.</div>
+      </div>
+    </div>
+
+    <div class="leadership-quote">
+      <div class="leadership-quote-text">Leadership isn't doing everything — it's ensuring everything gets done.</div>
+      <div class="leadership-quote-attr">— 300 teams. ₹2L raised. zero institutional budget. one team of 60 students.</div>
     </div>
   </div>
 </section>
