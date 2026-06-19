@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ujwal Mahajan — AI Engineer</title>
+<title>Ujwal Mahajan | AI Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -289,29 +289,6 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
 }
 .btn-ghost:hover { color: var(--text); border-color: var(--border2); transform: translateY(-1px); }
 
-/* SYSTEM LOG TICKER */
-.log-ticker {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(8,8,16,0.9);
-  border-top: 1px solid var(--border);
-  padding: 6px 48px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text3);
-  display: flex; gap: 32px;
-  overflow: hidden;
-  white-space: nowrap;
-  z-index: 50;
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-.log-ticker.show { opacity: 1; }
-.log-entry { flex-shrink: 0; }
-.log-entry .ts { color: var(--text3); }
-.log-entry .msg { color: var(--text2); margin-left: 8px; }
-.log-entry .ok-tag { color: var(--green); }
-.log-entry .warn-tag { color: var(--amber); }
 
 /* ABOUT */
 #about { border-top: 1px solid var(--border); }
@@ -338,9 +315,9 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   color: var(--text);
 }
 .about-body {
-  font-size: 15px;
+  font-size: 17px;
   color: var(--text2);
-  line-height: 1.8;
+  line-height: 1.75;
 }
 .about-body p { margin-bottom: 16px; }
 .about-body em { color: var(--text); font-style: normal; }
@@ -809,7 +786,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
 /* CHAT */
 #chat-bubble {
   position: fixed;
-  bottom: 52px;
+  bottom: 32px;
   right: 32px;
   z-index: 200;
   opacity: 0;
@@ -824,7 +801,6 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   border: none;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
   transition: transform 0.2s, background 0.2s;
   box-shadow: 0 0 0 1px rgba(79,142,247,0.3), 0 0 20px rgba(79,142,247,0.15);
 }
@@ -996,7 +972,6 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   .leadership-grid { grid-template-columns: 1fr 1fr; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
-  .log-ticker { padding: 6px 24px; }
 }
 
 @media (max-width: 600px) {
@@ -1041,7 +1016,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
 
   /* About */
   .about-headline { font-size: 26px; margin-bottom: 18px; }
-  .about-body { font-size: 14px; }
+  .about-body { font-size: 15px; }
   .belief-card { padding: 16px 18px; }
   .belief-label { font-size: 9px; }
   .belief-text { font-size: 13px; }
@@ -1080,14 +1055,13 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   .manifesto-command { font-size: 14px; }
 
   /* Chat */
-  #chat-bubble { right: 16px; bottom: 44px; }
-  .chat-toggle { width: 46px; height: 46px; font-size: 18px; }
+  #chat-bubble { right: 16px; bottom: 24px; }
+  .chat-toggle { width: 46px; height: 46px; }
+  .chat-toggle svg { width: 20px; height: 20px; }
   .chat-window { width: calc(100vw - 32px); right: -16px; }
   .chat-messages { height: 260px; }
   .chat-msg { font-size: 12px; }
 
-  /* Log ticker */
-  .log-ticker { padding: 5px 16px; font-size: 10px; gap: 20px; }
 
   /* Section labels */
   .section-label { font-size: 10px; margin-bottom: 14px; }
@@ -1176,9 +1150,9 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
         <div class="section-label">// about</div>
         <h2 class="about-headline">I build first.<br>Theorize later.</h2>
         <div class="about-body">
-          <p>Working code teaches me things no paper ever could. I'll hack something together fast, get it running, then <em>obsess over every layer of why it actually worked</em>.</p>
-          <p>That's how CodeSensei was born — a rough multi-agent system in days, then weeks understanding why the synthesizer was failing, why agents contradicted each other, why parallel execution introduced race conditions I hadn't anticipated.</p>
-          <p>What I'm chasing is making something genuinely complex feel <em>effortless to the person using it</em>. Five agents analyzing 10,000 lines simultaneously — none of that should be visible. They type a question, they get an answer. The complexity is my problem, not theirs.</p>
+          <p>Working code teaches me things no paper ever could. I hack fast, ship fast, then <em>obsess over every layer of why it actually worked</em>.</p>
+          <p>That's how CodeSensei was born: five agents that had to agree on one coherent answer. The hard part wasn't building them. It was making them not contradict each other.</p>
+          <p>What I'm after: <em>making genuine complexity invisible</em>. Five agents, 10k lines. They ask, they get an answer. The complexity is mine, not theirs.</p>
         </div>
       </div>
       <div class="about-right">
@@ -1188,11 +1162,11 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
         </div>
         <div class="belief-card">
           <div class="belief-label">belief</div>
-          <div class="belief-text">AI is the biggest advancement in technology that has ever happened — and the rate of change is accelerating daily. <strong>The only way to not get swept away is to understand it from within.</strong> No shortcuts. No wrappers. No skipping the hard parts.</div>
+          <div class="belief-text">AI is the biggest advancement in technology that has ever happened, and the rate of change is accelerating daily. <strong>The only way to not get swept away is to understand it from within.</strong> No shortcuts. No wrappers. No skipping the hard parts.</div>
         </div>
         <div class="belief-card">
           <div class="belief-label">engineering philosophy</div>
-          <div class="belief-text">Can't ship something I don't fully understand. The output can be perfect — doesn't matter. <strong>The 'why' is what I'm actually building toward.</strong> Most AI products are ChatGPT wrappers. Real engineering means thinking about orchestration, failure modes, agent communication.</div>
+          <div class="belief-text">Can't ship something I don't fully understand. The output can be perfect. Doesn't matter. <strong>The 'why' is what I'm actually building toward.</strong> Most AI products are ChatGPT wrappers. Real engineering means thinking about orchestration, failure modes, agent communication.</div>
         </div>
       </div>
     </div>
@@ -1214,7 +1188,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
       <div class="bento-card featured">
         <div class="card-tag">flagship system</div>
         <div class="card-title">CodeSensei</div>
-        <div class="card-desc">AI code intelligence platform. 5 specialized agents analyzing GitHub repositories simultaneously — structure, behavior, risk, execution, impact — resolving conflicts through strict JSON contracts and synthesizer-based merge logic.</div>
+        <div class="card-desc">AI code intelligence platform. 5 specialized agents analyzing GitHub repositories simultaneously: structure, behavior, risk, execution, impact. Conflicts resolved through strict JSON contracts and synthesizer-based merge logic.</div>
         <div class="agent-diagram">
           <div class="agent-node">structure</div>
           <div class="agent-node">behavior</div>
@@ -1237,8 +1211,8 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
           <span class="stack-pill">custom orchestration</span>
         </div>
         <div class="card-links">
-          <a href="https://github.com/ujwal-sudo" target="_blank" class="card-link">github ↗</a>
-          <a href="#" class="card-link">live demo ↗</a>
+          <a href="https://github.com/ujwal-sudo/CodeSensei" target="_blank" class="card-link">github ↗</a>
+          <a href="https://codesensei-dev.vercel.app/" target="_blank" class="card-link">live demo ↗</a>
         </div>
       </div>
 
@@ -1250,7 +1224,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
             <div class="mini-num"><span>5</span></div>
             <div class="mini-label">specialized agents,<br>one coherent output</div>
           </div>
-          <div class="card-desc" style="font-size:12px; margin-bottom:0;">The hardest part wasn't building the agents — it was making them not contradict each other.</div>
+          <div class="card-desc" style="font-size:12px; margin-bottom:0;">The hardest part wasn't building the agents. It was making them not contradict each other.</div>
         </div>
       </div>
 
@@ -1258,8 +1232,9 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
       <div class="bento-card wide">
         <div class="card-tag">browser agent</div>
         <div class="card-title">TalkToWeb</div>
-        <div class="card-desc">Agentic browser automation. Natural language → multi-step browser actions. Navigation, form-filling, scraping — with voice control and a modular skills framework for extensible automations.</div>
+        <div class="card-desc">Agentic browser automation. Natural language → multi-step browser actions. Navigation, form-filling, scraping. Voice control and a modular skills framework for extensible automations.</div>
         <div class="card-stack">
+        
           <span class="stack-pill">LangChain</span>
           <span class="stack-pill">Gemini 1.5 Flash</span>
           <span class="stack-pill">Playwright</span>
@@ -1267,7 +1242,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
           <span class="stack-pill">FastAPI</span>
         </div>
         <div class="card-links" style="margin-top:16px;">
-          <a href="https://github.com/ujwal-sudo" target="_blank" class="card-link">github ↗</a>
+          <a href="https://github.com/ujwal-sudo/TalkToWeb" target="_blank" class="card-link">github ↗</a>
         </div>
       </div>
 
@@ -1384,7 +1359,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
     <div class="section-label">// leadership</div>
     <div class="leadership-headline">When the margin for error is zero.</div>
     <div class="leadership-sub">
-      Led Marathwada's first Robowars event — a 3-day national competition at SGGSIE&T Nanded — against three competing events on the same dates, and a 48-hour crisis that nearly collapsed everything.
+      Led Marathwada's first Robowars event: a 3-day national competition at SGGSIE&T Nanded, against three competing events on the same dates, and a 48-hour crisis that nearly collapsed everything.
     </div>
 
     <div class="leadership-metrics">
@@ -1403,12 +1378,12 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
       <div class="bento-card">
         <div class="card-tag">execution</div>
         <div class="card-title">Zero budget. 300 teams.</div>
-        <div class="card-body">Three competing events offered larger prize pools. We repositioned as Marathwada's most accessible robotics platform — ran workshops in 10+ schools, reached 1000+ students, converted first-timers into participants. ₹2L raised entirely through sponsorships. Zero institutional money.</div>
+        <div class="card-body">Three competing events offered larger prize pools. We repositioned as Marathwada's most accessible robotics platform. Ran workshops in 10+ schools, reached 1000+ students, converted first-timers into participants. ₹2L raised entirely through sponsorships. Zero institutional money.</div>
       </div>
       <div class="bento-card">
         <div class="card-tag">integrity</div>
         <div class="card-title">The hard call</div>
-        <div class="card-body">When a team violated timings after repeated warnings, I disqualified them in front of 2,000+ spectators. Unpopular. Necessary. The rest of the event ran on schedule. Credibility over convenience — every time.</div>
+        <div class="card-body">When a team violated timings after repeated warnings, I disqualified them in front of 2,000+ spectators. Unpopular. Necessary. The rest of the event ran on schedule. Credibility over convenience. Every time.</div>
       </div>
       <div class="bento-card">
         <div class="card-tag">impact</div>
@@ -1418,8 +1393,8 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
     </div>
 
     <div class="leadership-quote">
-      <div class="leadership-quote-text">Leadership isn't doing everything — it's ensuring everything gets done.</div>
-      <div class="leadership-quote-attr">— 300 teams. ₹2L raised. zero institutional budget. one team of 60 students.</div>
+      <div class="leadership-quote-text">Leadership isn't doing everything. It's ensuring everything gets done.</div>
+      <div class="leadership-quote-attr">300 teams. ₹2L raised. zero institutional budget. one team of 60 students.</div>
     </div>
   </div>
 </section>
@@ -1430,7 +1405,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
     <div class="section-label" style="text-align:center; margin-bottom:40px;">// still building</div>
     <div class="manifesto-text">
       AI isn't just a tool getting smarter.<br>
-      It's a wave — and most people don't know it's already moving.<br><br>
+      It's a wave, and most people don't know it's already moving.<br><br>
       <em>The only way to not get swept away<br>is to understand it from within.</em><br><br>
       No shortcuts. No wrappers. No skipping the hard parts.
     </div>
@@ -1453,7 +1428,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
             <span>2023bec049@sggs.ac.in</span>
             <span class="arrow">→</span>
           </a>
-          <a href="https://linkedin.com/in/ujwal-mahajan-841710r" target="_blank" class="contact-link">
+          <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" class="contact-link">
             <span>linkedin ↗</span>
             <span class="arrow">→</span>
           </a>
@@ -1466,7 +1441,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
       <div>
         <div class="belief-card" style="margin-bottom:12px;">
           <div class="belief-label">availability</div>
-          <div class="belief-text"><strong>Open to internships — 2025–26.</strong> Based in Nanded, Maharashtra. Remote-first, but willing to relocate for the right team.</div>
+          <div class="belief-text"><strong>Open to internships, 2025–26.</strong> Based in Nanded, Maharashtra. Remote-first, but willing to relocate for the right team.</div>
         </div>
         <div class="belief-card">
           <div class="belief-label">looking for</div>
@@ -1479,14 +1454,6 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
 
 </main>
 
-<!-- SYSTEM LOG TICKER -->
-<div class="log-ticker" id="log-ticker">
-  <div class="log-entry"><span class="ts">[00:00:01]</span><span class="msg"><span class="ok-tag">[OK]</span> agent_network.init — 5 agents online</span></div>
-  <div class="log-entry"><span class="ts">[00:00:02]</span><span class="msg"><span class="ok-tag">[OK]</span> synthesizer.load — conflict resolution ready</span></div>
-  <div class="log-entry"><span class="ts">[00:00:03]</span><span class="msg"><span class="ok-tag">[OK]</span> memory.connect — vector store mounted</span></div>
-  <div class="log-entry"><span class="ts">[00:00:04]</span><span class="msg"><span class="warn-tag">[INFO]</span> llm_scratch.build — training loop active · epoch 3/∞</span></div>
-  <div class="log-entry"><span class="ts">[00:00:05]</span><span class="msg"><span class="ok-tag">[OK]</span> portfolio.serve — visitor detected</span></div>
-</div>
 
 <!-- TERMINAL -->
 <div id="terminal-overlay">
@@ -1510,21 +1477,32 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
 <div id="chat-bubble">
   <div class="chat-window" id="chat-window">
     <div class="chat-header">
-      <div class="chat-avatar">UM</div>
+      <div class="chat-avatar">AI</div>
       <div>
-        <div class="chat-name">Ujwal Mahajan</div>
-        <div class="chat-status">● online</div>
+        <div class="chat-name">Ujwal.AI</div>
+        <div class="chat-status">● AI clone · always on</div>
       </div>
     </div>
     <div class="chat-messages" id="chat-messages">
-      <div class="chat-msg bot">Hey. I'm Ujwal — or at least a version of me that's always available. Ask me anything about what I'm building, what I believe, or whether I'm a good fit for your team.</div>
+      <div class="chat-msg bot">Hey. I'm an AI clone of Ujwal. Ask me anything about what he's building, what he believes, or whether he'd be the right hire for your team.</div>
     </div>
     <div class="chat-input-row">
       <input type="text" id="chat-input" placeholder="ask me anything..." autocomplete="off">
       <button id="chat-send">→</button>
     </div>
   </div>
-  <button class="chat-toggle" id="chat-toggle" onclick="toggleChat()">💬</button>
+  <button class="chat-toggle" id="chat-toggle" onclick="toggleChat()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="1.8" r="1.8" fill="rgba(255,255,255,0.85)"/>
+      <line x1="12" y1="3.6" x2="12" y2="6.5" stroke="rgba(255,255,255,0.85)" stroke-width="1.6" stroke-linecap="round"/>
+      <rect x="1.5" y="6.5" width="21" height="15.5" rx="4" fill="rgba(255,255,255,0.93)"/>
+      <circle cx="8.5" cy="13" r="2.2" fill="#080810"/>
+      <circle cx="15.5" cy="13" r="2.2" fill="#080810"/>
+      <circle cx="9.2" cy="12.2" r="0.75" fill="white"/>
+      <circle cx="16.2" cy="12.2" r="0.75" fill="white"/>
+      <path d="M9 18 Q12 19.8 15 18" stroke="#080810" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+    </svg>
+  </button>
 </div>
 
 <script>
@@ -1584,7 +1562,6 @@ setTimeout(() => {
     boot.style.display = 'none';
     document.getElementById('bg-canvas').classList.add('show');
     document.getElementById('nav').classList.add('visible');
-    document.getElementById('log-ticker').classList.add('show');
     document.getElementById('chat-bubble').classList.add('show');
     // hero reveals
     setTimeout(() => { document.getElementById('hd').classList.add('show'); }, 100);
@@ -1744,15 +1721,15 @@ const termCommands = {
   help: () => {
     appendTerm('');
     appendTerm('<span class="a">available commands:</span>');
-    appendTerm('  <span class="g">whoami</span>          — who is ujwal');
-    appendTerm('  <span class="g">projects</span>        — list all projects');
-    appendTerm('  <span class="g">mission</span>         — engineering philosophy');
-    appendTerm('  <span class="g">skills</span>          — tech stack');
-    appendTerm('  <span class="g">resume</span>          — open resume');
-    appendTerm('  <span class="g">contact</span>         — get in touch');
-    appendTerm('  <span class="g">cat lore.txt</span>    — 🔒 classified');
-    appendTerm('  <span class="g">sudo hire-ujwal</span> — highly recommended');
-    appendTerm('  <span class="g">clear</span>           — clear terminal');
+    appendTerm('  <span class="g">whoami</span>          - who is ujwal');
+    appendTerm('  <span class="g">projects</span>        - list all projects');
+    appendTerm('  <span class="g">mission</span>         - engineering philosophy');
+    appendTerm('  <span class="g">skills</span>          - tech stack');
+    appendTerm('  <span class="g">resume</span>          - open resume');
+    appendTerm('  <span class="g">contact</span>         - get in touch');
+    appendTerm('  <span class="g">cat lore.txt</span>    - 🔒 classified');
+    appendTerm('  <span class="g">sudo hire-ujwal</span> - highly recommended');
+    appendTerm('  <span class="g">clear</span>           - clear terminal');
     appendTerm('');
   },
   whoami: () => {
@@ -1771,11 +1748,11 @@ const termCommands = {
   projects: () => {
     appendTerm('');
     appendTerm('<span class="a">projects:</span>');
-    appendTerm('  <span class="g">CodeSensei</span>  — multi-agent code intelligence platform');
+    appendTerm('  <span class="g">CodeSensei</span>  - multi-agent code intelligence platform');
     appendTerm('               5 agents · D3.js knowledge graph · Dec 2024');
-    appendTerm('  <span class="g">TalkToWeb</span>   — genai browser automation agent');
+    appendTerm('  <span class="g">TalkToWeb</span>   - genai browser automation agent');
     appendTerm('               LangChain + Playwright · Sep 2024');
-    appendTerm('  <span class="g">LLM Scratch</span> — building a large language model from scratch');
+    appendTerm('  <span class="g">LLM Scratch</span> - building a large language model from scratch');
     appendTerm('               <span class="w">[ ACTIVE ]</span> every transformer block, manually.');
     appendTerm('');
   },
