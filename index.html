@@ -379,6 +379,7 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
   background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(79,142,247,0.04) 0%, transparent 60%);
   opacity: 0;
   transition: opacity 0.3s;
+  pointer-events: none;
 }
 .bento-card:hover::before { opacity: 1; }
 .bento-card:hover { border-color: var(--border2); transform: translateY(-2px); }
