@@ -127,10 +127,31 @@ nav {
 }
 nav.visible { opacity: 1; transform: none; }
 .nav-logo {
-  font-family: var(--mono);
-  font-size: 14px;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 800;
   color: var(--text);
-  letter-spacing: 0.02em;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px var(--accent-dim);
+}
+.nav-logo-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: #ffffff;
+  stroke-width: 2.5;
 }
 .nav-logo span { color: var(--accent); }
 .nav-links {
@@ -1096,7 +1117,15 @@ section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="nav-logo">ujwal<span>.</span>dev</div>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 17L10 11L4 5" />
+        <path d="M12 19H20" />
+      </svg>
+    </div>
+    UJWAL<span>.</span>DEV
+  </div>
   <ul class="nav-links">
     <li><a href="#about">about</a></li>
     <li><a href="#projects">projects</a></li>
