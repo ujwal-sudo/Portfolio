@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume — Ujwal Mahajan</title>
+  <meta name="description" content="Resume of Ujwal Mahajan — AI engineer and B.Tech student at SGGSIE&T Nanded working on language models, agents, and systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-warm-ivory text-ink selection:bg-crimson selection:text-warm-ivory">
+  <div class="min-h-screen flex flex-col" data-testid="resume-page">
+
+  <!-- Nav Header -->
+  <nav class="site-nav fixed inset-x-0 top-0 z-40 h-16 transition-all duration-300 bg-transparent border-b border-transparent" aria-label="Primary navigation" data-theme="blue">
+    <div class="wrap flex h-full items-center justify-between">
+      <a href="/" class="site-brand group flex items-center gap-2.5 font-display" aria-label="Ujwal Mahajan — home" data-testid="monogram-home-link">
+        <span class="brand-badge border-warm-ivory/40 text-warm-ivory group-hover:border-crimson">UM</span>
+        <span class="brand-text-full font-serif text-lg tracking-tight text-warm-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <a href="/" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-home">Home</a>
+        <a href="/about" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-about">About</a>
+        <div class="relative group nav-projects">
+          <div class="flex items-center gap-1.5 cursor-pointer py-2">
+            <a href="/projects" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-projects">Projects</a>
+            <button type="button" aria-label="Open projects menu" aria-expanded="false" class="p-0.5 text-warm-ivory/70 group-hover:text-crimson transition-transform group-hover:rotate-180">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+          <div class="nav-dropdown absolute left-1/2 top-full -translate-x-1/2 pt-2 hidden group-hover:block" id="project-menu">
+            <div class="w-64 border border-warm-ivory/20 bg-editorial-blue-deep p-2 shadow-2xl shadow-black/40">
+              <a href="/projects/pythia-160m" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-pythia-160m">
+                <span class="font-display text-[15px] text-warm-ivory">Pythia-160M ↗</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Research</span>
+              </a>
+              <a href="/projects/codesensei" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-codesensei">
+                <span class="font-display text-[15px] text-warm-ivory">CodeSensei</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Agentic AI</span>
+              </a>
+              <a href="/projects/ledgerlens" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-ledgerlens">
+                <span class="font-display text-[15px] text-warm-ivory">LedgerLens</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">FinTech AI</span>
+              </a>
+              <a href="/projects/talktoweb" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-talktoweb">
+                <span class="font-display text-[15px] text-warm-ivory">TalkToWeb</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Automation</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="/research" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-research">Research</a>
+        <a href="/interests" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-interests">Interests</a>
+        <a href="/resume" class="nav-link active font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-resume" aria-current="page">Resume</a>
+        <a href="/contact" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-contact">Contact</a>
+      </div>
+
+      <!-- Action Button & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="/contact" class="hidden md:inline-flex btn-cta-crimson" data-testid="nav-lets-talk-button">
+          Let's Talk ↗
+        </a>
+        <button class="nav-toggle flex h-10 w-10 items-center justify-center border border-warm-ivory/40 text-warm-ivory md:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-warm-ivory/15 bg-editorial-blue-deep p-6 md:hidden" id="mobile-nav" hidden>
+    <div class="flex flex-col gap-5">
+      <a href="/" class="font-display text-2xl text-warm-ivory">Home</a>
+      <a href="/about" class="font-display text-2xl text-warm-ivory">About</a>
+      <div>
+        <div class="eyebrow text-crimson mb-2">Projects</div>
+        <div class="flex flex-col gap-2.5 pl-3 border-l border-warm-ivory/20">
+          <a href="/projects" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Overview</a>
+          <a href="/projects/pythia-160m" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Pythia-160M ↗</a>
+          <a href="/projects/codesensei" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">CodeSensei</a>
+          <a href="/projects/ledgerlens" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">LedgerLens</a>
+          <a href="/projects/talktoweb" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">TalkToWeb</a>
+        </div>
+      </div>
+      <a href="/research" class="font-display text-2xl text-warm-ivory">Research</a>
+      <a href="/interests" class="font-display text-2xl text-warm-ivory">Interests</a>
+      <a href="/resume" class="font-display text-2xl text-warm-ivory">Resume</a>
+      <a href="/contact" class="font-display text-2xl text-warm-ivory">Contact</a>
+      <a href="/lore" class="font-display text-2xl text-crimson">The Lore ↗</a>
+      <div class="pt-4 border-t border-warm-ivory/15">
+        <a href="/contact" class="inline-flex w-full items-center justify-center gap-2 btn-cta-crimson">Let's Talk ↗</a>
+      </div>
+    </div>
+  </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+
+      <!-- Page Header: Deep Editorial Blue Banner -->
+      <header class="border-b border-warm-ivory/20 bg-editorial-blue pb-14 pt-28 text-warm-ivory sm:pt-36">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="eyebrow text-crimson bg-warm-ivory px-2 py-0.5 inline-block font-semibold">Curriculum Vitae</p>
+            <h1 class="mt-5 font-display text-4xl font-medium leading-[1.02] tracking-tight text-warm-ivory sm:text-5xl lg:text-6xl">Ujwal Mahajan</h1>
+            <p class="mt-4 font-mono text-sm tracking-wide text-warm-ivory/85 sm:text-base">
+              AI / GenAI Engineer · Agentic AI &amp; Multi-Agent Systems · LLM Engineering
+            </p>
+            <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-xs text-warm-ivory/70">
+              <a href="mailto:2023bec049@sggs.ac.in" class="hover:text-crimson transition-colors">2023bec049@sggs.ac.in</a>
+              <span>·</span>
+              <span>+91 8459337231</span>
+              <span>·</span>
+              <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-crimson transition-colors">LinkedIn</a>
+              <span>·</span>
+              <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-crimson transition-colors">GitHub</a>
+            </div>
+
+            <div class="mt-8 flex flex-wrap items-center gap-4">
+              <button onclick="window.viewResume()" data-testid="resume-view-pdf" class="btn-cta-crimson">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                View Resume PDF ↗
+              </button>
+              <button onclick="window.downloadResume()" data-testid="resume-download-pdf" class="btn-secondary-ivory">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download PDF ↗
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Document Body -->
+      <div class="wrap max-w-4xl py-16">
+
+        <!-- Education -->
+        <div class="reveal">
+          <section data-testid="resume-education">
+            <p class="eyebrow text-crimson">Education</p>
+            <div class="mt-5 border-l-2 border-crimson/70 pl-5">
+              <div class="flex flex-wrap items-baseline justify-between gap-3">
+                <h2 class="font-display text-2xl leading-snug text-editorial-blue">B.Tech. Electronics &amp; Telecommunication Engineering</h2>
+                <span class="font-mono text-xs uppercase tracking-wider text-crimson font-semibold">2023 – 2027</span>
+              </div>
+              <p class="mt-1 text-[14.5px] leading-relaxed text-clay">
+                Shri Guru Gobind Singhji Institute of Engineering &amp; Technology (SGGSIE&T), Nanded, Maharashtra
+              </p>
+            </div>
+          </section>
+        </div>
+
+        <!-- Experience -->
+        <div class="reveal mt-14">
+          <section data-testid="resume-experience">
+            <p class="eyebrow text-crimson">Experience</p>
+            <div class="mt-5 border-l-2 border-crimson/70 pl-5">
+              <div class="flex flex-wrap items-baseline justify-between gap-3">
+                <div>
+                  <h2 class="font-display text-2xl text-editorial-blue">AI Engineering Intern — BluQ AI</h2>
+                  <p class="mt-0.5 text-xs text-clay italic">AI-powered construction project management</p>
+                </div>
+                <span class="inline-flex items-center border border-editorial-blue/20 bg-editorial-blue/5 px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-wider text-editorial-blue font-semibold">
+                  3 Months
+                </span>
+              </div>
+              <ul class="mt-4 space-y-2.5">
+                <li class="flex gap-2.5 text-[14.5px] leading-relaxed text-clay">
+                  <span class="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-crimson"></span>
+                  <span>Engineered full-stack features (React, Fastify, Supabase); architected WhatsApp/email pipelines automating daily progress capture across 100+ concurrent contractor–PM interactions.</span>
+                </li>
+                <li class="flex gap-2.5 text-[14.5px] leading-relaxed text-clay">
+                  <span class="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-crimson"></span>
+                  <span>Designed an iOS/Android application blueprint using React Native/Expo, Supabase Auth, and Backend-for-Frontend (BFF) API strategy.</span>
+                </li>
+                <li class="flex gap-2.5 text-[14.5px] leading-relaxed text-clay">
+                  <span class="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-crimson"></span>
+                  <span>Contributed to 5+ architecture decisions with founders covering AI delay prediction, per-user rate-limiting, 300 req/min workload handling, and backend scalability.</span>
+                </li>
+                <li class="flex gap-2.5 text-[14.5px] leading-relaxed text-clay">
+                  <span class="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-crimson"></span>
+                  <span>Conducted international market research across 4 countries; sourced and validated 21,000+ firms across 10+ industry directories.</span>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </div>
+
+        <!-- AI / LLM Projects -->
+        <div class="reveal mt-14">
+          <section data-testid="resume-projects">
+            <p class="eyebrow text-crimson">AI / LLM Projects</p>
+            <div class="mt-5 space-y-8">
+
+              <!-- Pythia-160M -->
+              <div class="border-l-2 border-editorial-blue pl-5">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <h3 class="font-display text-xl text-editorial-blue">Pythia-160M — Small Language Model from Scratch</h3>
+                    <span class="inline-flex items-center border border-crimson/30 bg-crimson/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-crimson font-semibold">ONGOING</span>
+                  </div>
+                  <div class="flex items-center gap-3 font-mono text-[11px] uppercase tracking-wider">
+                    <a href="/projects/pythia-160m" class="text-crimson hover:underline">Case Study ↗</a>
+                    <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="text-clay hover:text-editorial-blue">[GitHub]</a>
+                  </div>
+                </div>
+                <ul class="mt-3 space-y-2">
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-editorial-blue"></span>
+                    <span>Building a ∼160M-parameter Python-focused language model from scratch covering transformer architecture, attention, tokenizer infrastructure, training, and evaluation pipelines.</span>
+                  </li>
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-editorial-blue"></span>
+                    <span>Developing an AST-based validation and quality-first code-generation pipeline to prevent syntactically invalid Python from entering downstream processing under constrained local compute.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- GPT-2 Architecture -->
+              <div class="border-l-2 border-editorial-blue pl-5">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                  <h3 class="font-display text-xl text-editorial-blue">GPT-2 Architecture — LLM from Scratch</h3>
+                  <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] uppercase tracking-wider text-clay hover:text-editorial-blue">[GitHub]</a>
+                </div>
+                <ul class="mt-3 space-y-2">
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-editorial-blue"></span>
+                    <span>Built the complete GPT-2 pipeline through Vizuara.ai’s LLM-from-scratch course, implementing tokenizer design, embeddings, multi-head attention, GELU, transformer blocks, forward pass, and training.</span>
+                  </li>
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-editorial-blue"></span>
+                    <span>Implemented the complete data preparation → tokenizer → embeddings → attention → transformer → training pipeline in PyTorch.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- CodeSensei -->
+              <div class="border-l-2 border-crimson pl-5">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <h3 class="font-display text-xl text-editorial-blue">CodeSensei — Multi-Agent Code Intelligence Platform</h3>
+                  </div>
+                  <div class="flex items-center gap-3 font-mono text-[11px] uppercase tracking-wider">
+                    <a href="/projects/codesensei" class="text-crimson hover:underline">Case Study ↗</a>
+                    <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="text-clay hover:text-editorial-blue">[GitHub]</a>
+                  </div>
+                </div>
+                <ul class="mt-3 space-y-2">
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-crimson"></span>
+                    <span>Architected a 5-agent AI orchestration framework (structure, behavior, risk, execution, impact) with structured outputs and synthesizer-based merging; analyzes 5–10K LOC across 50–100 files.</span>
+                  </li>
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-crimson"></span>
+                    <span>Built a D3.js code knowledge graph and execution tracing interface using React, TypeScript, Node.js, and Gemini API.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- LedgerLens -->
+              <div class="border-l-2 border-editorial-blue pl-5">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                  <h3 class="font-display text-xl text-editorial-blue">LedgerLens — AI Financial Investigation Platform</h3>
+                  <div class="flex items-center gap-3 font-mono text-[11px] uppercase tracking-wider">
+                    <a href="/projects/ledgerlens" class="text-crimson hover:underline">Case Study ↗</a>
+                    <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="text-clay hover:text-editorial-blue">[GitHub]</a>
+                  </div>
+                </div>
+                <ul class="mt-3 space-y-2">
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-editorial-blue"></span>
+                    <span>Engineered an end-to-end financial investigation workflow: Reconciliation Engine → Anomaly Detector → Policy Engine → Case Management → Hypothesis Engine → ReAct-style Investigation Agent.</span>
+                  </li>
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-editorial-blue"></span>
+                    <span>Stack: FastAPI, SQLite, Streamlit; performs hypothesis-driven agentic reasoning over flagged financial transactions.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- TalkToWeb -->
+              <div class="border-l-2 border-crimson pl-5">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                  <h3 class="font-display text-xl text-editorial-blue">TalkToWeb — Agentic Browser Automation</h3>
+                  <div class="flex items-center gap-3 font-mono text-[11px] uppercase tracking-wider">
+                    <a href="/projects/talktoweb" class="text-crimson hover:underline">Case Study ↗</a>
+                    <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="text-clay hover:text-editorial-blue">[GitHub]</a>
+                  </div>
+                </div>
+                <ul class="mt-3 space-y-2">
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-crimson"></span>
+                    <span>Converts natural-language commands to executable multi-step browser workflows using LangChain, Gemini, and Playwright for navigation, form filling, scraping, intent parsing, and action planning.</span>
+                  </li>
+                  <li class="flex gap-2.5 text-[14px] leading-relaxed text-clay">
+                    <span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-crimson"></span>
+                    <span>Built modular skills, headless browser control, voice-interface experimentation, and FastAPI-backed action execution using Python, LangChain, Gemini, Playwright, and FastAPI.</span>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </section>
+        </div>
+
+        <!-- Leadership & Achievements -->
+        <div class="reveal mt-14">
+          <section data-testid="resume-leadership">
+            <p class="eyebrow text-crimson">Leadership &amp; Achievements</p>
+            <div class="mt-5 space-y-6">
+              <div class="border-l-2 border-editorial-blue pl-5">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                  <h2 class="font-display text-2xl text-editorial-blue">Lead Organizer — RMAGEDDON 2026</h2>
+                  <span class="font-mono text-xs uppercase tracking-wider text-crimson font-semibold">RNXG Robotics Club</span>
+                </div>
+                <p class="mt-2 text-[14.5px] leading-relaxed text-clay">
+                  Led a 70-member organizing team for a national-level robotics event across 5 competitions; secured ∼2 lakh sponsorships with ∼5,000 attendees.
+                </p>
+              </div>
+
+              <div class="border-l-2 border-editorial-blue pl-5">
+                <div class="flex flex-wrap items-baseline justify-between gap-3">
+                  <h2 class="font-display text-2xl text-editorial-blue">Finalist — International Rover Challenge 2025</h2>
+                  <span class="font-mono text-xs uppercase tracking-wider text-crimson font-semibold">RNXG</span>
+                </div>
+                <p class="mt-2 text-[14.5px] leading-relaxed text-clay">
+                  Contributed to autonomous rover development covering navigation, object detection, sensor integration, and control; presented the rover and technical approach to judges.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Technical Skills -->
+        <div class="reveal mt-14">
+          <section data-testid="resume-skills">
+            <p class="eyebrow text-crimson">Technical Skills</p>
+            <div class="mt-5 space-y-5">
+              <div>
+                <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-editorial-blue font-semibold">Languages</p>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Python</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">JavaScript</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">TypeScript</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">C</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">C++</span>
+                </div>
+              </div>
+
+              <div>
+                <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-editorial-blue font-semibold">AI / LLM</p>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">PyTorch</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Transformers</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">LangChain</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">LangGraph</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Gemini API</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">OpenAI API</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Hugging Face</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Agentic AI</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Multi-Agent Systems</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">RAG</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Semantic Search</span>
+                </div>
+              </div>
+
+              <div>
+                <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-editorial-blue font-semibold">LLM Engineering</p>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Attention Mechanisms</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Tokenization</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Embeddings</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Model Training</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Fine-tuning</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Evaluation</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Small Language Models</span>
+                </div>
+              </div>
+
+              <div>
+                <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-editorial-blue font-semibold">Frontend / Backend</p>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">React</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">React Native/Expo</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">FastAPI</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Fastify</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Node.js</span>
+                </div>
+              </div>
+
+              <div>
+                <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-editorial-blue font-semibold">Data / Tools</p>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">FAISS</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">ChromaDB</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Pinecone</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Supabase</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">SQLite</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Neo4j</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Docker</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Git</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Playwright</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">D3.js</span>
+                  <span class="inline-flex items-center border border-editorial-blue/20 bg-warm-ivory px-3 py-1 font-mono text-[11.5px] text-editorial-blue">Streamlit</span>
+                </div>
+              </div>
+
+            </div>
+          </section>
+        </div>
+
+        <!-- Certifications -->
+        <div class="reveal mt-14">
+          <section data-testid="resume-certifications">
+            <p class="eyebrow text-crimson">Certifications</p>
+            <div class="mt-5 divide-y border-y border-editorial-blue/20">
+              <div class="flex flex-wrap items-center justify-between gap-3 py-4">
+                <span class="font-display text-lg text-editorial-blue">Building a Large Language Model from Scratch</span>
+                <span class="font-mono text-xs uppercase tracking-wider text-crimson font-semibold">Vizuara.ai</span>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-3 py-4">
+                <span class="font-display text-lg text-editorial-blue">Prompt Engineering for Developers</span>
+                <span class="font-mono text-xs uppercase tracking-wider text-crimson font-semibold">DeepLearning.AI</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Inline Embedded PDF Preview -->
+        <div class="reveal mt-14">
+          <div class="border border-editorial-blue/20 bg-warm-ivory p-4 shadow-sm">
+            <div class="mb-3 flex items-center justify-between border-b border-editorial-blue/20 pb-2 font-mono text-[11px] uppercase tracking-wider text-clay">
+              <span>PDF Document Preview</span>
+              <a href="/Ujwal_Mahajan_AI_Engineer_Resume.pdf" target="_blank" rel="noopener noreferrer" class="text-crimson hover:underline">Open in new tab ↗</a>
+            </div>
+            <object data="/Ujwal_Mahajan_AI_Engineer_Resume.pdf#view=FitH" type="application/pdf" class="h-[800px] w-full border border-editorial-blue/20 bg-white" aria-label="Ujwal Mahajan AI Engineer Resume">
+              <div class="p-8 text-center">
+                <p class="text-sm text-clay">PDF preview is not supported by your browser.</p>
+                <a href="/Ujwal_Mahajan_AI_Engineer_Resume.pdf" class="mt-3 inline-block font-mono text-xs text-crimson underline">Download or view the resume directly ↗</a>
+              </div>
+            </object>
+          </div>
+        </div>
+
+        <!-- Contact Line -->
+        <div class="reveal mt-14 border-t border-editorial-blue/20 pt-8" data-testid="resume-contact-line">
+          <p class="text-[14px] text-clay">
+            Reach me at <a href="mailto:2023bec049@sggs.ac.in" class="text-crimson hover:underline" data-testid="resume-email-link">2023bec049@sggs.ac.in</a> or through the <a href="/contact" class="text-crimson hover:underline" data-testid="resume-contact-link">contact page</a>.
+          </p>
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Footer: Deep Editorial Blue -->
+    <footer class="border-t border-warm-ivory/20 bg-editorial-blue-deep py-12 text-warm-ivory">
+      <div class="wrap flex flex-col items-center justify-between gap-6 sm:flex-row">
+        <div class="flex items-center gap-2 font-display text-sm">
+          <span>Ujwal Mahajan</span>
+          <span class="text-crimson">·</span>
+          <span class="text-warm-ivory/80">AI Engineer</span>
+        </div>
+        <div class="flex items-center gap-6 font-mono text-xs uppercase tracking-wider text-warm-ivory/80">
+          <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-crimson transition-colors">GitHub</a>
+          <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-crimson transition-colors">LinkedIn</a>
+          <a href="/lore" class="hover:text-crimson transition-colors">The Lore</a>
+          <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="hover:text-crimson transition-colors">Top ↑</button>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="/assets/site.js"></script>
+</body>
+</html>

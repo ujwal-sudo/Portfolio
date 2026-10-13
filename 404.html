@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found · Ujwal Mahajan</title>
+  <meta name="description" content="The page you're looking for doesn't exist — which is itself a finding.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-editorial-blue text-warm-ivory selection:bg-crimson selection:text-warm-ivory">
+  <div class="min-h-screen flex flex-col justify-between" data-testid="not-found-page">
+
+  <!-- Nav Header -->
+  <nav class="site-nav fixed inset-x-0 top-0 z-40 h-16 transition-all duration-300 bg-transparent border-b border-transparent" aria-label="Primary navigation" data-theme="blue">
+    <div class="wrap flex h-full items-center justify-between">
+      <a href="/" class="site-brand group flex items-center gap-2.5 font-display" aria-label="Ujwal Mahajan — home" data-testid="monogram-home-link">
+        <span class="brand-badge text-warm-ivory border-warm-ivory/40">UM</span>
+        <span class="brand-text-full font-serif text-lg tracking-tight text-warm-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <a href="/" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-home">Home</a>
+        <a href="/about" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-about">About</a>
+        <div class="relative group nav-projects">
+          <div class="flex items-center gap-1.5 cursor-pointer py-2">
+            <a href="/projects" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-projects">Projects</a>
+            <button type="button" aria-label="Open projects menu" aria-expanded="false" class="p-0.5 text-warm-ivory/70 group-hover:text-crimson transition-transform group-hover:rotate-180">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+          <div class="nav-dropdown absolute left-1/2 top-full -translate-x-1/2 pt-2 hidden group-hover:block" id="project-menu">
+            <div class="w-64 border border-warm-ivory/20 bg-editorial-blue-deep p-2 shadow-2xl shadow-black/40">
+              <a href="/projects/pythia-160m" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-pythia-160m">
+                <span class="font-display text-[15px] text-warm-ivory">Pythia-160M ↗</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Research</span>
+              </a>
+              <a href="/projects/codesensei" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-codesensei">
+                <span class="font-display text-[15px] text-warm-ivory">CodeSensei</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Agentic AI</span>
+              </a>
+              <a href="/projects/ledgerlens" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-ledgerlens">
+                <span class="font-display text-[15px] text-warm-ivory">LedgerLens</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">FinTech AI</span>
+              </a>
+              <a href="/projects/talktoweb" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-talktoweb">
+                <span class="font-display text-[15px] text-warm-ivory">TalkToWeb</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Automation</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="/research" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-research">Research</a>
+        <a href="/interests" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-interests">Interests</a>
+        <a href="/resume" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-resume">Resume</a>
+        <a href="/contact" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-contact">Contact</a>
+      </div>
+
+      <!-- Action Button & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="/contact" class="hidden md:inline-flex btn-cta-crimson" data-testid="nav-lets-talk-button">
+          Let's Talk ↗
+        </a>
+        <button class="nav-toggle flex h-10 w-10 items-center justify-center border border-warm-ivory/40 text-warm-ivory md:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-warm-ivory/15 bg-editorial-blue-deep p-6 md:hidden" id="mobile-nav" hidden>
+    <div class="flex flex-col gap-5">
+      <a href="/" class="font-display text-2xl text-warm-ivory">Home</a>
+      <a href="/about" class="font-display text-2xl text-warm-ivory">About</a>
+      <div>
+        <div class="eyebrow text-crimson mb-2">Projects</div>
+        <div class="flex flex-col gap-2.5 pl-3 border-l border-warm-ivory/20">
+          <a href="/projects" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Overview</a>
+          <a href="/projects/pythia-160m" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Pythia-160M ↗</a>
+          <a href="/projects/codesensei" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">CodeSensei</a>
+          <a href="/projects/ledgerlens" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">LedgerLens</a>
+          <a href="/projects/talktoweb" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">TalkToWeb</a>
+        </div>
+      </div>
+      <a href="/research" class="font-display text-2xl text-warm-ivory">Research</a>
+      <a href="/interests" class="font-display text-2xl text-warm-ivory">Interests</a>
+      <a href="/resume" class="font-display text-2xl text-warm-ivory">Resume</a>
+      <a href="/contact" class="font-display text-2xl text-warm-ivory">Contact</a>
+      <a href="/lore" class="font-display text-2xl text-crimson">The Lore ↗</a>
+      <div class="pt-4 border-t border-warm-ivory/15">
+        <a href="/contact" class="inline-flex w-full items-center justify-center gap-2 btn-cta-crimson">Let's Talk ↗</a>
+      </div>
+    </div>
+  </div>
+
+    <!-- Center Content -->
+    <main class="flex flex-grow flex-col items-center justify-center px-6 pt-32 pb-20 text-center">
+      <div class="reveal max-w-lg">
+        <p class="eyebrow text-crimson bg-warm-ivory px-2 py-0.5 inline-block font-semibold">404 · Page not found</p>
+        <h1 class="mt-5 font-display text-4xl text-warm-ivory sm:text-5xl lg:text-6xl font-medium leading-[1.05]">
+          Lost in latent space<span class="text-crimson">.</span>
+        </h1>
+        <p class="mt-4 text-[15.5px] leading-relaxed text-warm-ivory/85">
+          The page or route you requested does not exist — which is itself an empirical finding.
+        </p>
+        <div class="mt-9">
+          <a href="/" data-testid="not-found-home-button" class="btn-cta-crimson">
+            Back Home ↗
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer: Deep Editorial Blue -->
+    <footer class="border-t border-warm-ivory/20 bg-editorial-blue-deep py-12 text-warm-ivory">
+      <div class="wrap flex flex-col items-center justify-between gap-6 sm:flex-row">
+        <div class="flex items-center gap-2 font-display text-sm text-warm-ivory">
+          <span>Ujwal Mahajan</span>
+          <span class="text-crimson">·</span>
+          <span class="text-warm-ivory/70">AI Engineer</span>
+        </div>
+        <div class="flex items-center gap-6 font-mono text-xs uppercase tracking-wider text-warm-ivory/70">
+          <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-crimson transition-colors">GitHub</a>
+          <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-crimson transition-colors">LinkedIn</a>
+          <a href="/lore" class="hover:text-crimson transition-colors">The Lore</a>
+          <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="hover:text-crimson transition-colors">Top ↑</button>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="/assets/site.js"></script>
+</body>
+</html>

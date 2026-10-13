@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0E1D61">
+  <title>Research & Experiments — Ujwal Mahajan</title>
+  <meta name="description" content="Technical explorations and research notes on language models, alignment, agentic systems, and training dynamics.">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-warm-ivory text-ink antialiased selection:bg-crimson selection:text-warm-ivory">
+
+  <!-- Nav Header -->
+  <nav class="site-nav fixed inset-x-0 top-0 z-40 h-16 transition-all duration-300 bg-transparent border-b border-transparent" aria-label="Primary navigation" data-theme="light">
+    <div class="wrap flex h-full items-center justify-between">
+      <a href="/" class="site-brand group flex items-center gap-2.5 font-display" aria-label="Ujwal Mahajan — home" data-testid="monogram-home-link">
+        <span class="brand-badge border-editorial-blue/40 text-editorial-blue group-hover:border-crimson">UM</span>
+        <span class="brand-text-full font-serif text-lg tracking-tight text-editorial-blue">Ujwal Mahajan<span class="text-crimson">.</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <a href="/" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-home">Home</a>
+        <a href="/about" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-about">About</a>
+        <div class="relative group nav-projects">
+          <div class="flex items-center gap-1.5 cursor-pointer py-2">
+            <a href="/projects" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-projects">Projects</a>
+            <button type="button" aria-label="Open projects menu" aria-expanded="false" class="p-0.5 text-clay group-hover:text-crimson transition-transform group-hover:rotate-180">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+          <div class="nav-dropdown absolute left-1/2 top-full -translate-x-1/2 pt-2 hidden group-hover:block" id="project-menu">
+            <div class="w-64 border border-warm-ivory/20 bg-editorial-blue-deep p-2 shadow-2xl shadow-black/40">
+              <a href="/projects/pythia-160m" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-pythia-160m">
+                <span class="font-display text-[15px] text-warm-ivory">Pythia-160M ↗</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Research</span>
+              </a>
+              <a href="/projects/codesensei" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-codesensei">
+                <span class="font-display text-[15px] text-warm-ivory">CodeSensei</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Agentic AI</span>
+              </a>
+              <a href="/projects/ledgerlens" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-ledgerlens">
+                <span class="font-display text-[15px] text-warm-ivory">LedgerLens</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">FinTech AI</span>
+              </a>
+              <a href="/projects/talktoweb" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-talktoweb">
+                <span class="font-display text-[15px] text-warm-ivory">TalkToWeb</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Automation</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="/research" class="nav-link active font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-research" aria-current="page">Research</a>
+        <a href="/interests" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-interests">Interests</a>
+        <a href="/resume" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-resume">Resume</a>
+        <a href="/contact" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-contact">Contact</a>
+      </div>
+
+      <!-- Action Button & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="/contact" class="hidden md:inline-flex btn-cta-crimson" data-testid="nav-lets-talk-button">
+          Let's Talk ↗
+        </a>
+        <button class="nav-toggle flex h-10 w-10 items-center justify-center border border-editorial-blue/30 text-editorial-blue md:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-warm-ivory/15 bg-editorial-blue-deep p-6 md:hidden" id="mobile-nav" hidden>
+    <div class="flex flex-col gap-5">
+      <a href="/" class="font-display text-2xl text-warm-ivory">Home</a>
+      <a href="/about" class="font-display text-2xl text-warm-ivory">About</a>
+      <div>
+        <div class="eyebrow text-crimson mb-2">Projects</div>
+        <div class="flex flex-col gap-2.5 pl-3 border-l border-warm-ivory/20">
+          <a href="/projects" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Overview</a>
+          <a href="/projects/pythia-160m" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Pythia-160M ↗</a>
+          <a href="/projects/codesensei" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">CodeSensei</a>
+          <a href="/projects/ledgerlens" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">LedgerLens</a>
+          <a href="/projects/talktoweb" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">TalkToWeb</a>
+        </div>
+      </div>
+      <a href="/research" class="font-display text-2xl text-warm-ivory">Research</a>
+      <a href="/interests" class="font-display text-2xl text-warm-ivory">Interests</a>
+      <a href="/resume" class="font-display text-2xl text-warm-ivory">Resume</a>
+      <a href="/contact" class="font-display text-2xl text-warm-ivory">Contact</a>
+      <a href="/lore" class="font-display text-2xl text-crimson">The Lore ↗</a>
+      <div class="pt-4 border-t border-warm-ivory/15">
+        <a href="/contact" class="inline-flex w-full items-center justify-center gap-2 btn-cta-crimson">Let's Talk ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- Header Band -->
+    <header class="border-b border-editorial-blue/20 bg-warm-ivory pb-14 pt-28 sm:pt-32">
+      <div class="wrap">
+        <p class="eyebrow text-crimson">Research & Experiments</p>
+        <h1 class="mt-5 font-display text-4xl font-medium leading-[1.02] tracking-tight text-editorial-blue sm:text-5xl lg:text-6xl">
+          Work in progress,<br>documented honestly.
+        </h1>
+        <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-clay">
+          Technical explorations, reading notes, and active investigations in small language models, alignment, and agentic workflows — labeled with what they actually are.
+        </p>
+      </div>
+    </header>
+
+    <!-- Deep Editorial Blue Feature Card: Current Hypothesis -->
+    <section class="wrap pt-10">
+      <div class="border border-editorial-blue-deep bg-editorial-blue p-8 sm:p-10 text-warm-ivory shadow-lg">
+        <div class="max-w-3xl space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="inline-block h-2 w-2 rounded-full bg-crimson"></span>
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-warm-ivory/80">Active Research Direction</p>
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl text-warm-ivory font-medium leading-tight">
+            Data Quality & Domain Specialization Beat Raw Scale at Small Parameter Counts
+          </h2>
+          <p class="text-sm sm:text-base text-warm-ivory/85 leading-relaxed">
+            At the 160M–1B parameter scale, training loss and downstream syntax coherence depend exponentially more on aggressive AST deduplication, structural fill-in-the-middle mixture, and strict provenance filtering than on raw token volume. Pythia-160M serves as the experimental vehicle to systematically quantify this inflection point.
+          </p>
+          <div class="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono">
+            <span class="text-crimson bg-warm-ivory px-2.5 py-1 font-semibold uppercase tracking-wider">Hypothesis · 2026</span>
+            <span class="text-warm-ivory/70">Testbed: Pythia-160M PyTorch Pipeline</span>
+            <a href="/projects/pythia-160m" class="inline-flex items-center gap-1 text-warm-ivory hover:text-crimson underline underline-offset-4 transition-colors">Read Architecture Notes →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter Bar & Cards Grid -->
+    <div class="wrap py-12 sm:py-16 space-y-10">
+      <!-- 5 Filter Buttons -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" class="research-filter-btn active" data-filter="all" aria-pressed="true">
+          All
+        </button>
+        <button type="button" class="research-filter-btn" data-filter="reading" aria-pressed="false">
+          Reading notes
+        </button>
+        <button type="button" class="research-filter-btn" data-filter="active" aria-pressed="false">
+          In progress
+        </button>
+        <button type="button" class="research-filter-btn" data-filter="completed" aria-pressed="false">
+          Completed
+        </button>
+        <button type="button" class="research-filter-btn" data-filter="proposed" aria-pressed="false">
+          Proposed directions
+        </button>
+      </div>
+
+      <!-- 8 Research Items Cards Grid -->
+      <div class="grid gap-6 md:grid-cols-2">
+        <!-- Item 1: Pythia -->
+        <article class="research-item border border-editorial-blue/20 bg-warm-ivory p-7 flex flex-col justify-between space-y-4 hover:border-editorial-blue transition-colors" data-status="inProgress">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="eyebrow text-editorial-blue">Language-model training</span>
+              <span class="rounded-full border border-crimson/50 bg-crimson/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-crimson font-semibold">Experiment in progress</span>
+            </div>
+            <h2 class="font-display text-xl text-editorial-blue">Pythia-160M — training a Python-focused language model end to end</h2>
+            <p class="text-sm leading-relaxed text-clay">
+              The flagship. Architecture, tokenizer, data pipeline and training loop built and studied from scratch. No results published yet.
+            </p>
+          </div>
+          <div>
+            <a href="/projects/pythia-160m" class="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:text-crimson transition-colors font-medium">
+              Read project notes <span class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Item 2: FIM -->
+        <article class="research-item border border-editorial-blue/20 bg-warm-ivory p-7 flex flex-col justify-between space-y-4 hover:border-editorial-blue transition-colors" data-status="design">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="eyebrow text-editorial-blue">Alignment & training objectives</span>
+              <span class="rounded-full border border-crimson/50 bg-crimson/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-crimson font-semibold">Design / in progress</span>
+            </div>
+            <h2 class="font-display text-xl text-editorial-blue">Fill-in-the-middle as a 50/50 training mixture</h2>
+            <p class="text-sm leading-relaxed text-clay">
+              Designing a balanced objective between next-token prediction and FIM, and what that trade-off does to a small model's code understanding.
+            </p>
+          </div>
+          <div>
+            <a href="/projects/pythia-160m#objective" class="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:text-crimson transition-colors font-medium">
+              See objective design <span class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Item 3: Data Quality -->
+        <article class="research-item border border-editorial-blue/20 bg-warm-ivory p-7 flex flex-col justify-between space-y-4 hover:border-editorial-blue transition-colors" data-status="proposed">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="eyebrow text-editorial-blue">Language-model training</span>
+              <span class="rounded-full border border-editorial-blue/30 bg-editorial-blue/5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-editorial-blue font-medium">Proposed direction</span>
+            </div>
+            <h2 class="font-display text-xl text-editorial-blue">Data quality over data volume for small models</h2>
+            <p class="text-sm leading-relaxed text-clay">
+              A working hypothesis: a carefully filtered, provenance-tracked corpus beats raw scale at the ~160M scale. The Pythia data pipeline is built to test it.
+            </p>
+          </div>
+          <div>
+            <a href="/projects/pythia-160m#data" class="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:text-crimson transition-colors font-medium">
+              See data pipeline <span class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Item 4: Model Compression -->
+        <article class="research-item border border-editorial-blue/20 bg-warm-ivory p-7 flex flex-col justify-between space-y-4 hover:border-editorial-blue transition-colors" data-status="reading">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="eyebrow text-editorial-blue">Model compression</span>
+              <span class="rounded-full border border-editorial-blue/30 bg-editorial-blue/5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-editorial-blue font-medium">Reading notes</span>
+            </div>
+            <h2 class="font-display text-xl text-editorial-blue">Compression for small models — quantization & pruning</h2>
+            <p class="text-sm leading-relaxed text-clay">
+              Working through the literature on post-training quantization and structured pruning, with an eye to what survives at very small parameter counts.
+            </p>
+          </div>
+        </article>
+
+        <!-- Item 5: GPT-2 Study -->
+        <article class="research-item border border-editorial-blue/20 bg-warm-ivory p-7 flex flex-col justify-between space-y-4 hover:border-editorial-blue transition-colors" data-status="completed">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="eyebrow text-editorial-blue">Small language models</span>
+              <span class="rounded-full border border-editorial-blue/40 bg-editorial-blue/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-editorial-blue font-semibold">Completed experiment</span>
+            </div>
+            <h2 class="font-display text-xl text-editorial-blue">GPT-2 architecture & training study</h2>
+            <p class="text-sm leading-relaxed text-clay">
+              A hands-on reconstruction of the GPT-2 architecture and training procedure — the groundwork that led to Pythia-160M.
+            </p>
+          </div>
+          <div>
+            <a href="/resume" class="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:text-crimson transition-colors font-medium">
+              View on resume <span class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Item 6: Multi-Agent Analysis -->
+        <article class="research-item border border-editorial-blue/20 bg-warm-ivory p-7 flex flex-col justify-between space-y-4 hover:border-editorial-blue transition-colors" data-status="completed">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="eyebrow text-editorial-blue">Agentic systems</span>
+              <span class="rounded-full border border-editorial-blue/40 bg-editorial-blue/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-editorial-blue font-semibold">Completed experiment</span>
+            </div>
+            <h2 class="font-display text-xl text-editorial-blue">Multi-agent code analysis as an agentic-systems study</h2>
+            <p class="text-sm leading-relaxed text-clay">
+              CodeSensei: five specialized agents and a synthesizer — a practical study in splitting a reasoning task across roles and reconciling the outputs.
+            </p>
+          </div>
+          <div>
+            <a href="/projects/codesensei" class="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:text-crimson transition-colors font-medium">
+              See CodeSensei study <span class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Item 7: Browser Automation -->
+        <article class="research-item border border-editorial-blue/20 bg-warm-ivory p-7 flex flex-col justify-between space-y-4 hover:border-editorial-blue transition-colors" data-status="inProgress">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="eyebrow text-editorial-blue">Agentic systems</span>
+              <span class="rounded-full border border-crimson/50 bg-crimson/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-crimson font-semibold">Experiment in progress</span>
+            </div>
+            <h2 class="font-display text-xl text-editorial-blue">Browser automation as a testbed for agent planning</h2>
+            <p class="text-sm leading-relaxed text-clay">
+              TalkToWeb doubles as a lab for how agents plan, act, observe and recover — the error-handling loop is the interesting part.
+            </p>
+          </div>
+          <div>
+            <a href="/projects/talktoweb" class="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:text-crimson transition-colors font-medium">
+              See TalkToWeb study <span class="transition-transform group-hover:translate-x-1">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Item 8: Evaluation -->
+        <article class="research-item border border-editorial-blue/20 bg-warm-ivory p-7 flex flex-col justify-between space-y-4 hover:border-editorial-blue transition-colors" data-status="proposed">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="eyebrow text-editorial-blue">Evaluation</span>
+              <span class="rounded-full border border-editorial-blue/30 bg-editorial-blue/5 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-editorial-blue font-medium">Proposed direction</span>
+            </div>
+            <h2 class="font-display text-xl text-editorial-blue">Evaluating small code models without inflated benchmarks</h2>
+            <p class="text-sm leading-relaxed text-clay">
+              How do you know a 160M model is actually learning Python? Looking for evaluation that means something at this scale.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-warm-ivory/20 bg-editorial-blue-deep text-warm-ivory">
+    <div class="wrap py-16">
+      <div class="grid gap-12 md:grid-cols-12">
+        <div class="md:col-span-5 space-y-5">
+          <a href="/" class="group flex items-center gap-3 font-display" aria-label="Ujwal Mahajan">
+            <span class="flex h-9 w-9 items-center justify-center border font-serif text-base tracking-wider border-gold/50 text-ivory group-hover:border-gold">UM</span>
+            <span class="font-serif text-lg tracking-tight text-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+          </a>
+          <p class="max-w-sm text-[15px] leading-relaxed text-fog">
+            AI engineer building intelligent systems — and understanding them from first principles.
+          </p>
+          <div class="flex items-center gap-4 text-fog">
+            <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="GitHub">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="LinkedIn">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+            <a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory" aria-label="Email">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            </a>
+            <button type="button" onclick="openTerminal()" class="font-mono text-xs uppercase tracking-widest text-gold hover:text-ivory border border-gold/40 px-2 py-1 ml-2">Terminal</button>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Navigate</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/" class="hover:text-ivory">Home</a></li>
+            <li><a href="/about" class="hover:text-ivory">About</a></li>
+            <li><a href="/projects" class="hover:text-ivory">Projects</a></li>
+            <li><a href="/research" class="hover:text-ivory">Research</a></li>
+            <li><a href="/interests" class="hover:text-ivory">Interests</a></li>
+            <li><a href="/resume" class="hover:text-ivory">Resume</a></li>
+            <li><a href="/contact" class="hover:text-ivory">Contact</a></li>
+            <li><a href="/lore" class="hover:text-ivory text-gold">The Lore ↗</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Projects</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/projects/pythia-160m" class="hover:text-ivory">Pythia-160M <span class="font-mono text-xs text-gold">↗</span></a></li>
+            <li><a href="/projects/codesensei" class="hover:text-ivory">CodeSensei</a></li>
+            <li><a href="/projects/ledgerlens" class="hover:text-ivory">LedgerLens</a></li>
+            <li><a href="/projects/talktoweb" class="hover:text-ivory">TalkToWeb</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Elsewhere</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">github/ujwal-sudo</a></li>
+            <li><a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">linkedin/ujwal-mahajan</a></li>
+            <li><a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory">2023bec049@sggs.ac.in</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t hairline-navy pt-8 text-xs text-fog sm:flex-row">
+        <p>© 2026 Ujwal Mahajan · Built from first principles</p>
+        <button id="back-to-top" class="inline-flex items-center gap-1.5 hover:text-ivory">
+          Back to top
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chat Bubble -->
+  <div id="chat-bubble">
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <div class="chat-title">
+          <span class="chat-title-dot"></span>
+          Ujwal.AI (Gemini)
+        </div>
+        <button type="button" class="chat-close" onclick="toggleChat()" aria-label="Close chat">×</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg bot">Hey! I'm an AI clone of Ujwal. Ask me about any of my research explorations or reading notes.</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Ask Ujwal anything..." autocomplete="off">
+        <button type="button" class="chat-send" onclick="sendChat()" aria-label="Send">Send</button>
+      </div>
+    </div>
+    <button type="button" class="chat-toggle" id="chat-toggle" onclick="toggleChat()" aria-expanded="false">
+      Ask Ujwal AI
+    </button>
+  </div>
+
+  <!-- Terminal Modal -->
+  <div id="terminal-overlay">
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <div class="term-dot" style="background:#ff5f57;"></div>
+        <div class="term-dot" style="background:#febc2e;"></div>
+        <div class="term-dot" style="background:#28c840;"></div>
+        <div class="term-title">ujwal@portfolio: ~</div>
+        <button class="terminal-close" type="button" onclick="closeTerminal()" aria-label="Close terminal">×</button>
+      </div>
+      <div class="terminal-body" id="term-body"></div>
+      <div class="term-input-row">
+        <span class="term-prompt">ujwal@portfolio:~$</span>
+        <input type="text" id="term-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

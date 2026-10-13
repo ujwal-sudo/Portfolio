@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0E1D61">
+  <title>Interests — Ujwal Mahajan</title>
+  <meta name="description" content="Beyond the terminal: running, anime, video games, and world history — and what they have in common with building systems.">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-warm-ivory text-ink antialiased selection:bg-crimson selection:text-warm-ivory">
+
+  <!-- Nav Header -->
+  <nav class="site-nav fixed inset-x-0 top-0 z-40 h-16 transition-all duration-300 bg-transparent border-b border-transparent" aria-label="Primary navigation" data-theme="light">
+    <div class="wrap flex h-full items-center justify-between">
+      <a href="/" class="site-brand group flex items-center gap-2.5 font-display" aria-label="Ujwal Mahajan — home" data-testid="monogram-home-link">
+        <span class="brand-badge border-editorial-blue/40 text-editorial-blue group-hover:border-crimson">UM</span>
+        <span class="brand-text-full font-serif text-lg tracking-tight text-editorial-blue">Ujwal Mahajan<span class="text-crimson">.</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <a href="/" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-home">Home</a>
+        <a href="/about" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-about">About</a>
+        <div class="relative group nav-projects">
+          <div class="flex items-center gap-1.5 cursor-pointer py-2">
+            <a href="/projects" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-projects">Projects</a>
+            <button type="button" aria-label="Open projects menu" aria-expanded="false" class="p-0.5 text-clay group-hover:text-crimson transition-transform group-hover:rotate-180">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+          <div class="nav-dropdown absolute left-1/2 top-full -translate-x-1/2 pt-2 hidden group-hover:block" id="project-menu">
+            <div class="w-64 border border-warm-ivory/20 bg-editorial-blue-deep p-2 shadow-2xl shadow-black/40">
+              <a href="/projects/pythia-160m" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-pythia-160m">
+                <span class="font-display text-[15px] text-warm-ivory">Pythia-160M ↗</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Research</span>
+              </a>
+              <a href="/projects/codesensei" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-codesensei">
+                <span class="font-display text-[15px] text-warm-ivory">CodeSensei</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Agentic AI</span>
+              </a>
+              <a href="/projects/ledgerlens" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-ledgerlens">
+                <span class="font-display text-[15px] text-warm-ivory">LedgerLens</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">FinTech AI</span>
+              </a>
+              <a href="/projects/talktoweb" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-talktoweb">
+                <span class="font-display text-[15px] text-warm-ivory">TalkToWeb</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Automation</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="/research" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-research">Research</a>
+        <a href="/interests" class="nav-link active font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-interests" aria-current="page">Interests</a>
+        <a href="/resume" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-resume">Resume</a>
+        <a href="/contact" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-contact">Contact</a>
+      </div>
+
+      <!-- Action Button & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="/contact" class="hidden md:inline-flex btn-cta-crimson" data-testid="nav-lets-talk-button">
+          Let's Talk ↗
+        </a>
+        <button class="nav-toggle flex h-10 w-10 items-center justify-center border border-editorial-blue/30 text-editorial-blue md:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-warm-ivory/15 bg-editorial-blue-deep p-6 md:hidden" id="mobile-nav" hidden>
+    <div class="flex flex-col gap-5">
+      <a href="/" class="font-display text-2xl text-warm-ivory">Home</a>
+      <a href="/about" class="font-display text-2xl text-warm-ivory">About</a>
+      <div>
+        <div class="eyebrow text-crimson mb-2">Projects</div>
+        <div class="flex flex-col gap-2.5 pl-3 border-l border-warm-ivory/20">
+          <a href="/projects" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Overview</a>
+          <a href="/projects/pythia-160m" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Pythia-160M ↗</a>
+          <a href="/projects/codesensei" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">CodeSensei</a>
+          <a href="/projects/ledgerlens" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">LedgerLens</a>
+          <a href="/projects/talktoweb" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">TalkToWeb</a>
+        </div>
+      </div>
+      <a href="/research" class="font-display text-2xl text-warm-ivory">Research</a>
+      <a href="/interests" class="font-display text-2xl text-warm-ivory">Interests</a>
+      <a href="/resume" class="font-display text-2xl text-warm-ivory">Resume</a>
+      <a href="/contact" class="font-display text-2xl text-warm-ivory">Contact</a>
+      <a href="/lore" class="font-display text-2xl text-crimson">The Lore ↗</a>
+      <div class="pt-4 border-t border-warm-ivory/15">
+        <a href="/contact" class="inline-flex w-full items-center justify-center gap-2 btn-cta-crimson">Let's Talk ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- Header Band -->
+    <header class="border-b border-editorial-blue/20 bg-warm-ivory pb-14 pt-28 sm:pt-32">
+      <div class="wrap">
+        <p class="eyebrow text-crimson">Interests</p>
+        <h1 class="mt-5 font-display text-4xl font-medium leading-[1.02] tracking-tight text-editorial-blue sm:text-5xl lg:text-6xl">
+          Beyond the terminal
+        </h1>
+        <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-clay">
+          Four pursuits that occupy the hours when code isn't running — and what they have in common with building rigorous software systems.
+        </p>
+      </div>
+    </header>
+
+    <!-- 4 Thematic Cards Grid -->
+    <div class="wrap py-16 space-y-16">
+      <div class="grid gap-8 md:grid-cols-2">
+        <!-- Card 1: Running -->
+        <article class="border border-editorial-blue/20 bg-warm-ivory p-8 flex flex-col justify-between space-y-6 shadow-sm hover:border-editorial-blue transition-colors">
+          <div class="space-y-4">
+            <!-- RunArt SVG -->
+            <div class="border border-editorial-blue/20 bg-warm-ivory/60 p-4">
+              <svg viewBox="0 0 200 120" class="h-28 w-full" aria-hidden="true">
+                <line x1="16" x2="16" y1="70" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.4" />
+                <line x1="29" x2="29" y1="61" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.6" />
+                <line x1="42" x2="42" y1="52" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.8" />
+                <line x1="55" x2="55" y1="70" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.4" />
+                <line x1="68" x2="68" y1="61" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.6" />
+                <line x1="81" x2="81" y1="52" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.8" />
+                <line x1="94" x2="94" y1="70" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.4" />
+                <line x1="107" x2="107" y1="61" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.6" />
+                <line x1="120" x2="120" y1="52" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.8" />
+                <line x1="133" x2="133" y1="70" y2="92" stroke="#D21319" stroke-width="2.4" opacity="0.9" />
+                <line x1="146" x2="146" y1="61" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.6" />
+                <line x1="159" x2="159" y1="52" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.8" />
+                <line x1="172" x2="172" y1="70" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.4" />
+                <line x1="185" x2="185" y1="61" y2="92" stroke="#226192" stroke-width="1.2" opacity="0.6" />
+                <path d="M10 58 C 60 40, 120 74, 192 46" fill="none" stroke="#226192" stroke-width="1.8" stroke-dasharray="4 3" />
+                <text x="10" y="30" font-family="IBM Plex Mono, monospace" font-size="9" fill="#226192">PACE · CADENCE · DISTANCE</text>
+              </svg>
+            </div>
+            <div class="space-y-2">
+              <span class="eyebrow text-crimson">01 · Physical Discipline</span>
+              <h2 class="font-display text-2xl text-editorial-blue">Running</h2>
+              <p class="font-mono text-xs text-editorial-blue/70">Endurance, pacing, and long feedback loops</p>
+              <p class="text-[14.5px] leading-relaxed text-clay pt-2">
+                Road running is training in delayed feedback. You don't sprint the first kilometer; you find a cadence, monitor your heart rate, and respect the cumulative fatigue.
+              </p>
+              <p class="text-[14.5px] leading-relaxed text-clay">
+                It teaches the exact patience that model training demands: sitting with slow iterations, knowing that progress isn't measured in seconds, and staying composed when things get uncomfortable.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2: Anime -->
+        <article class="border border-editorial-blue/20 bg-warm-ivory p-8 flex flex-col justify-between space-y-6 shadow-sm hover:border-editorial-blue transition-colors">
+          <div class="space-y-4">
+            <!-- AnimeArt SVG -->
+            <div class="border border-editorial-blue/20 bg-warm-ivory/60 p-4">
+              <svg viewBox="0 0 200 120" class="h-28 w-full" aria-hidden="true">
+                <g>
+                  <rect x="18" y="14" width="46" height="74" fill="none" stroke="#226192" stroke-width="1.4" />
+                  <line x1="18" y1="46" x2="64" y2="46" stroke="#226192" stroke-width="0.8" stroke-dasharray="2 2" />
+                </g>
+                <g>
+                  <rect x="76" y="14" width="46" height="74" fill="none" stroke="#D21319" stroke-width="1.8" />
+                  <line x1="76" y1="56" x2="122" y2="56" stroke="#D21319" stroke-width="0.8" stroke-dasharray="2 2" />
+                </g>
+                <g>
+                  <rect x="134" y="14" width="46" height="74" fill="none" stroke="#226192" stroke-width="1.4" />
+                  <line x1="134" y1="36" x2="180" y2="36" stroke="#226192" stroke-width="0.8" stroke-dasharray="2 2" />
+                </g>
+                <path d="M 41 88 L 99 88 L 157 88" stroke="#226192" stroke-width="1.4" />
+                <circle cx="99" cy="88" r="3.5" fill="#D21319" />
+                <text x="18" y="106" font-family="IBM Plex Mono, monospace" font-size="9" fill="#226192">STORYBOARD · ARC · DIRECTION</text>
+              </svg>
+            </div>
+            <div class="space-y-2">
+              <span class="eyebrow text-crimson">02 · Narrative Structure</span>
+              <h2 class="font-display text-2xl text-editorial-blue">Anime</h2>
+              <p class="font-mono text-xs text-editorial-blue/70">Narrative density and long-arc storytelling</p>
+              <p class="text-[14.5px] leading-relaxed text-clay pt-2">
+                What draws me to high-concept serialized anime is narrative density: worldbuilding systems with rigid internal rules, long multi-episode arcs, and creative direction where visual composition communicates as much as dialogue.
+              </p>
+              <p class="text-[14.5px] leading-relaxed text-clay">
+                It exercises an appreciation for how interconnected components resolve over time — a lens that applies directly to designing multi-agent state machines and complex software systems.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3: Video Games -->
+        <article class="border border-editorial-blue/20 bg-warm-ivory p-8 flex flex-col justify-between space-y-6 shadow-sm hover:border-editorial-blue transition-colors">
+          <div class="space-y-4">
+            <!-- GameArt SVG -->
+            <div class="border border-editorial-blue/20 bg-warm-ivory/60 p-4">
+              <svg viewBox="0 0 200 120" class="h-28 w-full" aria-hidden="true">
+                <rect x="36" y="44" width="16" height="16" fill="none" stroke="#226192" stroke-width="1.4" />
+                <rect x="36" y="28" width="16" height="16" fill="none" stroke="#226192" stroke-width="1.4" />
+                <rect x="36" y="60" width="16" height="16" fill="none" stroke="#226192" stroke-width="1.4" />
+                <rect x="20" y="44" width="16" height="16" fill="none" stroke="#226192" stroke-width="1.4" />
+                <rect x="52" y="44" width="16" height="16" fill="none" stroke="#226192" stroke-width="1.4" />
+                <circle cx="140" cy="52" r="7" fill="none" stroke="#226192" stroke-width="1.4" />
+                <circle cx="160" cy="40" r="7" fill="#D21319" />
+                <circle cx="148" cy="68" r="7" fill="none" stroke="#226192" stroke-width="1.4" />
+                <text x="20" y="102" font-family="IBM Plex Mono, monospace" font-size="9" fill="#226192">SYSTEMS · MECHANICS · FEEDBACK</text>
+              </svg>
+            </div>
+            <div class="space-y-2">
+              <span class="eyebrow text-crimson">03 · Interactive Systems</span>
+              <h2 class="font-display text-2xl text-editorial-blue">Video Games</h2>
+              <p class="font-mono text-xs text-editorial-blue/70">Rules, feedback loops, and emergent behavior</p>
+              <p class="text-[14.5px] leading-relaxed text-clay pt-2">
+                Games are the purest form of simulated systems: explicit constraints, fast feedback loops, and emergent complexity that developers never explicitly scripted.
+              </p>
+              <p class="text-[14.5px] leading-relaxed text-clay">
+                Studying mechanics design gives you an appreciation for how agents interact within bounded environments — what incentivizes behavior, where exploit loops form, and how simple primitives compose into profound depth.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4: World History -->
+        <article class="border border-editorial-blue/20 bg-warm-ivory p-8 flex flex-col justify-between space-y-6 shadow-sm hover:border-editorial-blue transition-colors">
+          <div class="space-y-4">
+            <!-- HistoryArt SVG -->
+            <div class="border border-editorial-blue/20 bg-warm-ivory/60 p-4">
+              <svg viewBox="0 0 200 120" class="h-28 w-full" aria-hidden="true">
+                <line x1="20" y1="26" x2="180" y2="26" stroke="#226192" stroke-width="1.8" />
+                <line x1="36" y1="26" x2="36" y2="82" stroke="#226192" stroke-width="1.4" opacity="0.8" />
+                <line x1="78" y1="26" x2="78" y2="82" stroke="#226192" stroke-width="1.4" opacity="0.8" />
+                <line x1="120" y1="26" x2="120" y2="82" stroke="#D21319" stroke-width="2.2" />
+                <line x1="162" y1="26" x2="162" y2="82" stroke="#226192" stroke-width="1.4" opacity="0.8" />
+                <line x1="20" y1="82" x2="180" y2="82" stroke="#226192" stroke-width="1.8" />
+                <text x="20" y="104" font-family="IBM Plex Mono, monospace" font-size="9" fill="#226192">SCALE · FRICTION · CAUSATION</text>
+              </svg>
+            </div>
+            <div class="space-y-2">
+              <span class="eyebrow text-crimson">04 · Scale & Causation</span>
+              <h2 class="font-display text-2xl text-editorial-blue">World History</h2>
+              <p class="font-mono text-xs text-editorial-blue/70">Causation, systemic shifts, and scale</p>
+              <p class="text-[14.5px] leading-relaxed text-clay pt-2">
+                History is the master log of human systems operating under pressure: trade networks, institutional inertia, logistics bottlenecks, and technological tipping points.
+              </p>
+              <p class="text-[14.5px] leading-relaxed text-clay">
+                Reading history keeps technical work grounded. It reminds you that software systems do not exist in a vacuum — they exist inside institutions and societies that change according to historical friction and economic reality.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Synthesis Banner: Deep Editorial Blue -->
+      <div class="border border-editorial-blue-deep bg-editorial-blue p-8 sm:p-10 space-y-4 text-warm-ivory shadow-lg">
+        <p class="eyebrow text-crimson bg-warm-ivory px-2 py-0.5 inline-block font-semibold">Synthesis</p>
+        <h3 class="font-display text-2xl sm:text-3xl text-warm-ivory font-medium">The Thread: Systems, stories, and staying curious.</h3>
+        <p class="max-w-3xl text-[15.5px] sm:text-base leading-relaxed text-warm-ivory/85">
+          On paper, running, anime, video games, and history have little to do with training transformers or writing Python. In practice, they exercise the exact same instinct: a desire to inspect the rules underneath the surface, understand how parts coordinate, and see a long progression through to its conclusion.
+        </p>
+        <div class="pt-2">
+          <a href="/lore" class="group inline-flex items-center gap-2 btn-cta-crimson">
+            Read the full chronological lore <span class="transition-transform group-hover:translate-x-1">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-warm-ivory/20 bg-editorial-blue-deep text-warm-ivory">
+    <div class="wrap py-16">
+      <div class="grid gap-12 md:grid-cols-12">
+        <div class="md:col-span-5 space-y-5">
+          <a href="/" class="group flex items-center gap-3 font-display" aria-label="Ujwal Mahajan">
+            <span class="flex h-9 w-9 items-center justify-center border font-serif text-base tracking-wider border-gold/50 text-ivory group-hover:border-gold">UM</span>
+            <span class="font-serif text-lg tracking-tight text-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+          </a>
+          <p class="max-w-sm text-[15px] leading-relaxed text-fog">
+            AI engineer building intelligent systems — and understanding them from first principles.
+          </p>
+          <div class="flex items-center gap-4 text-fog">
+            <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="GitHub">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="LinkedIn">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+            <a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory" aria-label="Email">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            </a>
+            <button type="button" onclick="openTerminal()" class="font-mono text-xs uppercase tracking-widest text-gold hover:text-ivory border border-gold/40 px-2 py-1 ml-2">Terminal</button>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Navigate</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/" class="hover:text-ivory">Home</a></li>
+            <li><a href="/about" class="hover:text-ivory">About</a></li>
+            <li><a href="/projects" class="hover:text-ivory">Projects</a></li>
+            <li><a href="/research" class="hover:text-ivory">Research</a></li>
+            <li><a href="/interests" class="hover:text-ivory">Interests</a></li>
+            <li><a href="/resume" class="hover:text-ivory">Resume</a></li>
+            <li><a href="/contact" class="hover:text-ivory">Contact</a></li>
+            <li><a href="/lore" class="hover:text-ivory text-gold">The Lore ↗</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Projects</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/projects/pythia-160m" class="hover:text-ivory">Pythia-160M <span class="font-mono text-xs text-gold">↗</span></a></li>
+            <li><a href="/projects/codesensei" class="hover:text-ivory">CodeSensei</a></li>
+            <li><a href="/projects/ledgerlens" class="hover:text-ivory">LedgerLens</a></li>
+            <li><a href="/projects/talktoweb" class="hover:text-ivory">TalkToWeb</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Elsewhere</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">github/ujwal-sudo</a></li>
+            <li><a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">linkedin/ujwal-mahajan</a></li>
+            <li><a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory">2023bec049@sggs.ac.in</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t hairline-navy pt-8 text-xs text-fog sm:flex-row">
+        <p>© 2026 Ujwal Mahajan · Built from first principles</p>
+        <button id="back-to-top" class="inline-flex items-center gap-1.5 hover:text-ivory">
+          Back to top
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chat Bubble -->
+  <div id="chat-bubble">
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <div class="chat-title">
+          <span class="chat-title-dot"></span>
+          Ujwal.AI (Gemini)
+        </div>
+        <button type="button" class="chat-close" onclick="toggleChat()" aria-label="Close chat">×</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg bot">Hey! I'm an AI clone of Ujwal. Ask me about running, anime, history, or how these interests tie into building AI systems.</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Ask Ujwal anything..." autocomplete="off">
+        <button type="button" class="chat-send" onclick="sendChat()" aria-label="Send">Send</button>
+      </div>
+    </div>
+    <button type="button" class="chat-toggle" id="chat-toggle" onclick="toggleChat()" aria-expanded="false">
+      Ask Ujwal AI
+    </button>
+  </div>
+
+  <!-- Terminal Modal -->
+  <div id="terminal-overlay">
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <div class="term-dot" style="background:#ff5f57;"></div>
+        <div class="term-dot" style="background:#febc2e;"></div>
+        <div class="term-dot" style="background:#28c840;"></div>
+        <div class="term-title">ujwal@portfolio: ~</div>
+        <button class="terminal-close" type="button" onclick="closeTerminal()" aria-label="Close terminal">×</button>
+      </div>
+      <div class="terminal-body" id="term-body"></div>
+      <div class="term-input-row">
+        <span class="term-prompt">ujwal@portfolio:~$</span>
+        <input type="text" id="term-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

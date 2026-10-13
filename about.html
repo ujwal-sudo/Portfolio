@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0E1D61">
+  <title>About — Ujwal Mahajan</title>
+  <meta name="description" content="Curious first, engineer by choice. From robots and radio-controlled chaos to language models — a route that only made sense in hindsight.">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-warm-ivory text-ink antialiased selection:bg-crimson selection:text-warm-ivory" data-testid="about-page">
+
+  <!-- Nav Header -->
+  <nav class="site-nav fixed inset-x-0 top-0 z-40 h-16 transition-all duration-300 bg-transparent border-b border-transparent" aria-label="Primary navigation" data-theme="light">
+    <div class="wrap flex h-full items-center justify-between">
+      <a href="/" class="site-brand group flex items-center gap-2.5 font-display" aria-label="Ujwal Mahajan — home" data-testid="monogram-home-link">
+        <span class="brand-badge border-editorial-blue/40 text-editorial-blue group-hover:border-crimson">UM</span>
+        <span class="brand-text-full font-serif text-lg tracking-tight text-editorial-blue">Ujwal Mahajan<span class="text-crimson">.</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <a href="/" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-home">Home</a>
+        <a href="/about" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-about" aria-current="page">About</a>
+        <div class="relative group nav-projects">
+          <div class="flex items-center gap-1.5 cursor-pointer py-2">
+            <a href="/projects" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-projects">Projects</a>
+            <button type="button" aria-label="Open projects menu" aria-expanded="false" class="p-0.5 text-clay group-hover:text-crimson transition-transform group-hover:rotate-180">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+          <div class="nav-dropdown absolute left-1/2 top-full -translate-x-1/2 pt-2 hidden group-hover:block" id="project-menu">
+            <div class="w-64 border border-warm-ivory/20 bg-editorial-blue-deep p-2 shadow-2xl shadow-black/40">
+              <a href="/projects/pythia-160m" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-pythia-160m">
+                <span class="font-display text-[15px] text-warm-ivory">Pythia-160M ↗</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-warm-ivory/70">Research</span>
+              </a>
+              <a href="/projects/codesensei" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-codesensei">
+                <span class="font-display text-[15px] text-warm-ivory">CodeSensei</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson">Agentic AI</span>
+              </a>
+              <a href="/projects/ledgerlens" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-ledgerlens">
+                <span class="font-display text-[15px] text-warm-ivory">LedgerLens</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-warm-ivory/70">FinTech AI</span>
+              </a>
+              <a href="/projects/talktoweb" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-talktoweb">
+                <span class="font-display text-[15px] text-warm-ivory">TalkToWeb</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson">Automation</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="/research" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-research">Research</a>
+        <a href="/interests" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-interests">Interests</a>
+        <a href="/resume" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-resume">Resume</a>
+        <a href="/contact" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-contact">Contact</a>
+      </div>
+
+      <!-- Action Button & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="/contact" class="hidden md:inline-flex btn-cta-crimson" data-testid="nav-lets-talk-button">
+          Let's Talk ↗
+        </a>
+        <button class="nav-toggle flex h-10 w-10 items-center justify-center border border-editorial-blue/30 text-editorial-blue md:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-warm-ivory/20 bg-editorial-blue-deep p-6 md:hidden" id="mobile-nav" hidden>
+    <div class="flex flex-col gap-5">
+      <a href="/" class="font-display text-2xl text-warm-ivory">Home</a>
+      <a href="/about" class="font-display text-2xl text-warm-ivory">About</a>
+      <div>
+        <div class="eyebrow text-warm-ivory/70 mb-2">Projects</div>
+        <div class="flex flex-col gap-2.5 pl-3 border-l border-warm-ivory/20">
+          <a href="/projects" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Overview</a>
+          <a href="/projects/pythia-160m" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Pythia-160M ↗</a>
+          <a href="/projects/codesensei" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">CodeSensei</a>
+          <a href="/projects/ledgerlens" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">LedgerLens</a>
+          <a href="/projects/talktoweb" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">TalkToWeb</a>
+        </div>
+      </div>
+      <a href="/research" class="font-display text-2xl text-warm-ivory">Research</a>
+      <a href="/interests" class="font-display text-2xl text-warm-ivory">Interests</a>
+      <a href="/resume" class="font-display text-2xl text-warm-ivory">Resume</a>
+      <a href="/contact" class="font-display text-2xl text-warm-ivory">Contact</a>
+      <a href="/lore" class="font-display text-2xl text-warm-ivory">The Lore ↗</a>
+      <div class="pt-4 border-t border-warm-ivory/20">
+        <a href="/contact" class="inline-flex w-full items-center justify-center gap-2 bg-crimson px-5 py-3 font-mono text-xs uppercase tracking-[0.16em] text-warm-ivory">Let's Talk ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- Header Band -->
+    <header class="border-b border-editorial-blue/20 bg-warm-ivory pb-14 pt-28 sm:pt-32">
+      <div class="wrap">
+        <div class="reveal">
+          <p class="eyebrow text-crimson">About</p>
+          <h1 class="mt-5 font-display text-4xl font-medium leading-[1.02] tracking-tight text-editorial-blue sm:text-5xl lg:text-6xl">
+            Curious first,<br>engineer by choice.
+          </h1>
+          <p class="mt-6 max-w-2xl text-base leading-relaxed text-clay sm:text-lg">
+            From robots and radio-controlled chaos to language models — a route that only made sense in hindsight.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content with Sticky TOC -->
+    <div class="wrap grid gap-12 py-16 lg:grid-cols-[220px_1fr] lg:gap-16">
+      <!-- Sticky TOC Sidebar -->
+      <aside class="hidden lg:block">
+        <div class="sticky top-24" data-testid="about-toc">
+          <p class="eyebrow text-editorial-blue font-semibold">The story</p>
+          <ul class="mt-4 space-y-2.5 border-l border-editorial-blue/20 pl-4 font-sans">
+            <li><a href="#journey" class="toc-link block text-[13px] text-clay transition-colors hover:text-crimson" data-testid="about-toc-journey">My Journey</a></li>
+            <li><a href="#robotics" class="toc-link block text-[13px] text-clay transition-colors hover:text-crimson" data-testid="about-toc-robotics">Robotics & Early Exploring</a></li>
+            <li><a href="#detours" class="toc-link block text-[13px] text-clay transition-colors hover:text-crimson" data-testid="about-toc-detours">Detours</a></li>
+            <li><a href="#finding-ai" class="toc-link block text-[13px] text-clay transition-colors hover:text-crimson" data-testid="about-toc-finding-ai">Finding AI</a></li>
+            <li><a href="#building" class="toc-link block text-[13px] text-clay transition-colors hover:text-crimson" data-testid="about-toc-building">Learning by Building</a></li>
+            <li><a href="#next" class="toc-link block text-[13px] text-clay transition-colors hover:text-crimson" data-testid="about-toc-next">What's Next</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Main Narrative Sections -->
+      <div class="min-w-0 max-w-3xl space-y-16">
+        <!-- 01: My Journey -->
+        <section id="journey" class="scroll-mt-24">
+          <div class="reveal">
+            <h2 class="font-display text-2xl text-editorial-blue sm:text-3xl">My Journey</h2>
+            <div class="mt-4 space-y-5 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                I'm Ujwal Mahajan, an AI engineer and final-year Electronics & Telecommunication student at SGGSIE&T, Nanded. If there's a pattern running through my time in college, it's this: get close to things, take them apart, and only then decide what's worth going deep on.
+              </p>
+              <p>
+                College gave me the room to run that experiment properly — clubs, builds, events, side quests — and one by one, most interests taught me what I needed and stepped aside. One didn't.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 02: Robotics & Early Exploring -->
+        <section id="robotics" class="scroll-mt-24">
+          <div class="reveal space-y-6">
+            <h2 class="font-display text-2xl text-editorial-blue sm:text-3xl">Robotics & Early Exploring</h2>
+            <div class="space-y-5 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                Robotics came first. Working in the college's robotics club (RNXG) meant soldering, wiring, breaking things, and occasionally making something move on command. It was my first exposure to systems thinking — sensors, actuators, control, the unglamorous middle where everything actually happens.
+              </p>
+              <p>
+                It also taught me to organize: I'm a lead organizer of RMAGEDDON 2026, the club's robotics event, which is roughly as much about logistics and people as it is about machines.
+              </p>
+            </div>
+
+            <!-- Deep Editorial Blue Feature Section: Robotics Leadership -->
+            <div class="border border-editorial-blue-deep bg-editorial-blue p-8 sm:p-10 text-warm-ivory shadow-md">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="font-mono text-[10.5px] uppercase tracking-[0.18em] bg-crimson px-2.5 py-0.5 text-warm-ivory font-semibold">Leadership · RNXG</span>
+                <span class="font-mono text-[10.5px] uppercase tracking-[0.18em] text-warm-ivory/80">Systems Under Pressure</span>
+              </div>
+              <h3 class="font-display text-2xl font-medium text-warm-ivory mb-3">
+                Leading RMAGEDDON 2026 & Systems Engineering
+              </h3>
+              <p class="text-[15px] sm:text-base leading-relaxed text-warm-ivory/90 mb-5">
+                Organizing RMAGEDDON 2026 taught me how technical systems behave outside the lab. When dozens of autonomous and radio-controlled robots enter the arena, physical hardware reliability, battery management, RF interference, and team synchronization matter as much as algorithmic elegance.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-5 border-t border-warm-ivory/20 font-mono text-xs">
+                <div>
+                  <span class="block text-crimson font-bold text-sm">Lead Organizer</span>
+                  <span class="text-warm-ivory/70 text-[11px]">RMAGEDDON 2026 Event</span>
+                </div>
+                <div>
+                  <span class="block text-warm-ivory font-bold text-sm">RNXG Club</span>
+                  <span class="text-warm-ivory/70 text-[11px]">Autonomous & Combat Bots</span>
+                </div>
+                <div>
+                  <span class="block text-warm-ivory font-bold text-sm">First Principles</span>
+                  <span class="text-warm-ivory/70 text-[11px]">Hardware-to-Software Bridge</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 03: Detours -->
+        <section id="detours" class="scroll-mt-24">
+          <div class="reveal">
+            <h2 class="font-display text-2xl text-editorial-blue sm:text-3xl">Detours</h2>
+            <div class="mt-4 space-y-5 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                Along the way I picked up and put down a lot of things — photography, videography, football, and a long tail of half-pivots. Each one had a season. I don't pitch any of them as credentials now; they were how I figured out what actually holds my attention (and, just as usefully, what doesn't).
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 04: Finding AI -->
+        <section id="finding-ai" class="scroll-mt-24">
+          <div class="reveal">
+            <h2 class="font-display text-2xl text-editorial-blue sm:text-3xl">Finding AI</h2>
+            <div class="mt-4 space-y-5 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                AI was different from the first proper look. Not because it was trendy — because it was the first subject where the deeper I went, the more interesting it got. Language models in particular sit at a strange intersection of everything I'd touched: systems, engineering, and a genuinely open scientific frontier.
+              </p>
+              <p>
+                So I did it properly: Python, then NLP, then the concepts under the hood — attention, tokenization, training dynamics. Not textbooks-only. Reading about a transformer is one thing; implementing one is another.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 05: Learning by Building -->
+        <section id="building" class="scroll-mt-24">
+          <div class="reveal">
+            <h2 class="font-display text-2xl text-editorial-blue sm:text-3xl">Learning by Building</h2>
+            <div class="mt-4 space-y-5 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                I started where everyone starts — frameworks, libraries, calling APIs. They're good tools. But at some point "it works" stopped being enough, and the interesting question became <em>why</em> it works.
+              </p>
+              <p>
+                That's the line I've been walking since: use the abstractions until you need to know what's inside them, then go inside. It's why Pythia-160M exists — a small language model built from scratch so that nothing in the stack is a black box — and it's why I build agentic systems with a debugger's eye rather than a demo-day eye.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 06: What's Next -->
+        <section id="next" class="scroll-mt-24">
+          <div class="reveal">
+            <h2 class="font-display text-2xl text-editorial-blue sm:text-3xl">What's Next</h2>
+            <div class="mt-4 space-y-5 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                The plan is simple to state: build useful intelligent systems, and understand their internals well enough to know why they fail. Training runs, evaluations, compression, agent reliability — there's a long list, and it's getting longer in the right way.
+              </p>
+            </div>
+            <div class="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+              <a href="/lore" data-testid="about-lore-link" class="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-crimson hover:text-crimson transition-colors duration-200">
+                <span class="border-b border-current/40 pb-0.5">The longer version — /lore</span>
+                <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </a>
+              <a href="/projects" data-testid="about-projects-link" class="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-crimson hover:text-crimson transition-colors duration-200">
+                <span class="border-b border-current/40 pb-0.5">See the work</span>
+                <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pull Statement Feature Box -->
+        <div class="reveal border-l-4 border-crimson bg-editorial-blue p-8 sm:p-10 text-warm-ivory shadow-sm" data-testid="about-pull-statement">
+          <p class="font-display text-2xl italic leading-snug text-warm-ivory sm:text-3xl">
+            "Use the model until you want to know why it works. <span class="text-warm-ivory font-semibold underline decoration-crimson decoration-2">Then build one.</span>"
+          </p>
+          <p class="mt-4 font-mono text-[10.5px] uppercase tracking-[0.18em] text-warm-ivory/70">
+            — the working method, more or less
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-warm-ivory/20 bg-editorial-blue-deep text-warm-ivory">
+    <div class="wrap py-16">
+      <div class="grid gap-12 md:grid-cols-12">
+        <div class="md:col-span-5 space-y-5">
+          <a href="/" class="group flex items-center gap-3 font-display" aria-label="Ujwal Mahajan">
+            <span class="flex h-9 w-9 items-center justify-center border font-serif text-base tracking-wider border-gold/50 text-ivory group-hover:border-gold">UM</span>
+            <span class="font-serif text-lg tracking-tight text-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+          </a>
+          <p class="max-w-sm text-[15px] leading-relaxed text-fog">
+            AI engineer building intelligent systems — and understanding them from first principles.
+          </p>
+          <div class="flex items-center gap-4 text-fog">
+            <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="GitHub">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="LinkedIn">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+            <a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory" aria-label="Email">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            </a>
+            <button type="button" onclick="openTerminal()" class="font-mono text-xs uppercase tracking-widest text-gold hover:text-ivory border border-gold/40 px-2 py-1 ml-2">Terminal</button>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Navigate</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/" class="hover:text-ivory">Home</a></li>
+            <li><a href="/about" class="hover:text-ivory">About</a></li>
+            <li><a href="/projects" class="hover:text-ivory">Projects</a></li>
+            <li><a href="/research" class="hover:text-ivory">Research</a></li>
+            <li><a href="/interests" class="hover:text-ivory">Interests</a></li>
+            <li><a href="/resume" class="hover:text-ivory">Resume</a></li>
+            <li><a href="/contact" class="hover:text-ivory">Contact</a></li>
+            <li><a href="/lore" class="hover:text-ivory text-gold">The Lore ↗</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Projects</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/projects/pythia-160m" class="hover:text-ivory">Pythia-160M <span class="font-mono text-xs text-gold">↗</span></a></li>
+            <li><a href="/projects/codesensei" class="hover:text-ivory">CodeSensei</a></li>
+            <li><a href="/projects/ledgerlens" class="hover:text-ivory">LedgerLens</a></li>
+            <li><a href="/projects/talktoweb" class="hover:text-ivory">TalkToWeb</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Elsewhere</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">github/ujwal-sudo</a></li>
+            <li><a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">linkedin/ujwal-mahajan</a></li>
+            <li><a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory">2023bec049@sggs.ac.in</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t hairline-navy pt-8 text-xs text-fog sm:flex-row">
+        <p>© 2026 Ujwal Mahajan · Built from first principles</p>
+        <button id="back-to-top" class="inline-flex items-center gap-1.5 hover:text-ivory">
+          Back to top
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chat Bubble -->
+  <div id="chat-bubble">
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <div class="chat-title">
+          <span class="chat-title-dot"></span>
+          Ujwal.AI (Gemini)
+        </div>
+        <button type="button" class="chat-close" onclick="toggleChat()" aria-label="Close chat">×</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg bot">Hey! I'm an AI clone of Ujwal. Ask me anything about my journey from robotics to language models.</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Ask Ujwal anything..." autocomplete="off">
+        <button type="button" class="chat-send" onclick="sendChat()" aria-label="Send">Send</button>
+      </div>
+    </div>
+    <button type="button" class="chat-toggle" id="chat-toggle" onclick="toggleChat()" aria-expanded="false">
+      Ask Ujwal AI
+    </button>
+  </div>
+
+  <!-- Terminal Modal -->
+  <div id="terminal-overlay">
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <div class="term-dot" style="background:#ff5f57;"></div>
+        <div class="term-dot" style="background:#febc2e;"></div>
+        <div class="term-dot" style="background:#28c840;"></div>
+        <div class="term-title">ujwal@portfolio: ~</div>
+        <button class="terminal-close" type="button" onclick="closeTerminal()" aria-label="Close terminal">×</button>
+      </div>
+      <div class="terminal-body" id="term-body"></div>
+      <div class="term-input-row">
+        <span class="term-prompt">ujwal@portfolio:~$</span>
+        <input type="text" id="term-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

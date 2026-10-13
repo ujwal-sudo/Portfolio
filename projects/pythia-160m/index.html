@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0E1D61">
+  <title>Pythia-160M — Case Study | Ujwal Mahajan</title>
+  <meta name="description" content="A Python-specialized ~160M-parameter language model built from scratch. Architecture, tokenizer, RoPE, GQA, SwiGLU, NTP + FIM.">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-warm-ivory text-ink antialiased selection:bg-crimson selection:text-warm-ivory">
+
+  <!-- Nav Header -->
+  <nav class="site-nav fixed inset-x-0 top-0 z-40 h-16 transition-all duration-300 bg-transparent border-b border-transparent" aria-label="Primary navigation" data-theme="blue">
+    <div class="wrap flex h-full items-center justify-between">
+      <a href="/" class="site-brand group flex items-center gap-2.5 font-display" aria-label="Ujwal Mahajan — home" data-testid="monogram-home-link">
+        <span class="brand-badge border-warm-ivory/40 text-warm-ivory group-hover:border-crimson">UM</span>
+        <span class="brand-text-full font-serif text-lg tracking-tight text-warm-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <a href="/" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-home">Home</a>
+        <a href="/about" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-about">About</a>
+        <div class="relative group nav-projects">
+          <div class="flex items-center gap-1.5 cursor-pointer py-2">
+            <a href="/projects" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-projects" aria-current="page">Projects</a>
+            <button type="button" aria-label="Open projects menu" aria-expanded="false" class="p-0.5 text-warm-ivory/70 group-hover:text-crimson transition-transform group-hover:rotate-180">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+          <div class="nav-dropdown absolute left-1/2 top-full -translate-x-1/2 pt-2 hidden group-hover:block" id="project-menu">
+            <div class="w-64 border border-warm-ivory/20 bg-editorial-blue-deep p-2 shadow-2xl shadow-black/40">
+              <a href="/projects/pythia-160m" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-pythia-160m">
+                <span class="font-display text-[15px] text-warm-ivory">Pythia-160M ↗</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-bold">Research</span>
+              </a>
+              <a href="/projects/codesensei" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-codesensei">
+                <span class="font-display text-[15px] text-warm-ivory">CodeSensei</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson">Agentic AI</span>
+              </a>
+              <a href="/projects/ledgerlens" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-ledgerlens">
+                <span class="font-display text-[15px] text-warm-ivory">LedgerLens</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-warm-ivory/70">FinTech AI</span>
+              </a>
+              <a href="/projects/talktoweb" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-talktoweb">
+                <span class="font-display text-[15px] text-warm-ivory">TalkToWeb</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson">Automation</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="/research" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-research">Research</a>
+        <a href="/interests" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-interests">Interests</a>
+        <a href="/resume" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-resume">Resume</a>
+        <a href="/contact" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-contact">Contact</a>
+      </div>
+
+      <!-- Action Button & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="/contact" class="hidden md:inline-flex btn-cta-crimson" data-testid="nav-lets-talk-button">
+          Let's Talk ↗
+        </a>
+        <button class="nav-toggle flex h-10 w-10 items-center justify-center border border-warm-ivory/30 text-warm-ivory md:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-warm-ivory/20 bg-editorial-blue-deep p-6 md:hidden" id="mobile-nav" hidden>
+    <div class="flex flex-col gap-5">
+      <a href="/" class="font-display text-2xl text-warm-ivory">Home</a>
+      <a href="/about" class="font-display text-2xl text-warm-ivory">About</a>
+      <div>
+        <div class="eyebrow text-warm-ivory/70 mb-2">Projects</div>
+        <div class="flex flex-col gap-2.5 pl-3 border-l border-warm-ivory/20">
+          <a href="/projects" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Overview</a>
+          <a href="/projects/pythia-160m" class="font-display text-lg text-warm-ivory">Pythia-160M ↗</a>
+          <a href="/projects/codesensei" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">CodeSensei</a>
+          <a href="/projects/ledgerlens" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">LedgerLens</a>
+          <a href="/projects/talktoweb" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">TalkToWeb</a>
+        </div>
+      </div>
+      <a href="/research" class="font-display text-2xl text-warm-ivory">Research</a>
+      <a href="/interests" class="font-display text-2xl text-warm-ivory">Interests</a>
+      <a href="/resume" class="font-display text-2xl text-warm-ivory">Resume</a>
+      <a href="/contact" class="font-display text-2xl text-warm-ivory">Contact</a>
+      <a href="/lore" class="font-display text-2xl text-warm-ivory">The Lore ↗</a>
+      <div class="pt-4 border-t border-warm-ivory/20">
+        <a href="/contact" class="inline-flex w-full items-center justify-center gap-2 bg-crimson px-5 py-3 font-mono text-xs uppercase tracking-[0.16em] text-warm-ivory">Let's Talk ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- Hero Band: Deep Editorial Blue Project Header -->
+    <header class="border-b border-editorial-blue-deep bg-editorial-blue pb-16 pt-28 sm:pt-32 text-warm-ivory">
+      <div class="wrap space-y-4">
+        <nav class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-warm-ivory/70" aria-label="Breadcrumb">
+          <a href="/projects" class="hover:text-warm-ivory">Projects</a>
+          <span class="text-crimson">/</span>
+          <span class="text-warm-ivory font-semibold">Pythia-160M</span>
+        </nav>
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <h1 class="font-display text-4xl sm:text-5xl font-medium text-warm-ivory">Pythia-160M</h1>
+          <span class="rounded-full border border-warm-ivory/40 bg-warm-ivory/15 px-3 py-1 font-mono text-xs uppercase tracking-[0.14em] text-warm-ivory">Research · In Progress</span>
+        </div>
+        <p class="max-w-2xl font-mono text-sm text-warm-ivory/90 sm:text-base">
+          A Python-specialized code language model built from scratch
+        </p>
+        <div class="flex flex-wrap gap-2 pt-2">
+          <span class="border border-warm-ivory/25 px-2.5 py-1 font-mono text-xs text-warm-ivory/90">PyTorch</span>
+          <span class="border border-warm-ivory/25 px-2.5 py-1 font-mono text-xs text-warm-ivory/90">Custom tokenizer</span>
+          <span class="border border-warm-ivory/25 px-2.5 py-1 font-mono text-xs text-warm-ivory/90">RoPE · GQA · SwiGLU</span>
+          <span class="border border-warm-ivory/25 px-2.5 py-1 font-mono text-xs text-warm-ivory/90">NTP + FIM</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Grid with Sticky TOC -->
+    <div class="wrap py-16">
+      <div class="grid gap-12 lg:grid-cols-[1fr_210px] lg:gap-16">
+        <!-- Main Case Study Column -->
+        <div class="space-y-16">
+          <!-- 01: Overview -->
+          <section id="overview" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">01 · Overview</p>
+            <h2 class="font-display text-3xl text-navy">Why train a model from scratch?</h2>
+            <div class="space-y-4 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                Pythia-160M is an ongoing exploration into training a small, Python-focused language model end to end. The goal isn't to compete with frontier models on scale; it's to understand every layer of the training stack from first principles.
+              </p>
+              <p>
+                When you call an API or fine-tune an existing checkpoint, the hardest engineering decisions have already been made for you. Building the tokenizer, implementing the attention heads, balancing the loss function, and curating the dataset forces you to confront the real failure modes of machine learning.
+              </p>
+            </div>
+          </section>
+
+          <!-- 02: Architecture -->
+          <section id="architecture" class="scroll-mt-24 space-y-6">
+            <p class="eyebrow text-crimson">02 · Architecture</p>
+            <h2 class="font-display text-3xl text-navy">Modern transformer design choices</h2>
+            <p class="text-[15.5px] leading-relaxed text-clay sm:text-base">
+              The architecture adopts modern design improvements developed across LLaMA, Mistral, and DeepSeek: rotary embeddings, grouped-query attention, SwiGLU non-linearities, and pre-RMSNorm.
+            </p>
+
+            <!-- Specs Table -->
+            <div class="overflow-x-auto border hairline-ivory">
+              <table class="w-full text-left font-mono text-xs">
+                <thead class="bg-ivory-warm border-b hairline-ivory uppercase tracking-wider text-clay">
+                  <tr>
+                    <th class="p-3.5">Hyperparameter</th>
+                    <th class="p-3.5">Value</th>
+                    <th class="p-3.5">Rationale</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y hairline-ivory text-ink">
+                  <tr><td class="p-3.5 font-semibold">Parameters</td><td class="p-3.5 text-gold">~160M</td><td class="p-3.5 text-clay">Fits single consumer GPU for rapid iteration</td></tr>
+                  <tr><td class="p-3.5 font-semibold">Layers</td><td class="p-3.5 text-gold">12</td><td class="p-3.5 text-clay">Standard depth-to-width balance for small models</td></tr>
+                  <tr><td class="p-3.5 font-semibold">Hidden Dimension</td><td class="p-3.5 text-gold">768</td><td class="p-3.5 text-clay">Balances capacity with activation memory</td></tr>
+                  <tr><td class="p-3.5 font-semibold">Attention Heads</td><td class="p-3.5 text-gold">12 Query / 2 KV (GQA)</td><td class="p-3.5 text-clay">Reduces KV cache memory during inference 6×</td></tr>
+                  <tr><td class="p-3.5 font-semibold">FFN Intermediate</td><td class="p-3.5 text-gold">2048 (SwiGLU)</td><td class="p-3.5 text-clay">Higher expressive power than standard GeLU</td></tr>
+                  <tr><td class="p-3.5 font-semibold">Positional Encoding</td><td class="p-3.5 text-gold">RoPE (θ = 10000.0)</td><td class="p-3.5 text-clay">Relative position awareness and length extrapolation</td></tr>
+                  <tr><td class="p-3.5 font-semibold">Normalization</td><td class="p-3.5 text-gold">RMSNorm (pre-norm)</td><td class="p-3.5 text-clay">Faster forward/backward pass without mean centering</td></tr>
+                  <tr><td class="p-3.5 font-semibold">Vocabulary Size</td><td class="p-3.5 text-gold">~32,000</td><td class="p-3.5 text-clay">BPE trained on clean Python corpus with whitespace tokens</td></tr>
+                  <tr><td class="p-3.5 font-semibold">Max Context Length</td><td class="p-3.5 text-gold">2048</td><td class="p-3.5 text-clay">Covers most single-file functions and unit tests</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pythia Architecture Diagram -->
+            <div class="clip-diagram-light p-6 space-y-6">
+              <p class="font-mono text-xs uppercase tracking-[0.16em] text-clay">Pythia-160M Block Architecture</p>
+              <div class="grid gap-6 lg:grid-cols-[200px_1fr_200px] items-center text-center">
+                <!-- Col 1 -->
+                <div class="space-y-3">
+                  <div class="border border-ink/20 bg-ivory-warm p-3 font-mono text-xs text-ink">Python source</div>
+                  <div class="font-mono text-xs text-clay">↓</div>
+                  <div class="border border-ink/20 bg-ivory-warm p-3 font-mono text-xs text-ink">BPE Tokenizer (~32k)</div>
+                  <div class="font-mono text-xs text-clay">↓</div>
+                  <div class="border border-ink/20 bg-ivory-warm p-3 font-mono text-xs text-ink">Token Embedding</div>
+                </div>
+                <!-- Col 2: Transformer Block -->
+                <div class="border-2 border-dashed border-gold/70 bg-ivory-warm/60 p-5 space-y-3">
+                  <span class="font-mono text-xs font-semibold text-gold uppercase tracking-wider">Transformer Block (×12)</span>
+                  <div class="border border-ink/15 bg-ivory p-2.5 font-mono text-xs text-ink">RMSNorm (pre-norm)</div>
+                  <div class="border border-ink/30 bg-gold/10 p-3 font-mono text-xs text-ink space-y-1">
+                    <p class="font-bold text-navy">Grouped-Query Attention</p>
+                    <p class="text-[11px] text-clay">12 Query Heads · 2 KV Heads · RoPE</p>
+                  </div>
+                  <div class="border border-ink/15 bg-ivory p-2.5 font-mono text-xs text-ink">Residual Add (+)</div>
+                  <div class="border border-ink/15 bg-ivory p-2.5 font-mono text-xs text-ink">RMSNorm</div>
+                  <div class="border border-ink/30 bg-crimson/10 p-2.5 font-mono text-xs text-ink">SwiGLU FFN (dim = 2048)</div>
+                  <div class="border border-ink/15 bg-ivory p-2.5 font-mono text-xs text-ink">Residual Add (+)</div>
+                </div>
+                <!-- Col 3: Output & Objectives -->
+                <div class="space-y-3">
+                  <div class="border border-ink/20 bg-ivory-warm p-3 font-mono text-xs text-ink">Final RMSNorm</div>
+                  <div class="font-mono text-xs text-clay">↓</div>
+                  <div class="border border-gold/60 bg-gold/15 p-3 font-mono text-xs font-bold text-navy">LM Head</div>
+                  <div class="font-mono text-xs text-clay">↓ 50 / 50 Loss</div>
+                  <div class="border border-crimson/40 bg-crimson/10 p-2.5 font-mono text-[11px] text-crimson font-medium">NTP + FIM Objective</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 03: Objective -->
+          <section id="objective" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">03 · Objective</p>
+            <h2 class="font-display text-3xl text-navy">Dual Objective: Next-Token & Fill-In-The-Middle</h2>
+            <div class="space-y-4 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                Code models have a dual requirement: generating new code sequentially (left to right), and completing missing code inside an existing function or class (infilling).
+              </p>
+              <p>
+                Pythia uses a 50/50 training mixture between standard autoregressive causal language modeling and Fill-In-The-Middle (FIM):
+              </p>
+            </div>
+            <!-- Code Block Demonstration -->
+            <div class="border hairline-ivory bg-navy p-5 font-mono text-xs text-ivory space-y-3 overflow-x-auto">
+              <p class="text-gold">// 1. Standard Next-Token Prediction (50% of tokens):</p>
+              <code>loss_ntp = cross_entropy(logits[:, :-1], targets[:, 1:])</code>
+              <p class="pt-2 text-gold">// 2. Fill-In-The-Middle Formulation (50% of tokens):</p>
+              <code>transformed_sequence = [PRE] + prefix_tokens + [SUF] + suffix_tokens + [MID] + middle_tokens</code>
+              <p class="text-fog text-[11px]">// Model learns to predict middle_tokens conditioning on both prefix and suffix.</p>
+            </div>
+          </section>
+
+          <!-- 04: Data -->
+          <section id="data" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">04 · Data Pipeline</p>
+            <h2 class="font-display text-3xl text-navy">Curating quality at small scale</h2>
+            <p class="text-[15.5px] leading-relaxed text-clay sm:text-base">
+              At ~160M parameters, data quality matters significantly more than raw token volume. A small model easily memorizes noise, syntax errors, and low-quality boilerplate. The pipeline enforces 6 strict quality stages:
+            </p>
+            <div class="grid gap-3 sm:grid-cols-2">
+              <div class="border hairline-ivory bg-ivory-warm p-4 space-y-1">
+                <span class="font-mono text-xs text-gold">Stage 01</span>
+                <p class="font-display text-base text-navy font-semibold">Provenance & Licensing</p>
+                <p class="text-xs text-clay">Permissively licensed Python repositories with complete git commit history.</p>
+              </div>
+              <div class="border hairline-ivory bg-ivory-warm p-4 space-y-1">
+                <span class="font-mono text-xs text-gold">Stage 02</span>
+                <p class="font-display text-base text-navy font-semibold">Syntax Validation</p>
+                <p class="text-xs text-clay">All files parsed through Python AST; invalid syntax is filtered out immediately.</p>
+              </div>
+              <div class="border hairline-ivory bg-ivory-warm p-4 space-y-1">
+                <span class="font-mono text-xs text-gold">Stage 03</span>
+                <p class="font-display text-base text-navy font-semibold">Exact & Near Deduplication</p>
+                <p class="text-xs text-clay">MinHash and line-level matching to purge repetitive boilerplate and copies.</p>
+              </div>
+              <div class="border hairline-ivory bg-ivory-warm p-4 space-y-1">
+                <span class="font-mono text-xs text-gold">Stage 04</span>
+                <p class="font-display text-base text-navy font-semibold">Quality Heuristics</p>
+                <p class="text-xs text-clay">Filtering out auto-generated files, minified code, and test mock dumps.</p>
+              </div>
+              <div class="border hairline-ivory bg-ivory-warm p-4 space-y-1">
+                <span class="font-mono text-xs text-gold">Stage 05</span>
+                <p class="font-display text-base text-navy font-semibold">BPE Tokenizer Training</p>
+                <p class="text-xs text-clay">Custom Byte-Pair Encoding preserving indentation and common Python keywords.</p>
+              </div>
+              <div class="border hairline-ivory bg-ivory-warm p-4 space-y-1">
+                <span class="font-mono text-xs text-gold">Stage 06</span>
+                <p class="font-display text-base text-navy font-semibold">Token Packing & Shuffling</p>
+                <p class="text-xs text-clay">Packed 2048-token context buffers separated by EOS tokens.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 05: Constraints -->
+          <section id="constraints" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">05 · Constraints</p>
+            <h2 class="font-display text-3xl text-navy">Engineering within consumer hardware</h2>
+            <div class="space-y-4 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                Training on consumer hardware (single 24GB GPU) introduces real physical boundaries. To maximize throughput and avoid Out-Of-Memory exceptions:
+              </p>
+              <ul class="list-disc pl-5 space-y-2 text-ink">
+                <li><strong>Mixed precision:</strong> bfloat16 mixed precision to reduce memory footprint by 50% without loss scaling instability.</li>
+                <li><strong>Gradient accumulation:</strong> Effective batch size of 512 achieved across smaller mini-batch steps.</li>
+                <li><strong>Flash Attention 2:</strong> Subquadratic memory scaling during self-attention computation.</li>
+                <li><strong>Activation checkpointing:</strong> Selective recomputation during backward pass for deep layers.</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- 06: Decisions -->
+          <section id="decisions" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">06 · Decisions & Trade-offs</p>
+            <h2 class="font-display text-3xl text-navy">Architectural rationale</h2>
+            <div class="space-y-4 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                <strong>Why GQA over MHA?</strong> Grouped-Query Attention with 2 KV heads reduces KV cache memory consumption during decoding by 6× while matching multi-head attention quality.
+              </p>
+              <p>
+                <strong>Why SwiGLU over GeLU?</strong> Although SwiGLU requires 3 weight matrices per feed-forward block instead of 2, it consistently shows lower perplexity per token on code tokens.
+              </p>
+            </div>
+          </section>
+        </div>
+
+        <!-- Sticky Right TOC Sidebar -->
+        <aside class="hidden lg:block">
+          <nav class="sticky top-28 space-y-3 border-l-2 border-crimson/70 pl-4 font-mono text-xs text-clay">
+            <a href="#overview" class="toc-link block hover:text-crimson transition-colors">Overview</a>
+            <a href="#architecture" class="toc-link block hover:text-crimson transition-colors">Architecture</a>
+            <a href="#objective" class="toc-link block hover:text-crimson transition-colors">Objective (NTP + FIM)</a>
+            <a href="#data" class="toc-link block hover:text-crimson transition-colors">Data Pipeline</a>
+            <a href="#constraints" class="toc-link block hover:text-crimson transition-colors">Constraints</a>
+            <a href="#decisions" class="toc-link block hover:text-crimson transition-colors">Decisions</a>
+          </nav>
+        </aside>
+      </div>
+
+      <!-- Next Project Banner: Deep Editorial Blue -->
+      <div class="mt-20 border-t border-editorial-blue/20 pt-12">
+        <a href="/projects/codesensei" class="group block border border-editorial-blue-deep bg-editorial-blue p-8 sm:p-10 transition-all duration-300 hover:border-crimson text-warm-ivory shadow-md">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-mono text-xs uppercase tracking-[0.16em] text-crimson bg-warm-ivory px-2 py-0.5 inline-block font-semibold">Next Project</p>
+              <h3 class="mt-2 font-display text-2xl sm:text-3xl font-medium text-warm-ivory group-hover:text-crimson transition-colors">CodeSensei ↗</h3>
+              <p class="mt-1 text-sm text-warm-ivory/85">A five-agent code intelligence system with synthesized cognitive reviews.</p>
+            </div>
+            <span class="font-display text-3xl text-warm-ivory group-hover:text-crimson transition-transform group-hover:translate-x-2">→</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-warm-ivory/20 bg-editorial-blue-deep text-warm-ivory">
+    <div class="wrap py-16">
+      <div class="grid gap-12 md:grid-cols-12">
+        <div class="md:col-span-5 space-y-5">
+          <a href="/" class="group flex items-center gap-3 font-display" aria-label="Ujwal Mahajan">
+            <span class="flex h-9 w-9 items-center justify-center border font-serif text-base tracking-wider border-gold/50 text-ivory group-hover:border-gold">UM</span>
+            <span class="font-serif text-lg tracking-tight text-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+          </a>
+          <p class="max-w-sm text-[15px] leading-relaxed text-fog">
+            AI engineer building intelligent systems — and understanding them from first principles.
+          </p>
+          <div class="flex items-center gap-4 text-fog">
+            <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="GitHub">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="LinkedIn">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+            <a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory" aria-label="Email">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            </a>
+            <button type="button" onclick="openTerminal()" class="font-mono text-xs uppercase tracking-widest text-gold hover:text-ivory border border-gold/40 px-2 py-1 ml-2">Terminal</button>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Navigate</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/" class="hover:text-ivory">Home</a></li>
+            <li><a href="/about" class="hover:text-ivory">About</a></li>
+            <li><a href="/projects" class="hover:text-ivory">Projects</a></li>
+            <li><a href="/research" class="hover:text-ivory">Research</a></li>
+            <li><a href="/interests" class="hover:text-ivory">Interests</a></li>
+            <li><a href="/resume" class="hover:text-ivory">Resume</a></li>
+            <li><a href="/contact" class="hover:text-ivory">Contact</a></li>
+            <li><a href="/lore" class="hover:text-ivory text-gold">The Lore ↗</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Projects</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/projects/pythia-160m" class="hover:text-ivory">Pythia-160M <span class="font-mono text-xs text-gold">↗</span></a></li>
+            <li><a href="/projects/codesensei" class="hover:text-ivory">CodeSensei</a></li>
+            <li><a href="/projects/ledgerlens" class="hover:text-ivory">LedgerLens</a></li>
+            <li><a href="/projects/talktoweb" class="hover:text-ivory">TalkToWeb</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Elsewhere</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">github/ujwal-sudo</a></li>
+            <li><a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">linkedin/ujwal-mahajan</a></li>
+            <li><a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory">2023bec049@sggs.ac.in</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t hairline-navy pt-8 text-xs text-fog sm:flex-row">
+        <p>© 2026 Ujwal Mahajan · Built from first principles</p>
+        <button id="back-to-top" class="inline-flex items-center gap-1.5 hover:text-ivory">
+          Back to top
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chat Bubble -->
+  <div id="chat-bubble">
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <div class="chat-title">
+          <span class="chat-title-dot"></span>
+          Ujwal.AI (Gemini)
+        </div>
+        <button type="button" class="chat-close" onclick="toggleChat()" aria-label="Close chat">×</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg bot">Hey! I'm an AI clone of Ujwal. Ask me anything about the Pythia-160M architecture or training pipeline.</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Ask Ujwal anything..." autocomplete="off">
+        <button type="button" class="chat-send" onclick="sendChat()" aria-label="Send">Send</button>
+      </div>
+    </div>
+    <button type="button" class="chat-toggle" id="chat-toggle" onclick="toggleChat()" aria-expanded="false">
+      Ask Ujwal AI
+    </button>
+  </div>
+
+  <!-- Terminal Modal -->
+  <div id="terminal-overlay">
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <div class="term-dot" style="background:#ff5f57;"></div>
+        <div class="term-dot" style="background:#febc2e;"></div>
+        <div class="term-dot" style="background:#28c840;"></div>
+        <div class="term-title">ujwal@portfolio: ~</div>
+        <button class="terminal-close" type="button" onclick="closeTerminal()" aria-label="Close terminal">×</button>
+      </div>
+      <div class="terminal-body" id="term-body"></div>
+      <div class="term-input-row">
+        <span class="term-prompt">ujwal@portfolio:~$</span>
+        <input type="text" id="term-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

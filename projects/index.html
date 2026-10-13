@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0E1D61">
+  <title>Projects — Ujwal Mahajan</title>
+  <meta name="description" content="Selected projects: Pythia-160M, CodeSensei, LedgerLens, and TalkToWeb. Systems built from first principles.">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-warm-ivory text-ink antialiased selection:bg-crimson selection:text-warm-ivory">
+
+  <!-- Nav Header -->
+  <nav class="site-nav fixed inset-x-0 top-0 z-40 h-16 transition-all duration-300 bg-transparent border-b border-transparent" aria-label="Primary navigation" data-theme="blue">
+    <div class="wrap flex h-full items-center justify-between">
+      <a href="/" class="site-brand group flex items-center gap-2.5 font-display" aria-label="Ujwal Mahajan — home" data-testid="monogram-home-link">
+        <span class="brand-badge border-warm-ivory/40 text-warm-ivory group-hover:border-crimson">UM</span>
+        <span class="brand-text-full font-serif text-lg tracking-tight text-warm-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <a href="/" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-home">Home</a>
+        <a href="/about" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-about">About</a>
+        <div class="relative group nav-projects">
+          <div class="flex items-center gap-1.5 cursor-pointer py-2">
+            <a href="/projects" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-projects" aria-current="page">Projects</a>
+            <button type="button" aria-label="Open projects menu" aria-expanded="false" class="p-0.5 text-warm-ivory/70 group-hover:text-crimson transition-transform group-hover:rotate-180">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+          <div class="nav-dropdown absolute left-1/2 top-full -translate-x-1/2 pt-2 hidden group-hover:block" id="project-menu">
+            <div class="w-64 border border-warm-ivory/20 bg-editorial-blue-deep p-2 shadow-2xl shadow-black/40">
+              <a href="/projects/pythia-160m" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-pythia-160m">
+                <span class="font-display text-[15px] text-warm-ivory">Pythia-160M ↗</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-warm-ivory/70">Research</span>
+              </a>
+              <a href="/projects/codesensei" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-codesensei">
+                <span class="font-display text-[15px] text-warm-ivory">CodeSensei</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson">Agentic AI</span>
+              </a>
+              <a href="/projects/ledgerlens" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-ledgerlens">
+                <span class="font-display text-[15px] text-warm-ivory">LedgerLens</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-warm-ivory/70">FinTech AI</span>
+              </a>
+              <a href="/projects/talktoweb" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-talktoweb">
+                <span class="font-display text-[15px] text-warm-ivory">TalkToWeb</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson">Automation</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="/research" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-research">Research</a>
+        <a href="/interests" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-interests">Interests</a>
+        <a href="/resume" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-resume">Resume</a>
+        <a href="/contact" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-contact">Contact</a>
+      </div>
+
+      <!-- Action Button & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="/contact" class="hidden md:inline-flex btn-cta-crimson" data-testid="nav-lets-talk-button">
+          Let's Talk ↗
+        </a>
+        <button class="nav-toggle flex h-10 w-10 items-center justify-center border border-warm-ivory/30 text-warm-ivory md:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-warm-ivory/20 bg-editorial-blue-deep p-6 md:hidden" id="mobile-nav" hidden>
+    <div class="flex flex-col gap-5">
+      <a href="/" class="font-display text-2xl text-warm-ivory">Home</a>
+      <a href="/about" class="font-display text-2xl text-warm-ivory">About</a>
+      <div>
+        <div class="eyebrow text-warm-ivory/70 mb-2">Projects</div>
+        <div class="flex flex-col gap-2.5 pl-3 border-l border-warm-ivory/20">
+          <a href="/projects" class="font-display text-lg text-warm-ivory">Overview</a>
+          <a href="/projects/pythia-160m" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Pythia-160M ↗</a>
+          <a href="/projects/codesensei" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">CodeSensei</a>
+          <a href="/projects/ledgerlens" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">LedgerLens</a>
+          <a href="/projects/talktoweb" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">TalkToWeb</a>
+        </div>
+      </div>
+      <a href="/research" class="font-display text-2xl text-warm-ivory">Research</a>
+      <a href="/interests" class="font-display text-2xl text-warm-ivory">Interests</a>
+      <a href="/resume" class="font-display text-2xl text-warm-ivory">Resume</a>
+      <a href="/contact" class="font-display text-2xl text-warm-ivory">Contact</a>
+      <a href="/lore" class="font-display text-2xl text-warm-ivory">The Lore ↗</a>
+      <div class="pt-4 border-t border-warm-ivory/20">
+        <a href="/contact" class="inline-flex w-full items-center justify-center gap-2 bg-crimson px-5 py-3 font-mono text-xs uppercase tracking-[0.16em] text-warm-ivory">Let's Talk ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- Header Band: Deep Editorial Blue -->
+    <header class="border-b border-editorial-blue-deep bg-editorial-blue pb-16 pt-28 sm:pt-32 text-warm-ivory">
+      <div class="wrap">
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-crimson bg-warm-ivory px-2.5 py-0.5 inline-block font-semibold">Selected Work · 2024–2026</p>
+        <h1 class="mt-5 font-display text-4xl font-medium leading-[1.02] tracking-tight text-warm-ivory sm:text-5xl lg:text-6xl">
+          Systems & Research.
+        </h1>
+        <p class="mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-warm-ivory/85">
+          Four core architectures built to answer concrete questions about machine learning, multi-agent coordination, financial forensics, and autonomous execution.
+        </p>
+      </div>
+    </header>
+
+    <!-- Project Catalogue Rows -->
+    <div class="wrap py-16">
+      <div class="space-y-16">
+        <!-- Row 1: Pythia-160M -->
+        <article class="border-b border-editorial-blue/20 pb-16 pt-2">
+          <div class="grid gap-8 lg:grid-cols-2 lg:gap-14 items-center">
+            <!-- Left: Mini Visual -->
+            <div class="order-2 lg:order-1">
+              <a href="/projects/pythia-160m" class="group block h-full min-h-[280px] border border-editorial-blue-deep bg-editorial-blue p-7 transition-all duration-300 hover:-translate-y-1 hover:border-crimson sm:p-10 shadow-md" aria-label="Open Pythia-160M case study">
+                <div class="flex h-full flex-col justify-between">
+                  <div class="flex gap-1.5">
+                    <span class="border border-warm-ivory/30 bg-editorial-blue-deep px-1.5 py-0.5 font-mono text-[10px] leading-none text-warm-ivory">def</span>
+                    <span class="border border-warm-ivory/30 bg-editorial-blue-deep px-1.5 py-0.5 font-mono text-[10px] leading-none text-warm-ivory">f</span>
+                    <span class="border border-warm-ivory/30 bg-editorial-blue-deep px-1.5 py-0.5 font-mono text-[10px] leading-none text-warm-ivory">(</span>
+                    <span class="border border-warm-ivory/30 bg-editorial-blue-deep px-1.5 py-0.5 font-mono text-[10px] leading-none text-warm-ivory">x</span>
+                    <span class="border border-dashed border-crimson bg-crimson/20 px-1.5 py-0.5 font-mono text-[10px] leading-none text-warm-ivory">▒</span>
+                  </div>
+                  <div class="mt-6 flex flex-col gap-1.5">
+                    <div class="h-4 border border-warm-ivory/25 bg-editorial-blue-deep" style="margin-left: 30px; margin-right: 0;"></div>
+                    <div class="h-4 border border-warm-ivory/25 bg-editorial-blue-deep" style="margin-left: 20px; margin-right: 10px;"></div>
+                    <div class="h-4 border border-warm-ivory/25 bg-editorial-blue-deep" style="margin-left: 10px; margin-right: 20px;"></div>
+                    <div class="h-4 border border-warm-ivory/25 bg-editorial-blue-deep" style="margin-left: 0; margin-right: 30px;"></div>
+                  </div>
+                  <div class="mt-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-warm-ivory/80">
+                    <span class="text-crimson bg-warm-ivory px-1.5 py-0.5 font-bold">160M params</span>
+                    <span>RoPE + GQA</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Right: Info -->
+            <div class="order-1 flex flex-col justify-center lg:order-2 space-y-4">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xs tracking-[0.2em] text-crimson font-bold">01</span>
+                <span class="rounded-full border border-editorial-blue/30 bg-editorial-blue/10 px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-editorial-blue font-semibold">Research · In Progress</span>
+              </div>
+              <h2 class="font-display text-3xl sm:text-4xl font-medium text-editorial-blue">Pythia-160M</h2>
+              <p class="font-mono text-sm text-editorial-blue-deep font-medium">A Python-specialized code language model</p>
+              <p class="text-[15.5px] leading-relaxed text-clay">
+                A ~160M-parameter language model built from scratch — architecture, tokenizer, data pipeline and training loop — to understand every layer of the stack, not just call it.
+              </p>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">PyTorch</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">Custom tokenizer</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">RoPE · GQA · SwiGLU</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">NTP + FIM</span>
+              </div>
+              <!-- Actions: Full Details Button + Case Study Link -->
+              <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                <button type="button" class="btn-toggle-details inline-flex items-center gap-2 border border-editorial-blue/40 bg-warm-ivory px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue hover:bg-editorial-blue hover:text-warm-ivory transition-all font-semibold shadow-sm" data-target="details-pythia-160m" aria-expanded="false" aria-controls="details-pythia-160m">
+                  <span class="btn-text">Full Details</span>
+                  <svg class="h-3.5 w-3.5 transition-transform duration-300 chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <a href="/projects/pythia-160m" class="group inline-flex items-center gap-1.5 border-b border-crimson pb-0.5 font-mono text-xs uppercase tracking-[0.16em] text-crimson hover:text-crimson font-semibold transition-colors py-1">
+                  Open case study <span class="transition-transform group-hover:translate-x-1">→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Expandable Full Details Panel: Pythia-160M -->
+          <div id="details-pythia-160m" class="project-details-panel hidden mt-8 border border-editorial-blue/25 p-6 sm:p-8 space-y-6 shadow-sm" role="region" aria-label="Pythia-160M full technical details">
+            <!-- Header bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-editorial-blue/15 pb-4">
+              <div class="space-y-1">
+                <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-crimson font-bold">Comprehensive Technical Breakdown</span>
+                <h3 class="font-display text-2xl font-medium text-editorial-blue">Pythia-160M — Architecture &amp; Training Stack</h3>
+              </div>
+              <span class="font-mono text-xs text-editorial-blue bg-editorial-blue/10 px-3 py-1 border border-editorial-blue/20 font-semibold">160M Params · PyTorch Scratch</span>
+            </div>
+
+            <!-- Deep Dive Text -->
+            <div class="space-y-3 text-[15px] leading-relaxed text-clay">
+              <p>
+                <strong class="text-ink font-semibold">Core Architecture:</strong> Pythia-160M is a 12-layer decoder-only transformer implemented completely from scratch in PyTorch, avoiding high-level abstractions to master every mathematical component of modern LLMs. It replaces standard multi-head attention with <strong class="text-ink font-semibold">Grouped-Query Attention (GQA)</strong>, pairing 12 Query heads with 2 Key-Value heads to reduce KV-cache memory bandwidth by 6× during code generation. Position encoding is handled via <strong class="text-ink font-semibold">Rotary Positional Embeddings (RoPE)</strong> ($\theta = 10,000$) for superior sequence length generalization.
+              </p>
+              <p>
+                <strong class="text-ink font-semibold">Training Objectives &amp; Tokenizer:</strong> Combines Next-Token Prediction (NTP) with Fill-in-the-Middle (FIM) at a 50/50 split using custom Sentinel tokens (`&lt;PRE&gt;`, `&lt;SUF&gt;`, `&lt;MID&gt;`) to enable docstring and function body completion. The tokenizer is a custom 32,768-vocab BPE engine with explicit multi-whitespace tokens to eliminate Python indentation fragmentation.
+              </p>
+            </div>
+
+            <!-- Specs Grid -->
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 font-mono text-xs">
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Model Dimensions</span>
+                <p class="font-semibold text-editorial-blue-deep">12 Layers · $d_{model}=768$</p>
+                <p class="text-[11px] text-clay">FFN SwiGLU $d_{ff}=2048$</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Attention Mechanism</span>
+                <p class="font-semibold text-editorial-blue-deep">GQA (12 Q / 2 KV)</p>
+                <p class="text-[11px] text-clay">RoPE $\theta=10000$ · Pre-RMSNorm</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Context &amp; Vocab</span>
+                <p class="font-semibold text-editorial-blue-deep">2,048 Tokens Context</p>
+                <p class="text-[11px] text-clay">32,768 Custom BPE Tokens</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Compute &amp; Precision</span>
+                <p class="font-semibold text-editorial-blue-deep">Single GPU · FP16/BF16</p>
+                <p class="text-[11px] text-clay">AdamW · Cosine Decay Warmup</p>
+              </div>
+            </div>
+
+            <!-- Engineering Hurdles Solved -->
+            <div class="space-y-3 pt-1">
+              <p class="font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue font-bold">Key Engineering Hurdles Solved</p>
+              <div class="grid gap-3 sm:grid-cols-3 text-xs leading-relaxed">
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">01 · Indentation Token Bloat</p>
+                  <p class="text-clay">Standard tokenizers split 4-space indentation into 4 separate tokens. Solved with dedicated whitespace run tokens, saving 24% context space on Python files.</p>
+                </div>
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">02 · KV-Cache Memory Limits</p>
+                  <p class="text-clay">Full multi-head attention exceeded GPU VRAM during generation at 2k context. Implemented 6:1 GQA compression, retaining accuracy while slashing VRAM 6×.</p>
+                </div>
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">03 · Gradient Explosion Early</p>
+                  <p class="text-clay">Replaced post-LayerNorm with Pre-RMSNorm and a 2,000-step linear learning rate warmup to prevent early training divergence without heavy weight decay.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-t border-editorial-blue/15 pt-4">
+              <div class="flex items-center gap-3">
+                <a href="/projects/pythia-160m" class="btn-cta-crimson text-xs">
+                  Read Full Case Study ↗
+                </a>
+                <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 border border-editorial-blue/30 px-3.5 py-2 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:bg-editorial-blue hover:text-warm-ivory transition-colors">
+                  GitHub Repository ↗
+                </a>
+              </div>
+              <span class="font-mono text-[11px] text-clay">Includes training loss curve, FIM benchmarks &amp; inference samples</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Row 2: CodeSensei -->
+        <article class="border-b border-editorial-blue/20 pb-16 pt-6">
+          <div class="grid gap-8 lg:grid-cols-2 lg:gap-14 items-center">
+            <!-- Left: Info -->
+            <div class="order-1 flex flex-col justify-center space-y-4">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xs tracking-[0.2em] text-crimson font-bold">02</span>
+                <span class="rounded-full border border-crimson/50 bg-crimson/10 px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-crimson font-semibold">Agentic AI</span>
+              </div>
+              <h2 class="font-display text-3xl sm:text-4xl font-medium text-editorial-blue">CodeSensei</h2>
+              <p class="font-mono text-sm text-editorial-blue-deep font-medium">A five-agent code intelligence system</p>
+              <p class="text-[15.5px] leading-relaxed text-clay">
+                Specialized agents analyze the same codebase from different angles — structure, behavior, risk, execution, impact — and a synthesizer reconciles their findings into one coherent review.
+              </p>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">React</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">TypeScript</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">Node.js</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">Gemini</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">D3.js</span>
+              </div>
+              <!-- Actions: Full Details Button + Case Study Link -->
+              <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                <button type="button" class="btn-toggle-details inline-flex items-center gap-2 border border-editorial-blue/40 bg-warm-ivory px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue hover:bg-editorial-blue hover:text-warm-ivory transition-all font-semibold shadow-sm" data-target="details-codesensei" aria-expanded="false" aria-controls="details-codesensei">
+                  <span class="btn-text">Full Details</span>
+                  <svg class="h-3.5 w-3.5 transition-transform duration-300 chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <a href="/projects/codesensei" class="group inline-flex items-center gap-1.5 border-b border-crimson pb-0.5 font-mono text-xs uppercase tracking-[0.16em] text-crimson hover:text-crimson font-semibold transition-colors py-1">
+                  Open case study <span class="transition-transform group-hover:translate-x-1">→</span>
+                </a>
+              </div>
+            </div>
+            <!-- Right: Mini Visual -->
+            <div class="order-2">
+              <a href="/projects/codesensei" class="group block h-full min-h-[280px] border border-editorial-blue-deep bg-editorial-blue p-7 transition-all duration-300 hover:-translate-y-1 hover:border-crimson sm:p-10 shadow-md" aria-label="Open CodeSensei case study">
+                <div class="flex h-full flex-col justify-between">
+                  <svg viewBox="0 0 100 52" class="h-28 w-full" aria-hidden="true">
+                    <line x1="10" y1="10" x2="50" y2="44" stroke="rgba(234,230,222,0.4)" stroke-width="0.8" />
+                    <line x1="30" y1="10" x2="50" y2="44" stroke="rgba(234,230,222,0.4)" stroke-width="0.8" />
+                    <line x1="50" y1="10" x2="50" y2="44" stroke="rgba(234,230,222,0.4)" stroke-width="0.8" />
+                    <line x1="70" y1="10" x2="50" y2="44" stroke="rgba(234,230,222,0.4)" stroke-width="0.8" />
+                    <line x1="90" y1="10" x2="50" y2="44" stroke="rgba(234,230,222,0.4)" stroke-width="0.8" />
+                    <circle cx="10" cy="10" r="3.5" fill="#EAE6DE" />
+                    <circle cx="30" cy="10" r="3.5" fill="#EAE6DE" />
+                    <circle cx="50" cy="10" r="3.5" fill="#EAE6DE" />
+                    <circle cx="70" cy="10" r="3.5" fill="#EAE6DE" />
+                    <circle cx="90" cy="10" r="3.5" fill="#EAE6DE" />
+                    <circle cx="50" cy="44" r="5" fill="#D21319" />
+                  </svg>
+                  <div class="mt-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-warm-ivory/80">
+                    <span class="text-crimson bg-warm-ivory px-1.5 py-0.5 font-bold">5 agents</span>
+                    <span>AST + Traces</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Expandable Full Details Panel: CodeSensei -->
+          <div id="details-codesensei" class="project-details-panel hidden mt-8 border border-editorial-blue/25 p-6 sm:p-8 space-y-6 shadow-sm" role="region" aria-label="CodeSensei full technical details">
+            <!-- Header bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-editorial-blue/15 pb-4">
+              <div class="space-y-1">
+                <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-crimson font-bold">Comprehensive Technical Breakdown</span>
+                <h3 class="font-display text-2xl font-medium text-editorial-blue">CodeSensei — 5-Agent Distributed Intelligence</h3>
+              </div>
+              <span class="font-mono text-xs text-crimson bg-crimson/10 px-3 py-1 border border-crimson/30 font-semibold">Agentic AI · Sub-90s Synthesizer</span>
+            </div>
+
+            <!-- Deep Dive Text -->
+            <div class="space-y-3 text-[15px] leading-relaxed text-clay">
+              <p>
+                <strong class="text-ink font-semibold">Orchestration &amp; Agent Roles:</strong> Monolithic code reviewers fail because structure, security, runtime, behavior, and impact demand fundamentally opposing analytical perspectives. CodeSensei deploys five autonomous agents in parallel: <strong class="text-ink font-semibold">01 Structure</strong> (AST hierarchies &amp; cyclic dependencies), <strong class="text-ink font-semibold">02 Behavior</strong> (control flow paths &amp; side effects), <strong class="text-ink font-semibold">03 Risk</strong> (race conditions, unhandled exceptions &amp; sanitization), <strong class="text-ink font-semibold">04 Execution</strong> (runtime memory allocations &amp; hot loop costs), and <strong class="text-ink font-semibold">05 Impact</strong> (blast radius &amp; breaking downstream changes).
+              </p>
+              <p>
+                <strong class="text-ink font-semibold">Deterministic Synthesizer:</strong> Agent outputs feed into a strict JSON consensus engine. The Synthesizer cross-references findings against confidence thresholds and resolves contradictory recommendations (e.g. abstraction depth vs. runtime overhead) before generating an interactive unified code review.
+              </p>
+            </div>
+
+            <!-- Specs Grid -->
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 font-mono text-xs">
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Agent Ensemble</span>
+                <p class="font-semibold text-editorial-blue-deep">5 Autonomous Agents</p>
+                <p class="text-[11px] text-clay">+ 1 Consensus Synthesizer</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Performance &amp; Speed</span>
+                <p class="font-semibold text-editorial-blue-deep">&lt;90s Full Codebase</p>
+                <p class="text-[11px] text-clay">&lt;10s Targeted Symbol Diffs</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Parsing Engine</span>
+                <p class="font-semibold text-editorial-blue-deep">AST &amp; Call Graph</p>
+                <p class="text-[11px] text-clay">Hierarchical Symbol Extraction</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Frontend &amp; Stack</span>
+                <p class="font-semibold text-editorial-blue-deep">React · TypeScript · D3.js</p>
+                <p class="text-[11px] text-clay">Node.js · Gemini Flash / Pro</p>
+              </div>
+            </div>
+
+            <!-- Engineering Hurdles Solved -->
+            <div class="space-y-3 pt-1">
+              <p class="font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue font-bold">Key Engineering Hurdles Solved</p>
+              <div class="grid gap-3 sm:grid-cols-3 text-xs leading-relaxed">
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">01 · Conflicting Agent Advice</p>
+                  <p class="text-clay">Structure agent requested OOP inheritance while Execution agent flagged virtual dispatch penalties. Solved via a weighted decision rubric in the Synthesizer based on target environment.</p>
+                </div>
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">02 · Hallucination Cascades</p>
+                  <p class="text-clay">If one agent hallucinated a missing null check, subsequent agents built erroneous claims. Solved by decoupling agents completely: zero inter-agent talk, strict isolated AST evidence.</p>
+                </div>
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">03 · Large Repo Context Overflows</p>
+                  <p class="text-clay">Full repositories exceeded context limits. Implemented topological AST chunking, passing only call signatures and dependency nodes rather than raw file blobs.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-t border-editorial-blue/15 pt-4">
+              <div class="flex items-center gap-3">
+                <a href="/projects/codesensei" class="btn-cta-crimson text-xs">
+                  Read Full Case Study ↗
+                </a>
+                <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 border border-editorial-blue/30 px-3.5 py-2 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:bg-editorial-blue hover:text-warm-ivory transition-colors">
+                  GitHub Repository ↗
+                </a>
+              </div>
+              <span class="font-mono text-[11px] text-clay">Includes agent communication protocol, JSON schemas &amp; D3 graph</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Row 3: LedgerLens -->
+        <article class="border-b border-editorial-blue/20 pb-16 pt-6">
+          <div class="grid gap-8 lg:grid-cols-2 lg:gap-14 items-center">
+            <!-- Left: Mini Visual -->
+            <div class="order-2 lg:order-1">
+              <a href="/projects/ledgerlens" class="group block h-full min-h-[280px] border border-editorial-blue-deep bg-editorial-blue p-7 transition-all duration-300 hover:-translate-y-1 hover:border-crimson sm:p-10 shadow-md" aria-label="Open LedgerLens case study">
+                <div class="flex h-full flex-col justify-between">
+                  <div class="grid grid-cols-3 gap-2">
+                    <div class="border border-warm-ivory/20 bg-editorial-blue-deep p-2 text-center font-mono text-[10px] text-warm-ivory/90">01 Ingest</div>
+                    <div class="border border-crimson bg-crimson/30 p-2 text-center font-mono text-[10px] text-warm-ivory font-bold">02 Anomaly !</div>
+                    <div class="border border-warm-ivory/20 bg-editorial-blue-deep p-2 text-center font-mono text-[10px] text-warm-ivory/90">03 Policy</div>
+                    <div class="border border-warm-ivory/20 bg-editorial-blue-deep p-2 text-center font-mono text-[10px] text-warm-ivory/90">04 Case</div>
+                    <div class="border border-warm-ivory/20 bg-editorial-blue-deep p-2 text-center font-mono text-[10px] text-warm-ivory/90">05 Hypo</div>
+                    <div class="border border-crimson/80 bg-warm-ivory p-2 text-center font-mono text-[10px] text-editorial-blue font-bold">06 ReAct Agent</div>
+                  </div>
+                  <div class="mt-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-warm-ivory/80">
+                    <span class="text-crimson bg-warm-ivory px-1.5 py-0.5 font-bold">ReAct Loop</span>
+                    <span>SQLite + Audit Log</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Right: Info -->
+            <div class="order-1 flex flex-col justify-center lg:order-2 space-y-4">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xs tracking-[0.2em] text-crimson font-bold">03</span>
+                <span class="rounded-full border border-editorial-blue/30 bg-editorial-blue/10 px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-editorial-blue font-semibold">FinTech AI</span>
+              </div>
+              <h2 class="font-display text-3xl sm:text-4xl font-medium text-editorial-blue">LedgerLens</h2>
+              <p class="font-mono text-sm text-editorial-blue-deep font-medium">An AI-powered financial investigation workflow</p>
+              <p class="text-[15.5px] leading-relaxed text-clay">
+                From transaction reconciliation and anomaly detection through policy checks, case management and a ReAct-style agent that actually investigates — a full pipeline for financial forensics.
+              </p>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">FastAPI</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">SQLite</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">Streamlit</span>
+              </div>
+              <!-- Actions: Full Details Button + Case Study Link -->
+              <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                <button type="button" class="btn-toggle-details inline-flex items-center gap-2 border border-editorial-blue/40 bg-warm-ivory px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue hover:bg-editorial-blue hover:text-warm-ivory transition-all font-semibold shadow-sm" data-target="details-ledgerlens" aria-expanded="false" aria-controls="details-ledgerlens">
+                  <span class="btn-text">Full Details</span>
+                  <svg class="h-3.5 w-3.5 transition-transform duration-300 chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <a href="/projects/ledgerlens" class="group inline-flex items-center gap-1.5 border-b border-crimson pb-0.5 font-mono text-xs uppercase tracking-[0.16em] text-crimson hover:text-crimson font-semibold transition-colors py-1">
+                  Open case study <span class="transition-transform group-hover:translate-x-1">→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Expandable Full Details Panel: LedgerLens -->
+          <div id="details-ledgerlens" class="project-details-panel hidden mt-8 border border-editorial-blue/25 p-6 sm:p-8 space-y-6 shadow-sm" role="region" aria-label="LedgerLens full technical details">
+            <!-- Header bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-editorial-blue/15 pb-4">
+              <div class="space-y-1">
+                <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-crimson font-bold">Comprehensive Technical Breakdown</span>
+                <h3 class="font-display text-2xl font-medium text-editorial-blue">LedgerLens — AI Financial Forensic Investigation</h3>
+              </div>
+              <span class="font-mono text-xs text-editorial-blue bg-editorial-blue/10 px-3 py-1 border border-editorial-blue/20 font-semibold">FinTech AI · ReAct Agent</span>
+            </div>
+
+            <!-- Deep Dive Text -->
+            <div class="space-y-3 text-[15px] leading-relaxed text-clay">
+              <p>
+                <strong class="text-ink font-semibold">Pipeline Architecture:</strong> LedgerLens tackles high-stakes financial investigations through a 6-stage evidence pipeline: <strong class="text-ink font-semibold">01 Reconcile</strong> (aligning ledger transactions across banking, ERP, and payment gateway feeds), <strong class="text-ink font-semibold">02 Anomaly Detection</strong> (unsupervised statistical clustering and Benford's Law distribution analysis), <strong class="text-ink font-semibold">03 Policy Engine</strong> (verifying against regulatory limits and AML rules), <strong class="text-ink font-semibold">04 Case Bundler</strong> (corroborating micro-events into single investigation cases), <strong class="text-ink font-semibold">05 Hypothesis Engine</strong> (ranking plausible fraud/error scenarios), and <strong class="text-ink font-semibold">06 ReAct Agent</strong> (investigating transaction logs via read-only SQL queries).
+              </p>
+              <p>
+                <strong class="text-ink font-semibold">Deterministic Grounding:</strong> To guarantee that zero hallucinated figures pollute audits, the LLM is prohibited from calculating totals directly. It formulates investigative hypotheses, executes deterministic SQL queries, and records observations with cryptographic audit logs.
+              </p>
+            </div>
+
+            <!-- Specs Grid -->
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 font-mono text-xs">
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Pipeline Stages</span>
+                <p class="font-semibold text-editorial-blue-deep">6 Forensic Stages</p>
+                <p class="text-[11px] text-clay">Reconcile → ReAct Agent</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Agent Methodology</span>
+                <p class="font-semibold text-editorial-blue-deep">ReAct Loop</p>
+                <p class="text-[11px] text-clay">Thought → Action → Tool → Obs</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Audit &amp; Database</span>
+                <p class="font-semibold text-editorial-blue-deep">SQLite / PostgreSQL</p>
+                <p class="text-[11px] text-clay">Immutable Query Ledger</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Stack &amp; Framework</span>
+                <p class="font-semibold text-editorial-blue-deep">FastAPI · Streamlit</p>
+                <p class="text-[11px] text-clay">Pandas · Scikit-learn · Python</p>
+              </div>
+            </div>
+
+            <!-- Engineering Hurdles Solved -->
+            <div class="space-y-3 pt-1">
+              <p class="font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue font-bold">Key Engineering Hurdles Solved</p>
+              <div class="grid gap-3 sm:grid-cols-3 text-xs leading-relaxed">
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">01 · LLM Mathematical Hallucination</p>
+                  <p class="text-clay">Unconstrained LLMs fabricate ledger balances. Solved by locking down the agent to tool-use only: all math is computed via parameterized SQL queries with zero free-form arithmetic.</p>
+                </div>
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">02 · Alert Fatigue (95% False Alarms)</p>
+                  <p class="text-clay">Rule thresholds fire on harmless edge cases. Solved by clustering micro-anomalies into unified hypothesis cases, requiring multi-point corroboration before alerting humans.</p>
+                </div>
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">03 · Chain of Custody Compliance</p>
+                  <p class="text-clay">Auditors demand forensic reproducibility. Implemented an append-only transaction ledger that logs the exact database state, SQL query, and agent rationale for every conclusion.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-t border-editorial-blue/15 pt-4">
+              <div class="flex items-center gap-3">
+                <a href="/projects/ledgerlens" class="btn-cta-crimson text-xs">
+                  Read Full Case Study ↗
+                </a>
+                <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 border border-editorial-blue/30 px-3.5 py-2 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:bg-editorial-blue hover:text-warm-ivory transition-colors">
+                  GitHub Repository ↗
+                </a>
+              </div>
+              <span class="font-mono text-[11px] text-clay">Includes transaction reconciliation logs &amp; forensic case reports</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Row 4: TalkToWeb -->
+        <article class="border-b border-editorial-blue/20 pb-16 pt-6">
+          <div class="grid gap-8 lg:grid-cols-2 lg:gap-14 items-center">
+            <!-- Left: Info -->
+            <div class="order-1 flex flex-col justify-center space-y-4">
+              <div class="flex items-center gap-4">
+                <span class="font-mono text-xs tracking-[0.2em] text-crimson font-bold">04</span>
+                <span class="rounded-full border border-crimson/50 bg-crimson/10 px-2.5 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-crimson font-semibold">Automation</span>
+              </div>
+              <h2 class="font-display text-3xl sm:text-4xl font-medium text-editorial-blue">TalkToWeb</h2>
+              <p class="font-mono text-sm text-editorial-blue-deep font-medium">Natural-language browser automation</p>
+              <p class="text-[15.5px] leading-relaxed text-clay">
+                An instruction becomes a plan, the plan becomes real browser actions, and observations come back as results — with error handling and iteration where it counts.
+              </p>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">LangChain</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">Gemini</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">Playwright</span>
+                <span class="border border-editorial-blue/20 px-2.5 py-1 font-mono text-[11px] text-clay">FastAPI</span>
+              </div>
+              <!-- Actions: Full Details Button + Case Study Link -->
+              <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                <button type="button" class="btn-toggle-details inline-flex items-center gap-2 border border-editorial-blue/40 bg-warm-ivory px-4 py-2 font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue hover:bg-editorial-blue hover:text-warm-ivory transition-all font-semibold shadow-sm" data-target="details-talktoweb" aria-expanded="false" aria-controls="details-talktoweb">
+                  <span class="btn-text">Full Details</span>
+                  <svg class="h-3.5 w-3.5 transition-transform duration-300 chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <a href="/projects/talktoweb" class="group inline-flex items-center gap-1.5 border-b border-crimson pb-0.5 font-mono text-xs uppercase tracking-[0.16em] text-crimson hover:text-crimson font-semibold transition-colors py-1">
+                  Open case study <span class="transition-transform group-hover:translate-x-1">→</span>
+                </a>
+              </div>
+            </div>
+            <!-- Right: Mini Visual -->
+            <div class="order-2">
+              <a href="/projects/talktoweb" class="group block h-full min-h-[280px] border border-editorial-blue-deep bg-editorial-blue p-7 transition-all duration-300 hover:-translate-y-1 hover:border-crimson sm:p-10 shadow-md" aria-label="Open TalkToWeb case study">
+                <div class="flex h-full flex-col justify-between">
+                  <div class="border border-warm-ivory/20 bg-editorial-blue-deep p-3">
+                    <div class="flex items-center gap-1.5 border-b border-warm-ivory/15 pb-2">
+                      <span class="h-2 w-2 rounded-full bg-crimson"></span>
+                      <span class="h-2 w-2 rounded-full bg-warm-ivory/80"></span>
+                      <span class="h-2 w-2 rounded-full bg-warm-ivory/40"></span>
+                      <span class="ml-2 font-mono text-[9px] text-warm-ivory/70">browser://agent.plan</span>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between font-mono text-[10px] text-warm-ivory">
+                      <span>&gt; click(#submit)</span>
+                      <span class="text-crimson font-bold">[ok]</span>
+                    </div>
+                  </div>
+                  <div class="mt-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-warm-ivory/80">
+                    <span class="text-crimson bg-warm-ivory px-1.5 py-0.5 font-bold">Plan → Observe</span>
+                    <span>Playwright Driver</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Expandable Full Details Panel: TalkToWeb -->
+          <div id="details-talktoweb" class="project-details-panel hidden mt-8 border border-editorial-blue/25 p-6 sm:p-8 space-y-6 shadow-sm" role="region" aria-label="TalkToWeb full technical details">
+            <!-- Header bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-editorial-blue/15 pb-4">
+              <div class="space-y-1">
+                <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-crimson font-bold">Comprehensive Technical Breakdown</span>
+                <h3 class="font-display text-2xl font-medium text-editorial-blue">TalkToWeb — Closed-Loop Autonomous Browser Agent</h3>
+              </div>
+              <span class="font-mono text-xs text-crimson bg-crimson/10 px-3 py-1 border border-crimson/30 font-semibold">Autonomous Execution · Self-Healing DOM</span>
+            </div>
+
+            <!-- Deep Dive Text -->
+            <div class="space-y-3 text-[15px] leading-relaxed text-clay">
+              <p>
+                <strong class="text-ink font-semibold">Plan-Observe-Act Closed Loop:</strong> TalkToWeb transforms unstructured natural language commands into browser actions through an iterative, feedback-driven execution loop. The agent parses user intent, breaks it down into sequential sub-goals, targets DOM elements using accessibility tree mappings (ARIA names and roles), and executes mouse/keyboard primitives via Playwright. After every action, it captures the mutated page state to verify expected outcomes before continuing.
+              </p>
+              <p>
+                <strong class="text-ink font-semibold">Self-Healing &amp; Resilience:</strong> When websites display unexpected cookie consent banners, Captchas, layout mutations, or dynamic React re-renders, TalkToWeb detects action failure, inspects the updated visual and DOM hierarchy, and dynamically replans intermediate steps to achieve the objective without human intervention.
+              </p>
+            </div>
+
+            <!-- Specs Grid -->
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 font-mono text-xs">
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Execution Engine</span>
+                <p class="font-semibold text-editorial-blue-deep">Playwright Driver</p>
+                <p class="text-[11px] text-clay">Headless / Headful Chrome</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Agent Loop</span>
+                <p class="font-semibold text-editorial-blue-deep">Plan → Act → Observe</p>
+                <p class="text-[11px] text-clay">Closed-Loop Verification</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">State Representation</span>
+                <p class="font-semibold text-editorial-blue-deep">A11y Tree + Bounding Box</p>
+                <p class="text-[11px] text-clay">80% Token Reduction vs Raw DOM</p>
+              </div>
+              <div class="border border-editorial-blue/20 bg-warm-ivory p-3.5 space-y-1">
+                <span class="text-[10px] uppercase tracking-wider text-clay">Stack &amp; Framework</span>
+                <p class="font-semibold text-editorial-blue-deep">LangChain · Gemini</p>
+                <p class="text-[11px] text-clay">FastAPI · Python · Playwright</p>
+              </div>
+            </div>
+
+            <!-- Engineering Hurdles Solved -->
+            <div class="space-y-3 pt-1">
+              <p class="font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue font-bold">Key Engineering Hurdles Solved</p>
+              <div class="grid gap-3 sm:grid-cols-3 text-xs leading-relaxed">
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">01 · Brittle CSS &amp; XPath Selectors</p>
+                  <p class="text-clay">Modern single-page applications generate random hashed classes on every build. Solved by replacing CSS selectors with semantic accessibility tree nodes and ARIA labels.</p>
+                </div>
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">02 · Asynchronous DOM Race Conditions</p>
+                  <p class="text-clay">Agents clicked buttons before hydration finished, resulting in missed actions. Built a custom network-idle and mutation watcher that verifies DOM element responsiveness before action dispatch.</p>
+                </div>
+                <div class="border-l-2 border-crimson bg-warm-ivory/80 p-3.5 space-y-1">
+                  <p class="font-mono font-semibold text-editorial-blue-deep">03 · Unexpected Popups &amp; Overlays</p>
+                  <p class="text-clay">Modal dialogs trap cursor focus and abort scripts. Implemented a popup interrupt detector that intercepts z-index overlays, dismisses them safely, and resumes the active execution plan.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="flex flex-wrap items-center justify-between gap-4 border-t border-editorial-blue/15 pt-4">
+              <div class="flex items-center gap-3">
+                <a href="/projects/talktoweb" class="btn-cta-crimson text-xs">
+                  Read Full Case Study ↗
+                </a>
+                <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 border border-editorial-blue/30 px-3.5 py-2 font-mono text-xs uppercase tracking-wider text-editorial-blue hover:bg-editorial-blue hover:text-warm-ivory transition-colors">
+                  GitHub Repository ↗
+                </a>
+              </div>
+              <span class="font-mono text-[11px] text-clay">Includes execution traces, DOM mutation logs &amp; recovery recordings</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Feature Section: Engineering Philosophy -->
+      <div class="mt-20 border border-editorial-blue-deep bg-editorial-blue p-8 sm:p-12 text-warm-ivory shadow-md">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] bg-crimson px-2.5 py-0.5 text-warm-ivory font-semibold">Philosophy</span>
+          <span class="font-mono text-[10.5px] uppercase tracking-[0.2em] text-warm-ivory/80">Systems · First Principles</span>
+        </div>
+        <h3 class="font-display text-2xl sm:text-3xl font-medium text-warm-ivory mb-3">
+          Why build architectures instead of calling APIs?
+        </h3>
+        <p class="max-w-2xl text-[15px] sm:text-base leading-relaxed text-warm-ivory/90 mb-6">
+          High-level wrappers conceal the true engineering constraints of machine intelligence: tokenizer bottlenecks, activation memory, KV-cache growth, multi-agent deadlock, and silent hallucination cascades. Every system catalogued here was built to inspect the failure modes firsthand.
+        </p>
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="/research" class="btn-cta-crimson">
+            Explore Research Notes ↗
+          </a>
+          <a href="/about" class="btn-secondary-ivory">
+            About the Method ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-warm-ivory/20 bg-editorial-blue-deep text-warm-ivory">
+    <div class="wrap py-16">
+      <div class="grid gap-12 md:grid-cols-12">
+        <div class="md:col-span-5 space-y-5">
+          <a href="/" class="group flex items-center gap-3 font-display" aria-label="Ujwal Mahajan">
+            <span class="flex h-9 w-9 items-center justify-center border font-serif text-base tracking-wider border-gold/50 text-ivory group-hover:border-gold">UM</span>
+            <span class="font-serif text-lg tracking-tight text-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+          </a>
+          <p class="max-w-sm text-[15px] leading-relaxed text-fog">
+            AI engineer building intelligent systems — and understanding them from first principles.
+          </p>
+          <div class="flex items-center gap-4 text-fog">
+            <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="GitHub">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="LinkedIn">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+            <a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory" aria-label="Email">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            </a>
+            <button type="button" onclick="openTerminal()" class="font-mono text-xs uppercase tracking-widest text-gold hover:text-ivory border border-gold/40 px-2 py-1 ml-2">Terminal</button>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Navigate</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/" class="hover:text-ivory">Home</a></li>
+            <li><a href="/about" class="hover:text-ivory">About</a></li>
+            <li><a href="/projects" class="hover:text-ivory">Projects</a></li>
+            <li><a href="/research" class="hover:text-ivory">Research</a></li>
+            <li><a href="/interests" class="hover:text-ivory">Interests</a></li>
+            <li><a href="/resume" class="hover:text-ivory">Resume</a></li>
+            <li><a href="/contact" class="hover:text-ivory">Contact</a></li>
+            <li><a href="/lore" class="hover:text-ivory text-gold">The Lore ↗</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Projects</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/projects/pythia-160m" class="hover:text-ivory">Pythia-160M <span class="font-mono text-xs text-gold">↗</span></a></li>
+            <li><a href="/projects/codesensei" class="hover:text-ivory">CodeSensei</a></li>
+            <li><a href="/projects/ledgerlens" class="hover:text-ivory">LedgerLens</a></li>
+            <li><a href="/projects/talktoweb" class="hover:text-ivory">TalkToWeb</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Elsewhere</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">github/ujwal-sudo</a></li>
+            <li><a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">linkedin/ujwal-mahajan</a></li>
+            <li><a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory">2023bec049@sggs.ac.in</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t hairline-navy pt-8 text-xs text-fog sm:flex-row">
+        <p>© 2026 Ujwal Mahajan · Built from first principles</p>
+        <button id="back-to-top" class="inline-flex items-center gap-1.5 hover:text-ivory">
+          Back to top
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chat Bubble -->
+  <div id="chat-bubble">
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <div class="chat-title">
+          <span class="chat-title-dot"></span>
+          Ujwal.AI (Gemini)
+        </div>
+        <button type="button" class="chat-close" onclick="toggleChat()" aria-label="Close chat">×</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg bot">Hey! I'm an AI clone of Ujwal. Ask me about any of the four systems featured here.</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Ask Ujwal anything..." autocomplete="off">
+        <button type="button" class="chat-send" onclick="sendChat()" aria-label="Send">Send</button>
+      </div>
+    </div>
+    <button type="button" class="chat-toggle" id="chat-toggle" onclick="toggleChat()" aria-expanded="false">
+      Ask Ujwal AI
+    </button>
+  </div>
+
+  <!-- Terminal Modal -->
+  <div id="terminal-overlay">
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <div class="term-dot" style="background:#ff5f57;"></div>
+        <div class="term-dot" style="background:#febc2e;"></div>
+        <div class="term-dot" style="background:#28c840;"></div>
+        <div class="term-title">ujwal@portfolio: ~</div>
+        <button class="terminal-close" type="button" onclick="closeTerminal()" aria-label="Close terminal">×</button>
+      </div>
+      <div class="terminal-body" id="term-body"></div>
+      <div class="term-input-row">
+        <span class="term-prompt">ujwal@portfolio:~$</span>
+        <input type="text" id="term-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/site.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleButtons = document.querySelectorAll('.btn-toggle-details');
+      toggleButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-target');
+          const panel = document.getElementById(targetId);
+          if (!panel) return;
+          const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+          const btnText = btn.querySelector('.btn-text');
+
+          if (isExpanded) {
+            panel.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+            btn.classList.remove('active');
+            if (btnText) btnText.textContent = 'Full Details';
+          } else {
+            panel.classList.remove('hidden');
+            btn.setAttribute('aria-expanded', 'true');
+            btn.classList.add('active');
+            if (btnText) btnText.textContent = 'Hide Details';
+            // Smoothly bring panel into comfortable view
+            setTimeout(() => {
+              const rect = panel.getBoundingClientRect();
+              if (rect.top < 80 || rect.bottom > window.innerHeight) {
+                panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              }
+            }, 60);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

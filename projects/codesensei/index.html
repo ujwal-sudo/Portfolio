@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0E1D61">
+  <title>CodeSensei — Case Study | Ujwal Mahajan</title>
+  <meta name="description" content="A five-agent code intelligence system. Structure, behavior, risk, execution, impact, and synthesized review.">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body class="bg-warm-ivory text-ink antialiased selection:bg-crimson selection:text-warm-ivory">
+
+  <!-- Nav Header -->
+  <nav class="site-nav fixed inset-x-0 top-0 z-40 h-16 transition-all duration-300 bg-transparent border-b border-transparent" aria-label="Primary navigation" data-theme="blue">
+    <div class="wrap flex h-full items-center justify-between">
+      <a href="/" class="site-brand group flex items-center gap-2.5 font-display" aria-label="Ujwal Mahajan — home" data-testid="monogram-home-link">
+        <span class="brand-badge border-warm-ivory/40 text-warm-ivory group-hover:border-crimson">UM</span>
+        <span class="brand-text-full font-serif text-lg tracking-tight text-warm-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <a href="/" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-home">Home</a>
+        <a href="/about" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-about">About</a>
+        <div class="relative group nav-projects">
+          <div class="flex items-center gap-1.5 cursor-pointer py-2">
+            <a href="/projects" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-projects" aria-current="page">Projects</a>
+            <button type="button" aria-label="Open projects menu" aria-expanded="false" class="p-0.5 text-warm-ivory/70 group-hover:text-crimson transition-transform group-hover:rotate-180">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+          <div class="nav-dropdown absolute left-1/2 top-full -translate-x-1/2 pt-2 hidden group-hover:block" id="project-menu">
+            <div class="w-64 border border-warm-ivory/20 bg-editorial-blue-deep p-2 shadow-2xl shadow-black/40">
+              <a href="/projects/pythia-160m" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-pythia-160m">
+                <span class="font-display text-[15px] text-warm-ivory">Pythia-160M ↗</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-warm-ivory/70">Research</span>
+              </a>
+              <a href="/projects/codesensei" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-codesensei">
+                <span class="font-display text-[15px] text-warm-ivory">CodeSensei</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-bold">Agentic AI</span>
+              </a>
+              <a href="/projects/ledgerlens" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-ledgerlens">
+                <span class="font-display text-[15px] text-warm-ivory">LedgerLens</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-warm-ivory/70">FinTech AI</span>
+              </a>
+              <a href="/projects/talktoweb" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-editorial-blue" data-testid="nav-sublink-talktoweb">
+                <span class="font-display text-[15px] text-warm-ivory">TalkToWeb</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson">Automation</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="/research" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-research">Research</a>
+        <a href="/interests" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-interests">Interests</a>
+        <a href="/resume" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-resume">Resume</a>
+        <a href="/contact" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-contact">Contact</a>
+      </div>
+
+      <!-- Action Button & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <a href="/contact" class="hidden md:inline-flex btn-cta-crimson" data-testid="nav-lets-talk-button">
+          Let's Talk ↗
+        </a>
+        <button class="nav-toggle flex h-10 w-10 items-center justify-center border border-warm-ivory/30 text-warm-ivory md:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-warm-ivory/20 bg-editorial-blue-deep p-6 md:hidden" id="mobile-nav" hidden>
+    <div class="flex flex-col gap-5">
+      <a href="/" class="font-display text-2xl text-warm-ivory">Home</a>
+      <a href="/about" class="font-display text-2xl text-warm-ivory">About</a>
+      <div>
+        <div class="eyebrow text-warm-ivory/70 mb-2">Projects</div>
+        <div class="flex flex-col gap-2.5 pl-3 border-l border-warm-ivory/20">
+          <a href="/projects" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Overview</a>
+          <a href="/projects/pythia-160m" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Pythia-160M ↗</a>
+          <a href="/projects/codesensei" class="font-display text-lg text-warm-ivory">CodeSensei</a>
+          <a href="/projects/ledgerlens" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">LedgerLens</a>
+          <a href="/projects/talktoweb" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">TalkToWeb</a>
+        </div>
+      </div>
+      <a href="/research" class="font-display text-2xl text-warm-ivory">Research</a>
+      <a href="/interests" class="font-display text-2xl text-warm-ivory">Interests</a>
+      <a href="/resume" class="font-display text-2xl text-warm-ivory">Resume</a>
+      <a href="/contact" class="font-display text-2xl text-warm-ivory">Contact</a>
+      <a href="/lore" class="font-display text-2xl text-warm-ivory">The Lore ↗</a>
+      <div class="pt-4 border-t border-warm-ivory/20">
+        <a href="/contact" class="inline-flex w-full items-center justify-center gap-2 bg-crimson px-5 py-3 font-mono text-xs uppercase tracking-[0.16em] text-warm-ivory">Let's Talk ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- Hero Band: Deep Editorial Blue Project Header -->
+    <header class="border-b border-editorial-blue-deep bg-editorial-blue pb-16 pt-28 sm:pt-32 text-warm-ivory">
+      <div class="wrap space-y-4">
+        <nav class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-warm-ivory/70" aria-label="Breadcrumb">
+          <a href="/projects" class="hover:text-warm-ivory">Projects</a>
+          <span class="text-crimson">/</span>
+          <span class="text-warm-ivory font-semibold">CodeSensei</span>
+        </nav>
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <h1 class="font-display text-4xl sm:text-5xl font-medium text-warm-ivory">CodeSensei</h1>
+          <span class="rounded-full border border-warm-ivory/40 bg-warm-ivory/15 px-3 py-1 font-mono text-xs uppercase tracking-[0.14em] text-warm-ivory">Agentic AI · Built</span>
+        </div>
+        <p class="max-w-2xl font-mono text-sm text-warm-ivory/90 sm:text-base">
+          A five-agent code intelligence system with synthesized cognitive reviews
+        </p>
+        <div class="flex flex-wrap gap-2 pt-2">
+          <span class="border border-warm-ivory/25 px-2.5 py-1 font-mono text-xs text-warm-ivory/90">React</span>
+          <span class="border border-warm-ivory/25 px-2.5 py-1 font-mono text-xs text-warm-ivory/90">TypeScript</span>
+          <span class="border border-warm-ivory/25 px-2.5 py-1 font-mono text-xs text-warm-ivory/90">Node.js</span>
+          <span class="border border-warm-ivory/25 px-2.5 py-1 font-mono text-xs text-warm-ivory/90">Gemini</span>
+          <span class="border border-warm-ivory/25 px-2.5 py-1 font-mono text-xs text-warm-ivory/90">D3.js</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Grid with Sticky TOC -->
+    <div class="wrap py-16">
+      <div class="grid gap-12 lg:grid-cols-[1fr_210px] lg:gap-16">
+        <!-- Main Content -->
+        <div class="space-y-16">
+          <!-- 01: Overview -->
+          <section id="overview" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">01 · Overview</p>
+            <h2 class="font-display text-3xl text-navy">Five specialists walk into a codebase</h2>
+            <div class="space-y-4 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                CodeSensei is a multi-agent code intelligence system. Instead of asking one model to review everything at once, it splits the job across five specialized agents — each with a narrow question to answer — and a synthesizer that turns their combined findings into one coherent result.
+              </p>
+              <p>
+                Monolithic prompts fail on large codebases because code analysis demands contradictory perspectives: the structural engineer wants clean abstractions; the runtime engineer cares about memory allocations; the security engineer views every input with suspicion. Splitting these into distinct agent roles produces deeper, non-generic reviews.
+              </p>
+            </div>
+          </section>
+
+          <!-- 02: Architecture -->
+          <section id="architecture" class="scroll-mt-24 space-y-6">
+            <p class="eyebrow text-crimson">02 · Architecture</p>
+            <h2 class="font-display text-3xl text-navy">From raw source to synthesized review</h2>
+            <p class="text-[15.5px] leading-relaxed text-clay sm:text-base">
+              The five agents inspect the repository in parallel. Their findings fan into an SVG convergence manifold that feeds the Synthesizer for deduplication and resolution.
+            </p>
+
+            <!-- AgentFlow Diagram -->
+            <div class="clip-diagram p-6 sm:p-8 space-y-4 bg-navy text-ivory">
+              <!-- Top 5 Agent Cards -->
+              <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                <div class="border border-ivory/20 bg-navy-raise p-3.5 space-y-1.5">
+                  <span class="font-mono text-[11px] uppercase tracking-wider text-gold">01 · Structure</span>
+                  <p class="text-xs text-fog leading-snug">AST, modules, classes, dependencies.</p>
+                </div>
+                <div class="border border-ivory/20 bg-navy-raise p-3.5 space-y-1.5">
+                  <span class="font-mono text-[11px] uppercase tracking-wider text-gold">02 · Behavior</span>
+                  <p class="text-xs text-fog leading-snug">Control flow and data paths end to end.</p>
+                </div>
+                <div class="border border-ivory/20 bg-navy-raise p-3.5 space-y-1.5">
+                  <span class="font-mono text-[11px] uppercase tracking-wider text-gold">03 · Risk</span>
+                  <p class="text-xs text-fog leading-snug">Fragile patterns, race conditions, edge cases.</p>
+                </div>
+                <div class="border border-ivory/20 bg-navy-raise p-3.5 space-y-1.5">
+                  <span class="font-mono text-[11px] uppercase tracking-wider text-gold">04 · Execution</span>
+                  <p class="text-xs text-fog leading-snug">Runtime simulation, branch costs, loops.</p>
+                </div>
+                <div class="border border-ivory/20 bg-navy-raise p-3.5 space-y-1.5">
+                  <span class="font-mono text-[11px] uppercase tracking-wider text-gold">05 · Impact</span>
+                  <p class="text-xs text-fog leading-snug">Blast radius across the wider system.</p>
+                </div>
+              </div>
+
+              <!-- Convergence SVG Manifold -->
+              <svg viewBox="0 0 100 56" class="mx-auto h-12 w-full max-w-[900px]" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M 10 0 C 10 28, 50 28, 50 54" fill="none" stroke="rgba(232,224,210,0.35)" stroke-width="0.6" />
+                <path d="M 30 0 C 30 28, 50 28, 50 54" fill="none" stroke="rgba(232,224,210,0.35)" stroke-width="0.6" />
+                <path d="M 50 0 C 50 28, 50 28, 50 54" fill="none" stroke="rgba(232,224,210,0.35)" stroke-width="0.6" />
+                <path d="M 70 0 C 70 28, 50 28, 50 54" fill="none" stroke="rgba(232,224,210,0.35)" stroke-width="0.6" />
+                <path d="M 90 0 C 90 28, 50 28, 50 54" fill="none" stroke="rgba(232,224,210,0.35)" stroke-width="0.6" />
+              </svg>
+
+              <!-- Synthesizer Box -->
+              <div class="mx-auto max-w-xl border border-crimson/60 bg-navy-raise p-5 text-center space-y-2">
+                <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-crimson">Synthesizer</p>
+                <h3 class="font-display text-xl text-ivory">Unified Executive Verdict</h3>
+                <p class="text-xs text-fog">Reconciles conflicts, removes redundancy, and issues a unified, non-contradictory review.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 03: The Five Agents -->
+          <section id="agents" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">03 · The Five Agents</p>
+            <h2 class="font-display text-3xl text-navy">Five angles on the same source</h2>
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="border hairline-ivory bg-ivory-warm p-5 space-y-2">
+                <span class="font-mono text-xs text-gold uppercase tracking-wider">01 · Structure Agent</span>
+                <p class="text-sm text-clay leading-relaxed">Parses the codebase into an AST and maps its skeleton: how modules, classes, and inheritance graphs interact. Answers: <em>what is this code structurally?</em></p>
+              </div>
+              <div class="border hairline-ivory bg-ivory-warm p-5 space-y-2">
+                <span class="font-mono text-xs text-gold uppercase tracking-wider">02 · Behavior Agent</span>
+                <p class="text-sm text-clay leading-relaxed">Traces control flow and data flow end to end. Answers: <em>what does this code actually do when invoked — including undocumented edge branches?</em></p>
+              </div>
+              <div class="border hairline-ivory bg-ivory-warm p-5 space-y-2">
+                <span class="font-mono text-xs text-gold uppercase tracking-wider">03 · Risk Agent</span>
+                <p class="text-sm text-clay leading-relaxed">Flags unhandled exceptions, race conditions, nullability pitfalls, and transaction boundaries. Answers: <em>where will this break under stress?</em></p>
+              </div>
+              <div class="border hairline-ivory bg-ivory-warm p-5 space-y-2">
+                <span class="font-mono text-xs text-gold uppercase tracking-wider">04 · Execution Agent</span>
+                <p class="text-sm text-clay leading-relaxed">Follows runtime execution traces: allocations, tight loops, hot paths. Answers: <em>what happens in practice, not just in static theory?</em></p>
+              </div>
+              <div class="border hairline-ivory bg-ivory-warm p-5 space-y-2 sm:col-span-2">
+                <span class="font-mono text-xs text-gold uppercase tracking-wider">05 · Impact Agent</span>
+                <p class="text-sm text-clay leading-relaxed">Maps callers, downstream dependents, database models, and public contracts. Answers: <em>if this line changes, what else across the system should worry?</em></p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 04: Synthesizer -->
+          <section id="synthesizer" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">04 · The Synthesizer</p>
+            <h2 class="font-display text-3xl text-navy">Why the convergence step matters</h2>
+            <div class="space-y-4 text-[15.5px] leading-relaxed text-clay sm:text-base">
+              <p>
+                When independent agents review code, conflicts are inevitable. Structure might recommend splitting a 200-line function into three helper classes; Risk might warn that splitting adds indirection to an already fragile concurrency lock.
+              </p>
+              <p>
+                The Synthesizer treats conflicts as first-class problems. It builds a conflict matrix, weighs priority based on failure severity, and merges overlapping observations into a crisp bulleted summary.
+              </p>
+            </div>
+          </section>
+
+          <!-- 05: Workflow -->
+          <section id="workflow" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">05 · Workflow</p>
+            <h2 class="font-display text-3xl text-navy">How an analysis actually runs</h2>
+            <ol class="space-y-3 font-mono text-sm text-ink list-decimal pl-5">
+              <li><strong>Ingestion:</strong> Repository source parsed into AST representations and module dependency matrices.</li>
+              <li><strong>Parallel Dispatch:</strong> The 5 specialized agent prompts dispatch with structured JSON schema constraints.</li>
+              <li><strong>Synthesizer Reconciliation:</strong> Discrepancies mapped into bipartite conflict graphs and deduplicated.</li>
+              <li><strong>Interactive Report:</strong> D3.js knowledge graph visualizes blast radius alongside prioritized fixes.</li>
+            </ol>
+          </section>
+
+          <!-- 06: Example Walkthrough -->
+          <section id="example" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">06 · Example Walkthrough</p>
+            <h2 class="font-display text-3xl text-navy">Tracing bulk_update without transactions</h2>
+            <div class="border hairline-ivory bg-navy p-5 font-mono text-xs text-ivory space-y-2 overflow-x-auto">
+              <span class="text-gold">// Candidate function submitted for review:</span>
+              <pre><code>def bulk_update(users, patch):
+    out = []
+    for u in users:
+        u = {**u, **patch}
+        out.append(u)
+    save_all(out)        # one transaction? per item?
+    return out</code></pre>
+            </div>
+            <div class="border hairline-ivory bg-ivory-warm p-5 space-y-2 font-mono text-xs text-ink">
+              <p class="text-crimson font-semibold">Synthesized Findings Trace:</p>
+              <p>1. [call] bulk_update(users[0:2], {"active": True})</p>
+              <p>2. [loop] iter 1 · dict-merge · ok</p>
+              <p>3. [loop] iter 2 · dict-merge · ok</p>
+              <p>4. [call] save_all(out) → 2 writes, no transaction boundary</p>
+              <p class="text-crimson font-bold">5. [risk] Partial failure mid-write leaves database in corrupt, inconsistent state.</p>
+            </div>
+          </section>
+
+          <!-- 07: Stack -->
+          <section id="stack" class="scroll-mt-24 space-y-4">
+            <p class="eyebrow text-crimson">07 · Technology Stack</p>
+            <h2 class="font-display text-3xl text-navy">Tools used in the study</h2>
+            <div class="overflow-x-auto border hairline-ivory">
+              <table class="w-full text-left font-mono text-xs">
+                <thead class="bg-ivory-warm border-b hairline-ivory text-clay">
+                  <tr><th class="p-3.5">Component</th><th class="p-3.5">Technology</th><th class="p-3.5">Role</th></tr>
+                </thead>
+                <tbody class="divide-y hairline-ivory text-ink">
+                  <tr><td class="p-3.5 font-bold">Frontend UI</td><td class="p-3.5 text-gold">React + Tailwind CSS</td><td class="p-3.5 text-clay">Interactive code explorer & findings panel</td></tr>
+                  <tr><td class="p-3.5 font-bold">Language</td><td class="p-3.5 text-gold">TypeScript</td><td class="p-3.5 text-clay">Strict JSON schemas for agent communications</td></tr>
+                  <tr><td class="p-3.5 font-bold">Backend Server</td><td class="p-3.5 text-gold">Node.js</td><td class="p-3.5 text-clay">AST parsing, process dispatch, and state handling</td></tr>
+                  <tr><td class="p-3.5 font-bold">LLM Backbone</td><td class="p-3.5 text-gold">Google Gemini</td><td class="p-3.5 text-clay">High-throughput reasoning across 5 parallel agent threads</td></tr>
+                  <tr><td class="p-3.5 font-bold">Graph Rendering</td><td class="p-3.5 text-gold">D3.js</td><td class="p-3.5 text-clay">Interactive dependency graph and blast radius maps</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- Sticky TOC Sidebar (FIXED: Defect in reference site resolved) -->
+        <aside class="hidden lg:block">
+          <nav class="sticky top-28 space-y-3 border-l-2 border-crimson/70 pl-4 font-mono text-xs text-clay">
+            <a href="#overview" class="toc-link block hover:text-crimson transition-colors">Overview</a>
+            <a href="#architecture" class="toc-link block hover:text-crimson transition-colors">Architecture</a>
+            <a href="#agents" class="toc-link block hover:text-crimson transition-colors">The Five Agents</a>
+            <a href="#synthesizer" class="toc-link block hover:text-crimson transition-colors">The Synthesizer</a>
+            <a href="#workflow" class="toc-link block hover:text-crimson transition-colors">Workflow</a>
+            <a href="#example" class="toc-link block hover:text-crimson transition-colors">Example Walkthrough</a>
+            <a href="#stack" class="toc-link block hover:text-crimson transition-colors">Technology Stack</a>
+          </nav>
+        </aside>
+      </div>
+
+      <!-- Next Project Banner: Deep Editorial Blue -->
+      <div class="mt-20 border-t border-editorial-blue/20 pt-12">
+        <a href="/projects/ledgerlens" class="group block border border-editorial-blue-deep bg-editorial-blue p-8 sm:p-10 transition-all duration-300 hover:border-crimson text-warm-ivory shadow-md">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-mono text-xs uppercase tracking-[0.16em] text-crimson bg-warm-ivory px-2 py-0.5 inline-block font-semibold">Next Project</p>
+              <h3 class="mt-2 font-display text-2xl sm:text-3xl font-medium text-warm-ivory group-hover:text-crimson transition-colors">LedgerLens ↗</h3>
+              <p class="mt-1 text-sm text-warm-ivory/85">An AI-powered financial investigation workflow and forensic reconciliation pipeline.</p>
+            </div>
+            <span class="font-display text-3xl text-warm-ivory group-hover:text-crimson transition-transform group-hover:translate-x-2">→</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-warm-ivory/20 bg-editorial-blue-deep text-warm-ivory">
+    <div class="wrap py-16">
+      <div class="grid gap-12 md:grid-cols-12">
+        <div class="md:col-span-5 space-y-5">
+          <a href="/" class="group flex items-center gap-3 font-display" aria-label="Ujwal Mahajan">
+            <span class="flex h-9 w-9 items-center justify-center border font-serif text-base tracking-wider border-gold/50 text-ivory group-hover:border-gold">UM</span>
+            <span class="font-serif text-lg tracking-tight text-ivory">Ujwal Mahajan<span class="text-crimson">.</span></span>
+          </a>
+          <p class="max-w-sm text-[15px] leading-relaxed text-fog">
+            AI engineer building intelligent systems — and understanding them from first principles.
+          </p>
+          <div class="flex items-center gap-4 text-fog">
+            <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="GitHub">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory" aria-label="LinkedIn">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+            <a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory" aria-label="Email">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            </a>
+            <button type="button" onclick="openTerminal()" class="font-mono text-xs uppercase tracking-widest text-gold hover:text-ivory border border-gold/40 px-2 py-1 ml-2">Terminal</button>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Navigate</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/" class="hover:text-ivory">Home</a></li>
+            <li><a href="/about" class="hover:text-ivory">About</a></li>
+            <li><a href="/projects" class="hover:text-ivory">Projects</a></li>
+            <li><a href="/research" class="hover:text-ivory">Research</a></li>
+            <li><a href="/interests" class="hover:text-ivory">Interests</a></li>
+            <li><a href="/resume" class="hover:text-ivory">Resume</a></li>
+            <li><a href="/contact" class="hover:text-ivory">Contact</a></li>
+            <li><a href="/lore" class="hover:text-ivory text-gold">The Lore ↗</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Projects</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="/projects/pythia-160m" class="hover:text-ivory">Pythia-160M <span class="font-mono text-xs text-gold">↗</span></a></li>
+            <li><a href="/projects/codesensei" class="hover:text-ivory">CodeSensei</a></li>
+            <li><a href="/projects/ledgerlens" class="hover:text-ivory">LedgerLens</a></li>
+            <li><a href="/projects/talktoweb" class="hover:text-ivory">TalkToWeb</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">Elsewhere</p>
+          <ul class="space-y-2 text-[14.5px] text-fog">
+            <li><a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">github/ujwal-sudo</a></li>
+            <li><a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-ivory">linkedin/ujwal-mahajan</a></li>
+            <li><a href="mailto:2023bec049@sggs.ac.in" class="hover:text-ivory">2023bec049@sggs.ac.in</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t hairline-navy pt-8 text-xs text-fog sm:flex-row">
+        <p>© 2026 Ujwal Mahajan · Built from first principles</p>
+        <button id="back-to-top" class="inline-flex items-center gap-1.5 hover:text-ivory">
+          Back to top
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chat Bubble -->
+  <div id="chat-bubble">
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <div class="chat-title">
+          <span class="chat-title-dot"></span>
+          Ujwal.AI (Gemini)
+        </div>
+        <button type="button" class="chat-close" onclick="toggleChat()" aria-label="Close chat">×</button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg bot">Hey! I'm an AI clone of Ujwal. Ask me about CodeSensei and how its five agents resolve contradictory analyses.</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Ask Ujwal anything..." autocomplete="off">
+        <button type="button" class="chat-send" onclick="sendChat()" aria-label="Send">Send</button>
+      </div>
+    </div>
+    <button type="button" class="chat-toggle" id="chat-toggle" onclick="toggleChat()" aria-expanded="false">
+      Ask Ujwal AI
+    </button>
+  </div>
+
+  <!-- Terminal Modal -->
+  <div id="terminal-overlay">
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <div class="term-dot" style="background:#ff5f57;"></div>
+        <div class="term-dot" style="background:#febc2e;"></div>
+        <div class="term-dot" style="background:#28c840;"></div>
+        <div class="term-title">ujwal@portfolio: ~</div>
+        <button class="terminal-close" type="button" onclick="closeTerminal()" aria-label="Close terminal">×</button>
+      </div>
+      <div class="terminal-body" id="term-body"></div>
+      <div class="term-input-row">
+        <span class="term-prompt">ujwal@portfolio:~$</span>
+        <input type="text" id="term-input" placeholder="type 'help'..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

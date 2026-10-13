@@ -1,544 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>lore.txt — classified</title>
-<meta name="robots" content="noindex, nofollow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #080810;
-  --bg2: #0d0d1a;
-  --surface: #13131f;
-  --surface2: #1a1a2e;
-  --border: rgba(255,255,255,0.06);
-  --border2: rgba(255,255,255,0.12);
-  --text: #e8e8f0;
-  --text2: #8888a8;
-  --text3: #4a4a6a;
-  --accent: #4f8ef7;
-  --green: #3ecf8e;
-  --amber: #f5a623;
-  --red: #f75f5f;
-  --mono: 'Space Mono', monospace;
-  --display: 'Syne', sans-serif;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--mono);
-  min-height: 100vh;
-  cursor: none;
-  overflow-x: hidden;
-}
-
-.cursor {
-  width: 8px; height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: screen;
-}
-.cursor-ring {
-  width: 32px; height: 32px;
-  border: 1px solid rgba(79,142,247,0.4);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9998;
-  transition: transform 0.08s ease;
-}
-
-canvas {
-  position: fixed; inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.4;
-}
-
-/* GATE SCREEN */
-#gate {
-  position: fixed; inset: 0;
-  background: var(--bg);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-}
-.gate-lines {
-  width: min(560px, 90vw);
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1;
-}
-.gate-line {
-  padding: 3px 0;
-  opacity: 0;
-  transform: translateY(3px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-.gate-line.show { opacity: 1; transform: none; }
-.g { color: var(--green); }
-.a { color: var(--accent); }
-.w { color: var(--amber); }
-.r { color: var(--red); }
-.d { color: var(--text3); }
-
-/* MAIN */
-main {
-  position: relative;
-  z-index: 1;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 100px 48px 160px;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-main.show { opacity: 1; }
-
-/* FILE HEADER */
-.file-header {
-  margin-bottom: 60px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 32px;
-}
-.file-path {
-  font-size: 11px;
-  color: var(--text3);
-  margin-bottom: 16px;
-  letter-spacing: 0.06em;
-}
-.file-path span { color: var(--accent); }
-.file-title {
-  font-family: var(--display);
-  font-size: clamp(40px, 6vw, 72px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 0.95;
-  color: var(--text);
-  margin-bottom: 16px;
-}
-.file-title span { color: var(--accent); }
-.file-meta {
-  font-size: 11px;
-  color: var(--text3);
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-.file-meta .val { color: var(--text2); }
-
-/* SECTIONS */
-.lore-section {
-  margin-bottom: 64px;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.lore-section.visible { opacity: 1; transform: none; }
-
-.sec-label {
-  font-size: 10px;
-  color: var(--accent);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.sec-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-.lore-text {
-  font-size: 14px;
-  color: var(--text2);
-  line-height: 1.9;
-}
-.lore-text p { margin-bottom: 20px; }
-.lore-text p:last-child { margin-bottom: 0; }
-.lore-text em { color: var(--text); font-style: normal; }
-.lore-text strong { color: var(--accent); font-weight: 400; }
-
-/* LOG BLOCK */
-.log-block {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
-  padding: 20px 24px;
-  margin: 20px 0;
-}
-.log-line {
-  font-size: 12px;
-  line-height: 1.8;
-  color: var(--text2);
-}
-.log-line .ts { color: var(--text3); }
-.log-line .ok { color: var(--green); }
-.log-line .warn { color: var(--amber); }
-.log-line .key { color: var(--accent); }
-
-/* QUOTE BLOCK */
-.quote-block {
-  border-left: 2px solid var(--accent);
-  padding: 4px 0 4px 20px;
-  margin: 24px 0;
-  font-size: 16px;
-  color: var(--text);
-  line-height: 1.7;
-  font-style: italic;
-}
-.quote-source {
-  font-size: 11px;
-  color: var(--text3);
-  margin-top: 8px;
-  font-style: normal;
-}
-
-/* ODA SECTION */
-.oda-block {
-  border: 1px solid rgba(245,166,35,0.2);
-  border-radius: 8px;
-  background: rgba(245,166,35,0.04);
-  padding: 28px;
-  margin-top: 20px;
-}
-.oda-title {
-  font-family: var(--display);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--amber);
-  margin-bottom: 12px;
-  letter-spacing: -0.01em;
-}
-.oda-text {
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1.8;
-}
-.oda-text em { color: var(--text); font-style: normal; }
-.oda-salute {
-  font-family: var(--display);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--amber);
-  margin-top: 16px;
-  letter-spacing: -0.01em;
-}
-
-/* STAT ROW */
-.stat-row {
-  display: flex;
-  gap: 0;
-  margin: 20px 0;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-.stat-item {
-  flex: 1;
-  padding: 16px 20px;
-  border-right: 1px solid var(--border);
-}
-.stat-item:last-child { border-right: none; }
-.stat-num {
-  font-family: var(--display);
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--text);
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.stat-num span { color: var(--accent); }
-.stat-label {
-  font-size: 10px;
-  color: var(--text3);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-/* BACK LINK */
-.back-link {
-  position: fixed;
-  top: 28px; left: 48px;
-  z-index: 200;
-  font-size: 12px;
-  color: var(--text3);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: color 0.2s;
-  opacity: 0;
-  transition: opacity 0.4s ease, color 0.2s;
-}
-.back-link.show { opacity: 1; }
-.back-link:hover { color: var(--text); }
-
-/* CLASSIFIED STAMP */
-.stamp {
-  display: inline-block;
-  border: 2px solid var(--red);
-  color: var(--red);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  padding: 4px 10px;
-  border-radius: 3px;
-  opacity: 0.6;
-  transform: rotate(-2deg);
-  margin-bottom: 12px;
-}
-
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 2px; }
-
-@media (max-width: 600px) {
-  main { padding: 80px 24px 120px; }
-  .back-link { left: 24px; }
-  .stat-row { flex-direction: column; }
-  .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
-  .stat-item:last-child { border-bottom: none; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Lore — Ujwal Mahajan</title>
+  <meta name="description" content="The backstory: how a wandering set of interests collapsed into language models, systems, and first-principles AI engineering.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css">
 </head>
-<body>
+<body class="bg-warm-ivory text-ink selection:bg-crimson selection:text-warm-ivory">
+  <div class="min-h-screen flex flex-col" data-testid="lore-page">
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
-<canvas id="bg-canvas"></canvas>
+    <!-- Nav Header -->
+    <nav class="site-nav fixed inset-x-0 top-0 z-40 h-16 transition-all duration-300 bg-transparent border-b border-transparent" aria-label="Primary navigation" data-theme="light">
+      <div class="wrap flex h-full items-center justify-between">
+        <a href="/" class="site-brand group flex items-center gap-2.5 font-display" aria-label="Ujwal Mahajan — home" data-testid="monogram-home-link">
+          <span class="brand-badge border-editorial-blue/40 text-editorial-blue group-hover:border-crimson">UM</span>
+          <span class="brand-text-full font-serif text-lg tracking-tight text-editorial-blue">Ujwal Mahajan<span class="text-crimson">.</span></span>
+        </a>
 
-<!-- GATE SEQUENCE -->
-<div id="gate">
-  <div class="gate-lines" id="gate-lines"></div>
-</div>
+        <!-- Desktop Nav Links -->
+        <div class="hidden items-center gap-7 md:flex" aria-label="Primary">
+          <a href="/" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-home">Home</a>
+          <a href="/about" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-about">About</a>
+          <div class="relative group nav-projects">
+            <div class="flex items-center gap-1.5 cursor-pointer py-2">
+              <a href="/projects" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-projects">Projects</a>
+              <button type="button" aria-label="Open projects menu" aria-expanded="false" class="p-0.5 text-clay group-hover:text-crimson transition-transform group-hover:rotate-180">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </div>
+            <div class="nav-dropdown absolute left-1/2 top-full -translate-x-1/2 pt-2 hidden group-hover:block" id="project-menu">
+              <div class="w-64 border border-warm-ivory/20 bg-editorial-blue-deep p-2 shadow-2xl shadow-black/40">
+                <a href="/projects/pythia-160m" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-pythia-160m">
+                  <span class="font-display text-[15px] text-warm-ivory">Pythia-160M ↗</span>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Research</span>
+                </a>
+                <a href="/projects/codesensei" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-codesensei">
+                  <span class="font-display text-[15px] text-warm-ivory">CodeSensei</span>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Agentic AI</span>
+                </a>
+                <a href="/projects/ledgerlens" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-ledgerlens">
+                  <span class="font-display text-[15px] text-warm-ivory">LedgerLens</span>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">FinTech AI</span>
+                </a>
+                <a href="/projects/talktoweb" class="flex items-center justify-between gap-3 px-3.5 py-2.5 transition-colors hover:bg-warm-ivory/10" data-testid="nav-sublink-talktoweb">
+                  <span class="font-display text-[15px] text-warm-ivory">TalkToWeb</span>
+                  <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-crimson font-semibold">Automation</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <a href="/research" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-research">Research</a>
+          <a href="/interests" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-interests">Interests</a>
+          <a href="/resume" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-resume">Resume</a>
+          <a href="/contact" class="nav-link font-mono text-xs uppercase tracking-[0.18em] transition-colors" data-testid="nav-link-contact">Contact</a>
+        </div>
 
-<a href="/" class="back-link" id="back-link">← ujwal.dev</a>
-
-<main id="main">
-
-  <div class="file-header">
-    <div class="file-path">ujwal@portfolio:~/ <span>lore.txt</span></div>
-    <div class="stamp">CLASSIFIED</div>
-    <div class="file-title">The stuff<br>that doesn't<br><span>fit a resume.</span></div>
-    <div class="file-meta">
-      <span>author: <span class="val">ujwal mahajan</span></span>
-      <span>access: <span class="val">you found it</span></span>
-      <span>classification: <span class="val">operational</span></span>
-    </div>
-  </div>
-
-  <!-- SECTION 1: HOW I ACTUALLY WORK -->
-  <div class="lore-section">
-    <div class="sec-label">operating conditions</div>
-    <div class="lore-text">
-      <p>My best work happens in two conditions: <em>midnight, when everything goes quiet</em> — or <em>48 hours before a deadline, when I have no choice</em>. Pressure and silence do the same thing to me. They make the noise stop.</p>
-      <p>I don't think this is a flex. It's just an observation about how I'm wired. The hours between 11pm and 3am have produced more working systems than any 9-to-5 ever has.</p>
-    </div>
-    <div class="log-block">
-      <div class="log-line"><span class="ts">[23:47]</span> <span class="key">session.start</span> — focus acquired</div>
-      <div class="log-line"><span class="ts">[00:12]</span> <span class="ok">[FLOW]</span> synthesizer conflict resolved after 3 attempts</div>
-      <div class="log-line"><span class="ts">[01:38]</span> <span class="ok">[FLOW]</span> race condition isolated — parallel agent execution fixed</div>
-      <div class="log-line"><span class="ts">[02:55]</span> <span class="warn">[WARN]</span> sleep recommended. ignored.</div>
-      <div class="log-line"><span class="ts">[03:41]</span> <span class="ok">[OK]</span> pipeline running. 5 agents. 90s. ship it.</div>
-    </div>
-  </div>
-
-  <!-- SECTION 2: WHAT I ACTUALLY BELIEVE -->
-  <div class="lore-section">
-    <div class="sec-label">what I actually believe</div>
-    <div class="lore-text">
-      <p>Most AI products being built right now are <em>ChatGPT wrappers with a coat of paint</em>. A text box, a system prompt, a branded loading spinner. That's not AI engineering. That's prompt formatting.</p>
-      <p>Real AI engineering means thinking about <em>orchestration</em> — how multiple models or agents collaborate, pass context, resolve disagreements. It means thinking about <strong>failure modes</strong>: what happens when the model is confidently wrong, when agents contradict each other, when memory retrieval returns something stale.</p>
-      <p>That's the part most people skip. I don't skip it. Skipping it means I'd be shipping something I don't understand, and I can't do that.</p>
-    </div>
-    <div class="quote-block">
-      The 'why' is what I'm actually building toward. The output can be perfect and it still feels unfinished if I don't know why it worked.
-      <div class="quote-source">— something I've said too many times at 2am</div>
-    </div>
-  </div>
-
-  <!-- SECTION 3: THE WAVE -->
-  <div class="lore-section">
-    <div class="sec-label">on the AI wave</div>
-    <div class="lore-text">
-      <p>People don't realize how big this is. There has never been a technological advancement that moves at this pace — where you wake up every day and something significant has shifted. Anthropic ships something. Meta releases a model. A paper drops that makes last month's SOTA look outdated.</p>
-      <p>This has never happened before. Not like this.</p>
-      <p>And the people who will survive it — not just survive, but <em>move with it</em> — are the ones who understand what's actually happening inside these systems. Not as a user. Not as someone who prompts well. As someone who knows <em>why attention works</em>, why transformers scale, what's actually happening in the forward pass.</p>
-      <p>That's why I'm building an LLM from scratch. Not to reinvent anything. Just so I can never be surprised by it.</p>
-    </div>
-    <div class="stat-row">
-      <div class="stat-item">
-        <div class="stat-num"><span>∞</span></div>
-        <div class="stat-label">epochs remaining</div>
+        <!-- Action Button & Mobile Toggle -->
+        <div class="flex items-center gap-3">
+          <a href="/contact" class="hidden md:inline-flex btn-cta-crimson" data-testid="nav-lets-talk-button">
+            Let's Talk ↗
+          </a>
+          <button class="nav-toggle flex h-10 w-10 items-center justify-center border border-editorial-blue/30 text-editorial-blue md:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+        </div>
       </div>
-      <div class="stat-item">
-        <div class="stat-num">0</div>
-        <div class="stat-label">shortcuts taken</div>
+    </nav>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-nav fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-warm-ivory/15 bg-editorial-blue-deep p-6 md:hidden" id="mobile-nav" hidden>
+      <div class="flex flex-col gap-5">
+        <a href="/" class="font-display text-2xl text-warm-ivory">Home</a>
+        <a href="/about" class="font-display text-2xl text-warm-ivory">About</a>
+        <div>
+          <div class="eyebrow text-crimson mb-2">Projects</div>
+          <div class="flex flex-col gap-2.5 pl-3 border-l border-warm-ivory/20">
+            <a href="/projects" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Overview</a>
+            <a href="/projects/pythia-160m" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">Pythia-160M ↗</a>
+            <a href="/projects/codesensei" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">CodeSensei</a>
+            <a href="/projects/ledgerlens" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">LedgerLens</a>
+            <a href="/projects/talktoweb" class="font-display text-lg text-warm-ivory/80 hover:text-warm-ivory">TalkToWeb</a>
+          </div>
+        </div>
+        <a href="/research" class="font-display text-2xl text-warm-ivory">Research</a>
+        <a href="/interests" class="font-display text-2xl text-warm-ivory">Interests</a>
+        <a href="/resume" class="font-display text-2xl text-warm-ivory">Resume</a>
+        <a href="/contact" class="font-display text-2xl text-warm-ivory">Contact</a>
+        <a href="/lore" class="font-display text-2xl text-crimson active" aria-current="page">The Lore ↗</a>
+        <div class="pt-4 border-t border-warm-ivory/15">
+          <a href="/contact" class="inline-flex w-full items-center justify-center gap-2 btn-cta-crimson">Let's Talk ↗</a>
+        </div>
       </div>
-      <div class="stat-item">
-        <div class="stat-num"><span>1</span></div>
-        <div class="stat-label">wave. understand it or get swept.</div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+
+      <!-- Page Header -->
+      <header class="border-b border-editorial-blue/20 bg-warm-ivory pb-14 pt-32 sm:pt-36">
+        <div class="wrap max-w-3xl">
+          <div class="reveal">
+            <p class="eyebrow text-crimson">The Lore</p>
+            <h1 class="mt-5 font-display text-4xl font-medium leading-[1.05] tracking-tight text-editorial-blue sm:text-5xl lg:text-6xl">
+              The longer version<span class="text-crimson">.</span>
+            </h1>
+            <p class="mt-6 text-base leading-relaxed text-clay sm:text-lg">
+              The About page is the résumé-shaped story. This is the other one — how a wandering set of interests collapsed, slowly and then suddenly, into language models.
+            </p>
+          </div>
+
+          <!-- Deep Blue Pull Card -->
+          <div class="reveal mt-8 border border-editorial-blue-deep bg-editorial-blue p-8 sm:p-10 text-warm-ivory shadow-lg">
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-crimson bg-warm-ivory px-2 py-0.5 inline-block font-semibold">Narrative Note</p>
+            <p class="mt-4 font-display text-xl sm:text-2xl text-warm-ivory leading-snug">
+              "College handed me a menu of interesting things and a robotics club (RNXG) as the first course. Robots are honest teachers: the wiring either works or it doesn't, and the gap between those two states is exactly your understanding."
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Chapters Timeline -->
+      <div class="wrap max-w-3xl py-16">
+
+        <!-- Chapter 01: Signals -->
+        <div class="reveal relative border-l-2 border-editorial-blue/30 pb-14 pl-8" data-testid="lore-chapter-0">
+          <span class="absolute -left-[7px] top-[2px] h-3 w-3 rounded-full bg-crimson" aria-hidden="true"></span>
+          <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-crimson font-semibold">01 · Signals</p>
+          <div class="mt-4 space-y-4">
+            <p class="font-display text-xl leading-relaxed text-editorial-blue sm:text-2xl">
+              College handed me a menu of interesting things and a robotics club (RNXG) as the first course. Robots are honest teachers: the wiring either works or it doesn't, and the gap between those two states is exactly your understanding.
+            </p>
+            <p class="text-[15.5px] leading-relaxed text-clay">
+              Organizing RMAGEDDON 2026 came out of that same club — a different kind of system to build, made of 70 organizers and intricate schedules instead of sensors and motors.
+            </p>
+          </div>
+        </div>
+
+        <!-- Chapter 02: Detours -->
+        <div class="reveal relative border-l-2 border-editorial-blue/30 pb-14 pl-8" data-testid="lore-chapter-1">
+          <span class="absolute -left-[7px] top-[2px] h-3 w-3 rounded-full bg-crimson" aria-hidden="true"></span>
+          <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-crimson font-semibold">02 · Detours</p>
+          <div class="mt-4 space-y-4">
+            <p class="font-display text-xl leading-relaxed text-editorial-blue sm:text-2xl">
+              I cycled through a lot of other things on the way: running, gaming, world history, and a long tail of pursuits that each had a season. I don't narrate those as achievements — they were probes. Each one returned a small, useful answer about what holds my attention.
+            </p>
+            <p class="text-[15.5px] leading-relaxed text-clay">
+              The pattern in the results: I kept gravitating to systems with internal rules you can open up, inspect, and reason about from first principles.
+            </p>
+          </div>
+        </div>
+
+        <!-- Chapter 03: The Pull -->
+        <div class="reveal relative border-l-2 border-editorial-blue/30 pb-14 pl-8" data-testid="lore-chapter-2">
+          <span class="absolute -left-[7px] top-[2px] h-3 w-3 rounded-full bg-crimson" aria-hidden="true"></span>
+          <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-crimson font-semibold">03 · The Pull</p>
+          <div class="mt-4 space-y-4">
+            <p class="font-display text-xl leading-relaxed text-editorial-blue sm:text-2xl">
+              AI was the interest that didn't fade. Language models in particular had a quality I hadn't met before: the more I learned, the more there was to learn, and the more it mattered. It's the first subject where my curiosity and my ambition point in the exact same direction.
+            </p>
+            <p class="text-[15.5px] leading-relaxed text-clay">
+              So I got systematic about it — Python properly, then modern NLP, then the mathematical machinery underneath: tokenization, attention dynamics, training loops. Not just reading. Implementing.
+            </p>
+          </div>
+        </div>
+
+        <!-- Chapter 04: From Frameworks to First Principles -->
+        <div class="reveal relative border-l-2 border-editorial-blue/30 pb-14 pl-8" data-testid="lore-chapter-3">
+          <span class="absolute -left-[7px] top-[2px] h-3 w-3 rounded-full bg-crimson" aria-hidden="true"></span>
+          <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-crimson font-semibold">04 · From Frameworks to First Principles</p>
+          <div class="mt-4 space-y-4">
+            <p class="font-display text-xl leading-relaxed text-editorial-blue sm:text-2xl">
+              I started like everyone does: frameworks, libraries, APIs. Useful tools, and I still use them every day. But 'it works' is a shallow reward once you've had a taste of knowing why it works.
+            </p>
+            <p class="text-[15.5px] leading-relaxed text-clay">
+              That's what Pythia-160M is about — building a small language model from scratch so that nothing in the stack stays a black box. The tokenizer, the architecture, the data pipeline, the training loop: every part is an invitation to understand rather than a service to consume.
+            </p>
+          </div>
+        </div>
+
+        <!-- Chapter 05: Now -->
+        <div class="reveal relative border-l-2 border-editorial-blue/30 pb-4 pl-8" data-testid="lore-chapter-4">
+          <span class="absolute -left-[7px] top-[2px] h-3 w-3 rounded-full bg-crimson" aria-hidden="true"></span>
+          <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-crimson font-semibold">05 · Now</p>
+          <div class="mt-4 space-y-4">
+            <p class="font-display text-xl leading-relaxed text-editorial-blue sm:text-2xl">
+              These days the work is two-track: build useful intelligent systems (agents that analyze code, investigate ledgers, drive browsers), and train models from scratch so the building is grounded in understanding rather than glue.
+            </p>
+            <p class="text-[15.5px] leading-relaxed text-clay">
+              The lore ends here because the interesting chapters are unwritten. That's not a gap — that's the plan.
+            </p>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="reveal mt-12 flex flex-wrap gap-x-10 gap-y-4 border-t border-editorial-blue/20 pt-8" data-testid="lore-links">
+          <a href="/about" data-testid="lore-about-link" class="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue hover:text-crimson transition-colors font-semibold">
+            Back to the short version
+            <svg class="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="/projects" data-testid="lore-projects-link" class="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue hover:text-crimson transition-colors font-semibold">
+            See what this became
+            <svg class="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="/contact" data-testid="lore-contact-link" class="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.16em] text-editorial-blue hover:text-crimson transition-colors font-semibold">
+            Say hello
+            <svg class="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+
       </div>
-    </div>
-  </div>
 
-  <!-- SECTION 4: WHAT I WON'T BUILD -->
-  <div class="lore-section">
-    <div class="sec-label">what I won't build</div>
-    <div class="lore-text">
-      <p>A technically impressive system that nobody needs is just an expensive experiment. If I can't picture the person who's going to use it — <em>specifically, not abstractly</em> — I lose motivation fast.</p>
-      <p>I'm not interested in demo culture. A system that works in a 3-minute screen recording and breaks in production is not a system. It's a video.</p>
-      <p>The things that keep me going are the problems that don't have clean solutions. The ones where the engineering challenge and the user problem are the same problem.</p>
-    </div>
-  </div>
+    </main>
 
-  <!-- SECTION 5: ODA -->
-  <div class="lore-section">
-    <div class="sec-label">the greatest architect I know</div>
-    <div class="lore-text">
-      <p>I build multi-agent systems and think I'm doing something complex.</p>
-      <p>Then I remember that one human has been constructing <em>One Piece</em> for 27 years — a single narrative with thousands of characters, hundreds of storylines, foreshadowing planted decades in advance, payoffs that readers didn't even know were setups. An architecture so dense and coherent that no AI has come close to replicating it. Not because the words are hard. Because the <em>structure</em> is incomprehensible.</p>
-    </div>
-    <div class="oda-block">
-      <div class="oda-title">Eiichiro Oda</div>
-      <div class="oda-text">
-        27 years. 1000+ chapters. One continuous narrative thread with no major continuity errors.
-        Introduced a character in chapter 1 whose significance wasn't revealed until chapter 1000+.
-        Manages ~100 active characters across ~15 simultaneous storylines at any given arc.
-        <br><br>
-        <em>I've read the Attention paper. I've built a synthesizer that resolves agent conflicts.
-        I understand distributed systems.</em>
-        <br><br>
-        Oda is operating on a different level entirely.
-        No model I've trained on, no architecture I've studied, explains it.
+    <!-- Footer: Deep Editorial Blue -->
+    <footer class="border-t border-warm-ivory/20 bg-editorial-blue-deep py-12 text-warm-ivory">
+      <div class="wrap flex flex-col items-center justify-between gap-6 sm:flex-row">
+        <div class="flex items-center gap-2 font-display text-sm text-warm-ivory">
+          <span>Ujwal Mahajan</span>
+          <span class="text-crimson">·</span>
+          <span class="text-warm-ivory/70">AI Engineer</span>
+        </div>
+        <div class="flex items-center gap-6 font-mono text-xs uppercase tracking-wider text-warm-ivory/70">
+          <a href="https://github.com/ujwal-sudo" target="_blank" rel="noopener noreferrer" class="hover:text-crimson transition-colors">GitHub</a>
+          <a href="https://www.linkedin.com/in/ujwal-mahajan-841710r/" target="_blank" rel="noopener noreferrer" class="hover:text-crimson transition-colors">LinkedIn</a>
+          <a href="/resume" class="hover:text-crimson transition-colors">Resume</a>
+          <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="hover:text-crimson transition-colors">Top ↑</button>
+        </div>
       </div>
-      <div class="oda-salute">All hail Oda Sensei. 🫡</div>
-    </div>
+    </footer>
+
   </div>
 
-  <!-- SECTION 6: THE HARDEST THING -->
-  <div class="lore-section">
-    <div class="sec-label">the hardest thing I've solved</div>
-    <div class="lore-text">
-      <p>The challenge in CodeSensei wasn't building 5 agents. Any engineer can spin up 5 LLM calls. The hard part was making them produce <em>one coherent, non-contradictory output</em> when they share zero state and know nothing about each other.</p>
-      <p>Early versions had the risk agent flagging files the structure agent had already dismissed as irrelevant. The impact agent contradicted the execution agent's dependency map. The synthesizer would merge these and produce analysis that was internally inconsistent — worse than a single agent would have done alone.</p>
-      <p>The fix was treating <em>conflict as a first-class concept</em>. Not merging outputs. Not averaging them. Building a synthesizer that detects disagreements, classifies them by type, and resolves them with a weighted priority system based on agent role and evidence confidence.</p>
-      <p>5,000 to 10,000 lines. Under 90 seconds. Sub-10-second query responses. That number took weeks to get to.</p>
-    </div>
-    <div class="log-block">
-      <div class="log-line"><span class="ts">[agent:risk]</span> <span class="warn">[CONFLICT]</span> flagging auth.py — contradicts structure agent ruling</div>
-      <div class="log-line"><span class="ts">[synthesizer]</span> <span class="key">[RESOLVE]</span> conflict type: scope_mismatch — applying priority weight</div>
-      <div class="log-line"><span class="ts">[synthesizer]</span> <span class="ok">[OK]</span> resolved — risk agent deferred, structure ruling preserved</div>
-      <div class="log-line"><span class="ts">[pipeline]</span> <span class="ok">[OK]</span> 5 agents merged → 1 coherent analysis · 87s · 0 contradictions</div>
-    </div>
-  </div>
-
-  <!-- SECTION 7: CLOSING -->
-  <div class="lore-section">
-    <div class="sec-label">why this page exists</div>
-    <div class="lore-text">
-      <p>Resumes are filters. They're good at communicating <em>what</em> but bad at communicating <em>who</em>. This page is for the people who went looking. Who typed a URL that wasn't linked anywhere obvious. Who wanted to know if there was more.</p>
-      <p>There is. This is some of it.</p>
-      <p>If something here resonated — the 2am logs, the wave theory, the Oda tangent — then you probably already know whether we should talk.</p>
-    </div>
-    <div style="margin-top: 40px; font-size: 13px; color: var(--text3);">
-      <span style="color: var(--accent);">→</span> 2023bec049@sggs.ac.in<br>
-      <span style="color: var(--text3); font-size: 11px; margin-top: 8px; display: block;">// or go back and open the terminal. type 'sudo hire-ujwal'.</span>
-    </div>
-  </div>
-
-</main>
-
-<script>
-// CURSOR
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.transform = `translate(${mx-4}px,${my-4}px)`;
-});
-(function animRing() {
-  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-  ring.style.transform = `translate(${rx-16}px,${ry-16}px)`;
-  requestAnimationFrame(animRing);
-})();
-
-// NODE GRAPH
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
-let nodes = [], W, H;
-function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-resize();
-window.addEventListener('resize', resize);
-function initNodes() {
-  nodes = [];
-  const count = Math.min(30, Math.floor(W * H / 32000));
-  for (let i = 0; i < count; i++) nodes.push({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-.5)*.15, vy: (Math.random()-.5)*.15, r: Math.random()*1.2+0.6 });
-}
-initNodes();
-(function draw() {
-  ctx.clearRect(0,0,W,H);
-  nodes.forEach(n => { n.x+=n.vx; n.y+=n.vy; if(n.x<0||n.x>W)n.vx*=-1; if(n.y<0||n.y>H)n.vy*=-1; });
-  for (let i=0;i<nodes.length;i++) for (let j=i+1;j<nodes.length;j++) {
-    const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, d=Math.sqrt(dx*dx+dy*dy);
-    if(d<140){ ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.strokeStyle=`rgba(79,142,247,${(1-d/140)*0.06})`; ctx.lineWidth=0.6; ctx.stroke(); }
-  }
-  nodes.forEach(n => { ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fillStyle='rgba(79,142,247,0.25)'; ctx.fill(); });
-  requestAnimationFrame(draw);
-})();
-
-// GATE SEQUENCE
-const gateLines = [
-  { html: '<span class="d">// accessing restricted file...</span>', delay: 0 },
-  { html: '<span class="a">▸</span> verifying clearance level <span class="w">[ CHECKING ]</span>', delay: 320 },
-  { html: '<span class="a">▸</span> terminal history scan <span class="g">[ FOUND ]</span>', delay: 640 },
-  { html: '<span class="d">// visitor navigated here manually. curiosity confirmed.</span>', delay: 960 },
-  { html: '<span class="a">▸</span> access granted <span class="g">[ OK ]</span>', delay: 1280 },
-  { html: '<span class="d">// loading lore.txt...</span>', delay: 1560 },
-];
-
-const gateContainer = document.getElementById('gate-lines');
-gateLines.forEach(({html, delay}) => {
-  const line = document.createElement('div');
-  line.className = 'gate-line';
-  line.innerHTML = html;
-  gateContainer.appendChild(line);
-  setTimeout(() => line.classList.add('show'), delay + 200);
-});
-
-setTimeout(() => {
-  const gate = document.getElementById('gate');
-  gate.style.opacity = '0';
-  gate.style.transition = 'opacity 0.6s ease';
-  setTimeout(() => {
-    gate.style.display = 'none';
-    document.getElementById('main').classList.add('show');
-    document.getElementById('back-link').classList.add('show');
-    // scroll reveal
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.lore-section').forEach(s => obs.observe(s));
-  }, 600);
-}, 3200);
-</script>
+  <script src="/assets/site.js"></script>
 </body>
 </html>
