@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   if (!apiKey) {
     const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')?.content?.toLowerCase() || '';
 
-    let fallbackReply = "Hey! I'm Ujwal's AI clone. The backend GEMINI_API_KEY environment variable has not been configured in the Vercel project settings yet. Once added, I will be powered live by Gemini 2.0 Flash!\n\nIn the meantime, feel free to explore my projects (Pythia-160M, CodeSensei, LedgerLens, TalkToWeb) or reach out directly at 2023bec049@sggs.ac.in.";
+    let fallbackReply = "Hey! I'm Ujwal's AI clone. The backend GEMINI_API_KEY environment variable has not been configured in the Vercel project settings yet. Once added, I will be powered live by Gemini Flash!\n\nIn the meantime, feel free to explore my projects (Pythia-160M, CodeSensei, LedgerLens, TalkToWeb) or reach out directly at 2023bec049@sggs.ac.in.";
 
     if (lastUserMsg.includes('project') || lastUserMsg.includes('pythia') || lastUserMsg.includes('codesensei')) {
       fallbackReply = "I build AI systems from first principles! Check out Pythia-160M (a 160M-parameter language model built from scratch with RoPE & GQA) and CodeSensei (a 5-agent distributed code intelligence system). You can read full case studies on the Projects page!";
@@ -41,11 +41,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    const requestedModel = body.model || 'gemini-2.0-flash';
+    const requestedModel = body.model || 'gemini-flash-latest';
     const systemPrompt = messages.find(m => m.role === 'system')?.content || '';
 
-    // Google Generative Language API strictly requires alternating user and model turns
-    const sanitizedContents = [];
+    // Strictly alternate user and model turns
+    const sanitizedTurns = [];
     let lastRole = null;
 
     for (const m of messages) {
@@ -54,22 +54,33 @@ export default async function handler(req, res) {
       const text = String(m.content || '').trim();
       if (!text) continue;
 
-      if (role === lastRole && sanitizedContents.length > 0) {
-        sanitizedContents[sanitizedContents.length - 1].parts[0].text += `\n${text}`;
+      if (role === lastRole && sanitizedTurns.length > 0) {
+        sanitizedTurns[sanitizedTurns.length - 1].parts[0].text += `\n${text}`;
       } else {
-        sanitizedContents.push({ role, parts: [{ text }] });
+        sanitizedTurns.push({ role, parts: [{ text }] });
         lastRole = role;
       }
     }
 
     // Ensure first turn is 'user'
-    if (sanitizedContents.length === 0 || sanitizedContents[0].role !== 'user') {
-      sanitizedContents.unshift({ role: 'user', parts: [{ text: 'Hello' }] });
+    if (sanitizedTurns.length === 0 || sanitizedTurns[0].role !== 'user') {
+      sanitizedTurns.unshift({ role: 'user', parts: [{ text: 'Hello' }] });
     }
 
+    // Embed system prompt into first turn so it is 100% compatible across all Gemini API versions (v1, v1beta)
+    // without triggering "Unknown name 'systemInstruction'" or schema mismatch errors
+    const contents = sanitizedTurns.map((item, idx) => {
+      if (idx === 0 && systemPrompt) {
+        return {
+          role: item.role,
+          parts: [{ text: `[System Context & Identity Instructions:\n${systemPrompt}]\n\n${item.parts[0].text}` }]
+        };
+      }
+      return item;
+    });
+
     const payload = {
-      systemInstruction: systemPrompt ? { parts: [{ text: String(systemPrompt) }] } : undefined,
-      contents: sanitizedContents,
+      contents,
       generationConfig: {
         temperature: 0.8,
         topP: 0.9,
@@ -95,41 +106,24 @@ export default async function handler(req, res) {
       });
     }
 
-    // Handle authentication or rate limit errors explicitly
-    if (genResult.isAuthError) {
-      console.error('Gemini Auth Error:', genResult.data);
-      return res.status(genResult.status || 401).json({
-        error: 'Invalid GEMINI_API_KEY or Generative Language API is not enabled on this Google Cloud project. Please verify your API key in Google AI Studio (aistudio.google.com).',
-        details: genResult.data
-      });
-    }
+    // If generation failed, present the exact error details clearly
+    const errorDetails = genResult.data?.error?.message 
+      || (typeof genResult.data?.error === 'string' ? genResult.data.error : null)
+      || (typeof genResult.data === 'string' ? genResult.data : null)
+      || JSON.stringify(genResult.data)
+      || 'Gemini service unreachable';
 
-    if (genResult.isRateLimit) {
-      return res.status(429).json({
-        error: 'Gemini API rate limit reached. Please wait a moment before trying again.',
-        details: genResult.data
-      });
-    }
-
-    // If models could not be resolved, provide an informative fallback response so website visitors still get answers
-    console.error('Gemini Resolution Error:', genResult.data);
-    const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')?.content?.toLowerCase() || '';
-    let fallbackReply = "Hello! I am Ujwal's AI assistant. My Gemini backend is currently reconnecting to Google's model services. In the meantime, feel free to check out my featured systems (Pythia-160M, CodeSensei, LedgerLens, TalkToWeb) or contact me at 2023bec049@sggs.ac.in!";
-
-    if (lastUserMsg.includes('project') || lastUserMsg.includes('pythia') || lastUserMsg.includes('codesensei')) {
-      fallbackReply = "I build AI systems from first principles! Check out Pythia-160M (a 160M-parameter language model built from scratch with RoPE & GQA) and CodeSensei (a 5-agent distributed code intelligence system). You can read full case studies on the Projects page!";
-    } else if (lastUserMsg.includes('contact') || lastUserMsg.includes('email') || lastUserMsg.includes('hire')) {
-      fallbackReply = "You can contact me directly at 2023bec049@sggs.ac.in or connect on LinkedIn at linkedin.com/in/ujwal-mahajan-841710r.";
-    }
+    console.error('Gemini Service Resolution Error:', genResult.status, genResult.data);
 
     return res.status(200).json({
       choices: [{
         message: {
           role: 'assistant',
-          content: fallbackReply
+          content: `AI Service Notice: ${errorDetails}\n\n(Tip: In the meantime, you can explore my projects like Pythia-160M and CodeSensei on the site, or email me at 2023bec049@sggs.ac.in!)`
         }
       }],
-      warning: genResult.data?.error?.message || 'Gemini model could not be resolved.',
+      error: errorDetails,
+      status: genResult.status,
       details: genResult.data
     });
   } catch (error) {
@@ -139,7 +133,7 @@ export default async function handler(req, res) {
 }
 
 async function executeGeminiGeneration(apiKey, payload, requestedModel) {
-  // If we already resolved a working endpoint during this container lifetime, try it first
+  // If we already cached a working endpoint during this container lifetime, try it first
   if (activeEndpoint) {
     try {
       const url = `https://generativelanguage.googleapis.com/${activeEndpoint.apiVersion}/${activeEndpoint.model}:generateContent?key=${apiKey}`;
@@ -152,30 +146,39 @@ async function executeGeminiGeneration(apiKey, payload, requestedModel) {
       if (res.ok) {
         return { ok: true, data, modelUsed: `${activeEndpoint.apiVersion}/${activeEndpoint.model}` };
       }
-      if (res.status === 404 || data?.error?.message?.includes('not found')) {
-        activeEndpoint = null;
-      } else {
-        return { ok: false, status: res.status, data };
-      }
+      activeEndpoint = null;
     } catch {
       activeEndpoint = null;
     }
   }
 
-  const cleanReqModel = (requestedModel || 'gemini-2.0-flash').replace(/^models\//, '');
+  const cleanReq = (requestedModel || 'gemini-flash-latest').replace(/^models\//, '');
 
-  // Prioritize stable v1 endpoint, followed by v1beta, covering modern Flash and Pro models
   const candidates = [
-    { apiVersion: 'v1', model: `models/${cleanReqModel}` },
-    { apiVersion: 'v1', model: 'models/gemini-2.0-flash' },
-    { apiVersion: 'v1', model: 'models/gemini-1.5-flash' },
-    { apiVersion: 'v1', model: 'models/gemini-1.5-pro' },
-    { apiVersion: 'v1beta', model: `models/${cleanReqModel}` },
-    { apiVersion: 'v1beta', model: 'models/gemini-2.0-flash' },
-    { apiVersion: 'v1beta', model: 'models/gemini-1.5-flash-latest' },
-    { apiVersion: 'v1beta', model: 'models/gemini-1.5-flash' },
+    // Dynamic alias (always points to current available flash model)
+    { apiVersion: 'v1beta', model: 'models/gemini-flash-latest' },
+    { apiVersion: 'v1', model: 'models/gemini-flash-latest' },
+
+    // Modern 2.5 / 2.0 Flash
     { apiVersion: 'v1beta', model: 'models/gemini-2.5-flash' },
-    { apiVersion: 'v1beta', model: 'models/gemini-2.0-flash-exp' }
+    { apiVersion: 'v1', model: 'models/gemini-2.5-flash' },
+    { apiVersion: 'v1beta', model: 'models/gemini-2.0-flash' },
+    { apiVersion: 'v1', model: 'models/gemini-2.0-flash' },
+
+    // Next-Gen 3.x Flash
+    { apiVersion: 'v1beta', model: 'models/gemini-3.8-flash' },
+    { apiVersion: 'v1beta', model: 'models/gemini-3.7-flash' },
+    { apiVersion: 'v1beta', model: 'models/gemini-3.5-flash-lite' },
+
+    // Gemini 1.5 Flash / Pro
+    { apiVersion: 'v1', model: 'models/gemini-1.5-flash' },
+    { apiVersion: 'v1beta', model: 'models/gemini-1.5-flash' },
+    { apiVersion: 'v1', model: 'models/gemini-1.5-pro' },
+    { apiVersion: 'v1beta', model: 'models/gemini-1.5-pro' },
+
+    // User-requested model
+    { apiVersion: 'v1beta', model: `models/${cleanReq}` },
+    { apiVersion: 'v1', model: `models/${cleanReq}` }
   ];
 
   const seen = new Set();
@@ -209,21 +212,21 @@ async function executeGeminiGeneration(apiKey, payload, requestedModel) {
 
       // Stop trial if authentication or rate limits occur
       if (res.status === 400 && data?.error?.message?.includes('API key not valid')) {
-        return { ok: false, status: 400, data, isAuthError: true };
+        return { ok: false, status: 400, data };
       }
       if (res.status === 403) {
-        return { ok: false, status: 403, data, isAuthError: true };
+        return { ok: false, status: 403, data };
       }
       if (res.status === 429) {
-        return { ok: false, status: 429, data, isRateLimit: true };
+        return { ok: false, status: 429, data };
       }
     } catch {
       // Continue to next candidate
     }
   }
 
-  // If candidate trial failed (404 on candidate models), dynamically inspect ModelService.ListModels
-  for (const apiVersion of ['v1', 'v1beta']) {
+  // If candidate trial failed, query ModelService.ListModels to auto-discover what Google supports for this key
+  for (const apiVersion of ['v1beta', 'v1']) {
     try {
       const listUrl = `https://generativelanguage.googleapis.com/${apiVersion}/models?key=${apiKey}`;
       const listRes = await fetch(listUrl);
@@ -235,7 +238,8 @@ async function executeGeminiGeneration(apiKey, payload, requestedModel) {
         );
 
         if (available.length > 0) {
-          const chosen = available.find(m => m.name.includes('flash') && m.name.includes('2.'))
+          const chosen = available.find(m => m.name.includes('flash') && m.name.includes('latest'))
+            || available.find(m => m.name.includes('flash') && (m.name.includes('2.') || m.name.includes('3.')))
             || available.find(m => m.name.includes('flash'))
             || available.find(m => m.name.includes('pro'))
             || available[0];
