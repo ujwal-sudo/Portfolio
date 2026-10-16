@@ -431,7 +431,7 @@
     },
     contact: () => {
       appendTerm('');
-      appendTerm('Email: 2023bec049@sggs.ac.in');
+      appendTerm('Email: ujwalmahajan77@gmail.com');
       appendTerm('GitHub: https://github.com/ujwal-sudo');
       appendTerm('LinkedIn: https://www.linkedin.com/in/ujwal-mahajan-841710r/');
       appendTerm('');

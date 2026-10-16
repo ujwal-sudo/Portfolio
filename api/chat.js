@@ -21,12 +21,12 @@ export default async function handler(req, res) {
   if (!apiKey) {
     const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')?.content?.toLowerCase() || '';
 
-    let fallbackReply = "Hey! I'm Ujwal's AI clone. The backend GEMINI_API_KEY environment variable has not been configured in the Vercel project settings yet. Once added, I will be powered live by Gemini Flash!\n\nIn the meantime, feel free to explore my projects (Pythia-160M, CodeSensei, LedgerLens, TalkToWeb) or reach out directly at 2023bec049@sggs.ac.in.";
+    let fallbackReply = "Hey! I'm Ujwal's AI clone. The backend GEMINI_API_KEY environment variable has not been configured in the Vercel project settings yet. Once added, I will be powered live by Gemini Flash!\n\nIn the meantime, feel free to explore my projects (Pythia-160M, CodeSensei, LedgerLens, TalkToWeb) or reach out directly at ujwalmahajan77@gmail.com.";
 
     if (lastUserMsg.includes('project') || lastUserMsg.includes('pythia') || lastUserMsg.includes('codesensei')) {
       fallbackReply = "I build AI systems from first principles! Check out Pythia-160M (a 160M-parameter language model built from scratch with RoPE & GQA) and CodeSensei (a 5-agent distributed code intelligence system). You can read full case studies on the Projects page!";
     } else if (lastUserMsg.includes('contact') || lastUserMsg.includes('email') || lastUserMsg.includes('hire')) {
-      fallbackReply = "You can contact me directly at 2023bec049@sggs.ac.in or connect on LinkedIn at linkedin.com/in/ujwal-mahajan-841710r. My inbox is open for engineering roles and research collaborations!";
+      fallbackReply = "You can contact me directly at ujwalmahajan77@gmail.com or connect on LinkedIn at linkedin.com/in/ujwal-mahajan-841710r. My inbox is open for engineering roles and research collaborations!";
     }
 
     return res.status(200).json({
@@ -119,7 +119,7 @@ export default async function handler(req, res) {
       choices: [{
         message: {
           role: 'assistant',
-          content: `AI Service Notice: ${errorDetails}\n\n(Tip: In the meantime, you can explore my projects like Pythia-160M and CodeSensei on the site, or email me at 2023bec049@sggs.ac.in!)`
+          content: `AI Service Notice: ${errorDetails}\n\n(Tip: In the meantime, you can explore my projects like Pythia-160M and CodeSensei on the site, or email me at ujwalmahajan77@gmail.com!)`
         }
       }],
       error: errorDetails,
