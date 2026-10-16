@@ -312,13 +312,19 @@
       const data = await res.json();
       loadDiv.remove();
 
-      let reply = 'Sorry, could not generate response.';
+      let reply = '';
       if (data.choices && data.choices[0]?.message?.content) {
         reply = data.choices[0].message.content;
       } else if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
         reply = data.candidates[0].content.parts[0].text;
       } else if (data.reply) {
         reply = data.reply;
+      } else if (data.message) {
+        reply = data.message;
+      } else if (data.error) {
+        reply = typeof data.error === 'string' ? data.error : 'Service currently unavailable. Please reach out via email!';
+      } else {
+        reply = 'Sorry, could not generate a response right now. Please try again or email me!';
       }
       chatHistory.push({ role: 'assistant', content: reply });
       const botDiv = document.createElement('div');
