@@ -51,6 +51,14 @@
     }
     toggleBtn.addEventListener('click', toggleMobile);
     document.addEventListener('keydown', e => {
+      if (e.key !== 'Tab' || toggleBtn.getAttribute('aria-expanded') !== 'true') return;
+      const items = [toggleBtn, ...mobileNav.querySelectorAll('a,button')];
+      const i = items.indexOf(document.activeElement);
+      const next = e.shiftKey ? (i <= 0 ? items.length - 1 : i - 1) : (i === items.length - 1 ? 0 : i + 1);
+      e.preventDefault();
+      items[next].focus();
+    });
+    document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && toggleBtn.getAttribute('aria-expanded') === 'true') {
         toggleMobile();
       }
@@ -233,7 +241,7 @@
         const res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, message })
+          body: JSON.stringify({ name, email, message, website: (document.getElementById('cf-website') || {}).value || '' })
         });
         if (!res.ok) throw new Error('Request failed');
         contactForm.classList.add('hidden');
@@ -254,8 +262,6 @@
   }
 
   // 10. AI Chat Widget
-  const SYSTEM_PROMPT = "You are Ujwal Mahajan — not an AI assistant, not a bot. You ARE Ujwal. Speak always in first person as him.\n\nCore identity: You build first and theorize later. Working code teaches you things reading cannot. You are an AI Engineer exploring model training, agentic systems, and robotics.\n\nCurrent obsession: Building an LLM from scratch (Pythia-160M) — not fine-tuning, not APIs. Every transformer block, every attention head, every gradient update. Understanding what is inside the forward pass.\n\nKey systems built:\n- Pythia-160M: A Python-focused ~160M-parameter language model built from scratch (RoPE, GQA, SwiGLU, RMSNorm, NTP + FIM).\n- CodeSensei: Multi-agent code intelligence system. 5 specialized agents (Structure, Behavior, Risk, Execution, Impact) fanning into a Synthesizer.\n- LedgerLens: Financial investigation pipeline (reconciliation, anomaly detection, policy checks, case management, ReAct agent).\n- TalkToWeb: Natural-language browser automation agent with Playwright and LangChain.\n\nExperience: AI Engineering Intern at BluQ AI (full-stack React/Fastify/Supabase, LLM agents, WhatsApp/email progress capture pipelines across 100+ concurrent contractor-PM interactions, React Native/Expo iOS/Android mobile app blueprint, AI delay prediction architecture).\n\nEducation: B.Tech in Electronics & Telecommunication at SGGSIE&T, Nanded (2023–2027).\n\nLeadership & Robotics: Lead Organizer of RMAGEDDON 2026 (70-member team, 5 national competitions, ~2 lakh sponsorships, ~5,000 attendees); RNXG Robotics Club finalist at International Rover Challenge 2025.\n\nTone: Direct, humble, rigorous, technical, passionate about first principles.";
-
   let chatHistory = [];
   let isSendingChat = false;
 
@@ -270,6 +276,8 @@
     } else {
       win.classList.add('open');
       toggle.setAttribute('aria-expanded', 'true');
+      const nudge = document.getElementById('chat-nudge');
+      if (nudge) nudge.remove();
       const input = document.getElementById('chat-input');
       if (input) setTimeout(() => input.focus(), 100);
     }
@@ -282,6 +290,7 @@
     if (!input || !msgs) return;
     const text = input.value.trim();
     if (!text) return;
+    document.querySelectorAll('.chat-chips').forEach(c => c.remove());
 
     // Add user message
     const userDiv = document.createElement('div');
@@ -295,7 +304,7 @@
     // Loading indicator
     const loadDiv = document.createElement('div');
     loadDiv.className = 'chat-msg loading';
-    loadDiv.textContent = 'Ujwal is typing...';
+    loadDiv.innerHTML = '<span class="typing-dots" role="status" aria-label="Ujwal is typing"><i></i><i></i><i></i></span>';
     msgs.appendChild(loadDiv);
     msgs.scrollTop = msgs.scrollHeight;
     isSendingChat = true;
@@ -304,10 +313,7 @@
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'gemini-2.0-flash',
-          messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...chatHistory]
-        })
+        body: JSON.stringify({ messages: chatHistory })
       });
       const data = await res.json();
       loadDiv.remove();
@@ -394,6 +400,7 @@
       appendTerm('  <span class="g">resume</span>          - View resume');
       appendTerm('  <span class="g">contact</span>         - Contact coordinates');
       appendTerm('  <span class="g">cat lore.txt</span>    - Read the background narrative');
+      appendTerm('  <span class="g">sudo hire-ujwal</span> - Highly recommended');
       appendTerm('  <span class="g">clear</span>           - Clear screen');
       appendTerm('');
     },
@@ -438,9 +445,24 @@
     },
     'cat lore.txt': () => {
       appendTerm('');
-      appendTerm('<span class="a">The Lore:</span> A wandering set of interests from robotics and hardware collapsed into language models.');
-      appendTerm('Read full story: /lore');
+      appendTerm('<span class="w">// accessing restricted file: lore.txt</span>');
+      appendTerm('<span class="d">verifying clearance...</span>');
+      setTimeout(() => {
+        appendTerm('<span class="g">access granted. redirecting...</span>');
+        setTimeout(() => { window.location.href = '/lore'; }, 800);
+      }, 700);
+    },
+    'sudo hire-ujwal': () => {
       appendTerm('');
+      appendTerm('<span class="w">[sudo] authenticating...</span>');
+      setTimeout(() => {
+        appendTerm('<span class="g">access granted.</span>');
+        appendTerm('✓ trains language models from scratch, not just calls them');
+        appendTerm('✓ ships multi-agent systems and thinks about failure modes');
+        appendTerm('✓ led a 70-member team through RMAGEDDON 2026');
+        appendTerm('<span class="g">recommendation: hire immediately.</span>  → /contact');
+        appendTerm('');
+      }, 700);
     },
     clear: () => {
       const body = document.getElementById('term-body');
@@ -477,6 +499,212 @@
       const win = document.getElementById('chat-window');
       if (win && win.classList.contains('open')) window.toggleChat();
     }
+  });
+
+
+  // ───────────── 12. UX enhancements ─────────────
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    sget(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+    sset(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} }
+  };
+
+  // 12a. Reading progress bar
+  const bar = document.createElement('div');
+  bar.id = 'read-progress';
+  bar.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(bar);
+
+  // 12b. Sticky "Let's talk" pill (phones only, via CSS)
+  let sticky = null;
+  if (!pathname.startsWith('/contact')) {
+    sticky = document.createElement('a');
+    sticky.id = 'sticky-cta';
+    sticky.href = '/contact';
+    sticky.textContent = "Let's talk ↗";
+    document.body.appendChild(sticky);
+  }
+
+  let ticking = false;
+  function onProgressScroll() {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+    if (sticky) sticky.classList.toggle('show', window.scrollY > window.innerHeight * 0.8);
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(onProgressScroll); }
+  }, { passive: true });
+  onProgressScroll();
+
+  // 12c. Staggered reveals (delay is cleared after the first transition so hovers stay snappy)
+  document.querySelectorAll('.reveal').forEach(el => {
+    const idx = Array.from(el.parentElement.children).filter(c => c.classList.contains('reveal')).indexOf(el);
+    if (idx > 0) {
+      el.style.transitionDelay = Math.min(idx, 5) * 70 + 'ms';
+      el.addEventListener('transitionend', () => { el.style.transitionDelay = ''; }, { once: true });
+    }
+  });
+
+  // 12d. "Next project" card at the end of each case study
+  const slug = (pathname.match(/^\/projects\/([^/]+)/) || [])[1];
+  const PROJECTS = [
+    ['pythia-160m', 'Pythia-160M', 'A ~160M-parameter language model built from scratch.'],
+    ['codesensei', 'CodeSensei', 'Five agents, one synthesized code review.'],
+    ['ledgerlens', 'LedgerLens', 'Financial forensics with a ReAct investigator.'],
+    ['talktoweb', 'TalkToWeb', 'Natural-language browser automation.']
+  ];
+  const cur = PROJECTS.findIndex(p => p[0] === slug);
+  const mainEl = document.querySelector('main');
+  if (cur > -1 && mainEl) {
+    const nx = PROJECTS[(cur + 1) % PROJECTS.length];
+    const sec = document.createElement('section');
+    sec.className = 'next-project';
+    sec.innerHTML = '<div class="wrap"><p class="eyebrow text-crimson">Next project</p>' +
+      '<a class="next-project-card" href="/projects/' + nx[0] + '"><span class="np-title">' + nx[1] + '</span>' +
+      '<span class="np-desc">' + nx[2] + '</span><span class="np-arrow" aria-hidden="true">→</span></a>' +
+      '<a class="np-all" href="/projects">All projects</a></div>';
+    mainEl.appendChild(sec);
+  }
+
+  // 12e. Toast + click-to-copy email
+  let toastTimer = null;
+  function toast(msg) {
+    let t = document.getElementById('toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'toast';
+      t.setAttribute('role', 'status');
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+  document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a[href^="mailto:"]');
+    if (!a || !navigator.clipboard) return;
+    const addr = a.getAttribute('href').replace('mailto:', '').split('?')[0];
+    navigator.clipboard.writeText(addr).then(() => toast('Email copied: ' + addr)).catch(() => {});
+    // Desktop: copy only (many have no mail app). Touch devices still open their mail app.
+    if (window.matchMedia('(pointer: fine)').matches) e.preventDefault();
+  });
+
+  // 12f. Contact form: live validation, counter, spinner
+  const cfEmail = document.getElementById('cf-email');
+  const cfMsg = document.getElementById('cf-message');
+  const cfName = document.getElementById('cf-name');
+  const cfBtn = document.getElementById('cf-submit');
+  if (cfEmail && cfMsg && cfName) {
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const count = document.createElement('p');
+    count.id = 'cf-count';
+    cfMsg.insertAdjacentElement('afterend', count);
+    const mark = (el, ok) => { el.classList.toggle('cf-valid', ok); if (ok) el.classList.remove('border-crimson'); };
+    const update = () => {
+      const n = cfMsg.value.trim().length;
+      count.textContent = n >= 10 ? '✓ ' + n + ' characters' : n + ' / 10 minimum';
+      count.classList.toggle('ok', n >= 10);
+      mark(cfName, !!cfName.value.trim());
+      mark(cfEmail, EMAIL_RE.test(cfEmail.value.trim()));
+      mark(cfMsg, n >= 10);
+    };
+    [cfName, cfEmail, cfMsg].forEach(el => el.addEventListener('input', update));
+    update();
+    if (cfBtn) {
+      new MutationObserver(() => cfBtn.classList.toggle('is-sending', cfBtn.disabled))
+        .observe(cfBtn, { attributes: true, attributeFilter: ['disabled'] });
+    }
+  }
+
+  // 12g. Chat: suggested questions + one-time nudge
+  const chatMsgs = document.getElementById('chat-messages');
+  if (chatMsgs) {
+    const chips = document.createElement('div');
+    chips.className = 'chat-chips';
+    ['Why build an LLM from scratch?', "What's your strongest project?", 'Are you open to internships?'].forEach(q => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chat-chip';
+      b.textContent = q;
+      b.addEventListener('click', () => {
+        document.getElementById('chat-input').value = q;
+        window.sendChat();
+      });
+      chips.appendChild(b);
+    });
+    chatMsgs.appendChild(chips);
+
+    const bubble = document.getElementById('chat-bubble');
+    if (bubble && !store.sget('chat-nudged')) {
+      setTimeout(() => {
+        const win = document.getElementById('chat-window');
+        if (!win || win.classList.contains('open') || store.sget('chat-nudged')) return;
+        store.sset('chat-nudged', '1');
+        const n = document.createElement('button');
+        n.type = 'button';
+        n.id = 'chat-nudge';
+        n.textContent = "Questions about my work? Ask my AI clone.";
+        n.addEventListener('click', () => { n.remove(); window.toggleChat(); });
+        bubble.appendChild(n);
+        setTimeout(() => n.remove(), 12000);
+      }, 20000);
+    }
+  }
+
+  // 12h. Terminal: "/" shortcut + visible hint on the home page
+  document.addEventListener('keydown', e => {
+    if ((e.key !== '/' && e.key !== '`') || e.ctrlKey || e.metaKey || e.altKey) return;
+    const t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    if (!document.getElementById('terminal-overlay')) return;
+    e.preventDefault();
+    window.openTerminal();
+  });
+  const heroCtas = document.querySelector('.hero-ctas');
+  if (heroCtas && document.getElementById('terminal-overlay')) {
+    const hint = document.createElement('button');
+    hint.type = 'button';
+    hint.className = 'term-hint';
+    hint.innerHTML = '&gt;_ open terminal <kbd>/</kbd>';
+    hint.addEventListener('click', () => window.openTerminal());
+    heroCtas.insertAdjacentElement('afterend', hint);
+  }
+
+  // 12i. Dark mode toggle (persisted)
+  const root = document.documentElement;
+  const applyTheme = t => {
+    if (t === 'dark') root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme');
+  };
+  applyTheme(store.get('theme'));
+  const themeBtn = document.createElement('button');
+  themeBtn.id = 'theme-toggle';
+  themeBtn.type = 'button';
+  const paintTheme = () => {
+    const dark = root.getAttribute('data-theme') === 'dark';
+    themeBtn.textContent = dark ? '☀' : '☾';
+    themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    themeBtn.setAttribute('aria-pressed', String(dark));
+  };
+  themeBtn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    store.set('theme', next);
+    paintTheme();
+  });
+  if (!document.getElementById('chat-bubble')) themeBtn.classList.add('no-chat');
+  paintTheme();
+  document.body.appendChild(themeBtn);
+
+  // 12j. Portrait fade-in (no-JS safe: only hides an image that is still loading)
+  document.querySelectorAll('.hero-portrait-img-wrap img').forEach(img => {
+    const wrap = img.parentElement;
+    if (img.complete) { wrap.classList.add('loaded'); return; }
+    img.classList.add('img-loading');
+    img.addEventListener('load', () => { img.classList.remove('img-loading'); wrap.classList.add('loaded'); }, { once: true });
   });
 
 })();
