@@ -90,7 +90,7 @@ export default async function handler(req, res) {
 
     const payload = {
       contents: sanitizedTurns,
-      generationConfig: { temperature: 0.8, topP: 0.9, maxOutputTokens: 400 }
+      generationConfig: { temperature: 0.8, topP: 0.9, maxOutputTokens: 400, thinkingConfig: { thinkingBudget: 0 } }
     };
 
     const genResult = await executeGeminiGeneration(apiKey, payload, 'gemini-flash-latest');
@@ -120,7 +120,8 @@ async function executeGeminiGeneration(apiKey, payload, requestedModel) {
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(9000)
       });
       const data = await res.json();
       if (res.ok) {
@@ -135,30 +136,10 @@ async function executeGeminiGeneration(apiKey, payload, requestedModel) {
   const cleanReq = (requestedModel || 'gemini-flash-latest').replace(/^models\//, '');
 
   const candidates = [
-    // Dynamic alias (always points to current available flash model)
     { apiVersion: 'v1beta', model: 'models/gemini-flash-latest' },
-    { apiVersion: 'v1', model: 'models/gemini-flash-latest' },
-
-    // Modern 2.5 / 2.0 Flash
     { apiVersion: 'v1beta', model: 'models/gemini-2.5-flash' },
-    { apiVersion: 'v1', model: 'models/gemini-2.5-flash' },
     { apiVersion: 'v1beta', model: 'models/gemini-2.0-flash' },
-    { apiVersion: 'v1', model: 'models/gemini-2.0-flash' },
-
-    // Next-Gen 3.x Flash
-    { apiVersion: 'v1beta', model: 'models/gemini-3.8-flash' },
-    { apiVersion: 'v1beta', model: 'models/gemini-3.7-flash' },
-    { apiVersion: 'v1beta', model: 'models/gemini-3.5-flash-lite' },
-
-    // Gemini 1.5 Flash / Pro
-    { apiVersion: 'v1', model: 'models/gemini-1.5-flash' },
-    { apiVersion: 'v1beta', model: 'models/gemini-1.5-flash' },
-    { apiVersion: 'v1', model: 'models/gemini-1.5-pro' },
-    { apiVersion: 'v1beta', model: 'models/gemini-1.5-pro' },
-
-    // User-requested model
-    { apiVersion: 'v1beta', model: `models/${cleanReq}` },
-    { apiVersion: 'v1', model: `models/${cleanReq}` }
+    { apiVersion: 'v1beta', model: `models/${cleanReq}` }
   ];
 
   const seen = new Set();
@@ -178,7 +159,8 @@ async function executeGeminiGeneration(apiKey, payload, requestedModel) {
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(9000)
       });
       const data = await res.json();
 
@@ -229,7 +211,8 @@ async function executeGeminiGeneration(apiKey, payload, requestedModel) {
           const genRes = await fetch(genUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            signal: AbortSignal.timeout(9000)
           });
           const genData = await genRes.json();
 
