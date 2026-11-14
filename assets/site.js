@@ -238,12 +238,23 @@
       if (submitText) submitText.textContent = 'Sending…';
 
       try {
-        const res = await fetch('/api/contact', {
+        // Web3Forms emails the message to the inbox that the access key was issued for.
+        // The key is designed to be public; get one at web3forms.com.
+        const WEB3FORMS_KEY = '66962c91-2fe0-4b5e-b425-4d9d2279d06c';
+        if (WEB3FORMS_KEY.startsWith('PASTE')) throw new Error('Contact delivery not configured');
+        const res = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, message, website: (document.getElementById('cf-website') || {}).value || '' })
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: 'Portfolio message from ' + name,
+            from_name: 'Portfolio Contact',
+            name, email, message,
+            botcheck: (document.getElementById('cf-website') || {}).value || ''
+          })
         });
-        if (!res.ok) throw new Error('Request failed');
+        const result = await res.json().catch(() => ({}));
+        if (!res.ok || result.success === false) throw new Error('Request failed');
         contactForm.classList.add('hidden');
         if (bannerSuccess) {
           bannerSuccess.classList.remove('hidden');

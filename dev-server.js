@@ -77,26 +77,6 @@ const server = http.createServer(async (req, res) => {
   const pathname = decodeURIComponent(urlObj.pathname);
 
   // Handle API routes
-  if (pathname === '/api/contact') {
-    try {
-      const { default: contactHandler } = await import('./api/contact.js');
-      req.body = await parseBody(req);
-      const customRes = {
-        status(code) { res.statusCode = code; return this; },
-        setHeader(name, val) { res.setHeader(name, val); return this; },
-        json(data) {
-          res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify(data));
-        },
-        end() { res.end(); }
-      };
-      return await contactHandler(req, customRes);
-    } catch (err) {
-      res.statusCode = 500;
-      return res.end(JSON.stringify({ error: err.message }));
-    }
-  }
-
   if (pathname === '/api/chat') {
     try {
       const { default: chatHandler } = await import('./api/chat.js');
